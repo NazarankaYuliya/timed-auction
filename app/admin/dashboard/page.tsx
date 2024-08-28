@@ -1,6 +1,7 @@
 import { verifySession } from "@/utils/dal";
 import { redirect } from "next/navigation";
 import UploadItemsButton from "./uploadItems";
+import UploadImages from "./uploadImages";
 
 export default async function AdminPage() {
   const session = await verifySession("admin");
@@ -15,6 +16,7 @@ export default async function AdminPage() {
       <p>Welcome, Admin with ID: {session.id}</p>
 
       <UploadItemsButton />
+      <UploadImages />
     </div>
   );
 }

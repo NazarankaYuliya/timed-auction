@@ -1,8 +1,6 @@
 import Item from "@models/item";
 import { connectToDB } from "@utils/database";
-import { transformItem } from "@utils/transform";
 import LogoutButton from "./LogoutButton";
-import Image from "next/image";
 import IMG from "@public/assets/images/placeholder-image.jpg";
 
 export default async function UserItems({ session }: { session: any }) {
@@ -11,8 +9,7 @@ export default async function UserItems({ session }: { session: any }) {
   try {
     await connectToDB();
 
-    const rawItems = await Item.find({}).lean();
-    items = rawItems.map((item: any) => transformItem(item));
+    items = await Item.find({}).lean();
   } catch (error) {
     console.log(error);
   }
@@ -31,12 +28,12 @@ export default async function UserItems({ session }: { session: any }) {
             key={item._id}
             className="border border-gray-200 rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-300"
           >
-            <Image
-              src={IMG}
-              alt="Auktionhaus GR Logo"
+            <img
+              src={item.image || IMG.src}
+              alt=""
               className="w-20 h-auto md:w-28 md:h-auto"
-              priority
             />
+
             <p className="text-gray-700 mb-4">{item.description}</p>
             <p className="text-gray-800 font-bold">
               Current Bid: €{item.currentBid}
@@ -44,7 +41,6 @@ export default async function UserItems({ session }: { session: any }) {
             <p className="text-red-500 font-semibold mb-4">
               Ends in: {new Date(item.endTime).toLocaleString()}
             </p>
-
             <>
               <input
                 type="number"

@@ -1,6 +1,5 @@
 import Item from "@models/item";
 import { connectToDB } from "@utils/database";
-import { transformItem } from "@utils/transform";
 import Link from "next/link";
 
 export default async function GuestItems() {
@@ -9,8 +8,7 @@ export default async function GuestItems() {
   try {
     await connectToDB();
 
-    const rawItems = await Item.find({}).lean();
-    items = rawItems.map((item: any) => transformItem(item));
+    items = await Item.find({}).lean();
   } catch (error) {
     console.log(error);
   }

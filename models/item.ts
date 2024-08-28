@@ -4,6 +4,7 @@ const ItemSchema = new Schema(
   {
     catalogNumber: Number,
     description: String,
+    image: String,
   },
   {
     timestamps: true,
