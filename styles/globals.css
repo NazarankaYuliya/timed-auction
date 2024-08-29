@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #212738 !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+}
+
+.swiper-button-next.swiper-button:disabled,
+.swiper-button-prev.swiper-button:disabled {
+  opacity: 0 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #212738 !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: rgba(33, 39, 56, 0.5) !important;
+}

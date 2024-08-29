@@ -13,12 +13,12 @@ export async function POST(request: Request): Promise<NextResponse> {
       access: "public",
     });
 
-    const catalogNumber = filename.substring(0, filename.lastIndexOf("."));
+    const catalogNumber = parseInt(filename.split("_")[0]);
 
     await connectToDB();
     await Item.findOneAndUpdate(
       { catalogNumber },
-      { image: blob.url },
+      { $push: { image: blob.url } },
       { upsert: true, new: true, setDefaultsOnInsert: true },
     );
 

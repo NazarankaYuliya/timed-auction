@@ -23,7 +23,7 @@ async function getItems() {
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
-      image: "",
+      image: [],
     }));
 
     return NextResponse.json(filteredData);
