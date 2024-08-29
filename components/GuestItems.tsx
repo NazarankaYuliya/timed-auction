@@ -35,7 +35,9 @@ export default async function GuestItems() {
               <SwiperComponent images={item.image || []} />
             </div>
             <div className="md:w-2/3 md:ml-4">
-              {" "}
+              <p className="text-red-500 font-semibold mb-4">
+                {item.catalogNumber}
+              </p>
               <p className="text-gray-700 mb-4">{item.description}</p>
               <p className="text-red-500 font-semibold mb-4">
                 Ends in: {new Date(item.endTime).toLocaleString()}

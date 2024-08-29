@@ -23,7 +23,6 @@ async function getItems() {
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
-      image: [],
     }));
 
     return NextResponse.json(filteredData);
@@ -45,11 +44,11 @@ export async function POST() {
     const items = await rawItems.json();
 
     for (const item of items) {
-      const { catalogNumber, description, image } = item;
+      const { catalogNumber, description } = item;
 
       await Item.findOneAndUpdate(
         { catalogNumber },
-        { description, image },
+        { description },
         { upsert: true, new: true, setDefaultsOnInsert: true },
       );
     }

@@ -31,6 +31,9 @@ export default async function UserItems({ session }: { session: any }) {
               <SwiperComponent images={item.image || []} />
             </div>
             <div className="md:w-2/3 md:ml-4">
+              <p className="text-red-500 font-semibold mb-4">
+                {item.catalogNumber}
+              </p>
               <p className="text-gray-700 mb-4">{item.description}</p>
               <p className="text-gray-800 font-bold">
                 Current Bid: €{item.currentBid}
