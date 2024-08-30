@@ -7,7 +7,7 @@ export default async function UserLogin() {
 
   if (session) {
     redirect("/auction");
+  } else {
+    return <UserLoginForm />;
   }
-
-  return <UserLoginForm />;
 }

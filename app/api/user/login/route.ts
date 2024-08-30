@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
     await createSession(user._id, "user");
 
-    return NextResponse.json({ message: "Admin found" }, { status: 200 });
+    return NextResponse.json({ message: "User logged in" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Error", error }, { status: 500 });
   }

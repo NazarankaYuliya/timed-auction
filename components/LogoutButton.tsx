@@ -20,8 +20,8 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={logout} className="text-blue-500 hover:text-blue-700">
-      Log out
+    <button onClick={logout} className="text-green-500 hover:text-green-900">
+      Ausloggen
     </button>
   );
 };

@@ -17,7 +17,7 @@ export default async function UserItems({ session }: { session: any }) {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between">
-        <h1 className="text-3xl font-bold mb-6">Auction Items</h1>
+        <h1 className="text-3xl font-bold mb-6">Auktionsartikel</h1>
         <p className="text-lg">{session.id}</p>
         <LogoutButton />
       </div>
@@ -31,15 +31,15 @@ export default async function UserItems({ session }: { session: any }) {
               <SwiperComponent images={item.image || []} />
             </div>
             <div className="md:w-2/3 md:ml-4">
-              <p className="text-red-500 font-semibold mb-4">
-                {item.catalogNumber}
+              <p className="text-green-500 font-semibold mb-4">
+                Losnummer: {item.catalogNumber}
               </p>
               <p className="text-gray-700 mb-4">{item.description}</p>
               <p className="text-gray-800 font-bold">
                 Current Bid: €{item.currentBid}
               </p>
               <p className="text-red-500 font-semibold mb-4">
-                Ends in: {new Date(item.endTime).toLocaleString()}
+                Endet am:{new Date(item.endTime).toLocaleString()}
               </p>
               <input
                 type="number"
@@ -47,7 +47,7 @@ export default async function UserItems({ session }: { session: any }) {
                 className="w-full p-2 border rounded mb-4"
               />
               <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300 w-full">
-                Place Bid
+                Ort Gebot
               </button>
             </div>
           </div>
