@@ -36,7 +36,7 @@ export default function UploadImages() {
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+    <div className="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col justify-between">
       <h2 className="text-2xl font-semibold mb-4 text-gray-700">
         Upload Images
       </h2>
@@ -52,9 +52,9 @@ export default function UploadImages() {
         />
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-300"
+          className="w-full py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-300"
         >
-          Upload
+          Upload Images
         </button>
       </form>
 
