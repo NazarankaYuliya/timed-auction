@@ -2,6 +2,7 @@ import { verifySession } from "@/utils/dal";
 import { redirect } from "next/navigation";
 import UploadItemsButton from "./uploadItems";
 import UploadImages from "./uploadImages";
+import SetAuctionDateComponent from "./setAuctionDate";
 
 export default async function AdminPage() {
   const session = await verifySession("admin");
@@ -21,6 +22,7 @@ export default async function AdminPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <UploadItemsButton />
         <UploadImages />
+        <SetAuctionDateComponent />
       </div>
     </div>
   );

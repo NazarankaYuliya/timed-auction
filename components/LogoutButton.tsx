@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const LogoutButton = () => {
   const router = useRouter();
 
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
       ("use server");
       const res = await fetch("/api/user/logout", {
@@ -20,8 +20,24 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={logout} className="text-green-500 hover:text-green-900">
-      Ausloggen
+    <button
+      onClick={handleLogout}
+      className="text-gray-500 hover:text-gray-700"
+    >
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H5a3 3 0 01-3-3V7a3 3 0 013-3h5a3 3 0 013 3v1"
+        />
+      </svg>
     </button>
   );
 };

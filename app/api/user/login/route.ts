@@ -2,37 +2,40 @@ import { NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import { createSession } from "@utils/session";
 import User from "@models/user";
-import { redirect } from "next/navigation";
+import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
+  const { email, password } = await req.json();
+
   try {
     await connectToDB();
 
-    const formData = await req.formData();
-    const username = formData.get("username") as string;
-    const email = formData.get("email") as string;
-
-    if (!email || !username) {
+    if (!email || !password) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: "Email is required" },
         { status: 400 },
       );
     }
 
-    let user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      user = new User({
-        username,
-        email,
-      });
-      await user.save();
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordMatched) {
+      return NextResponse.json(
+        { message: "Invalid email or password" },
+        { status: 400 },
+      );
     }
 
     await createSession(user._id, "user");
 
     return NextResponse.json({ message: "User logged in" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Error", error }, { status: 500 });
+    return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }

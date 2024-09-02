@@ -1,7 +1,7 @@
 "use client";
 
 import { Navigation, Pagination, A11y, Zoom } from "swiper/modules";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import IMG from "@public/assets/images/placeholder-image.jpg";
 
 import "swiper/css";
@@ -13,8 +13,6 @@ interface SwiperComponentProps {
 }
 
 export default function SwiperComponent({ images }: SwiperComponentProps) {
-  const swiper = useSwiper();
-
   return images.length > 0 ? (
     <Swiper
       modules={[Navigation, Pagination, A11y, Zoom]}

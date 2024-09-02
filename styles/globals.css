@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.swiper-button-next,
+/* .swiper-button-next,
 .swiper-button-prev {
   color: #46e534cc !important;
-}
+} */
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
@@ -17,10 +17,10 @@
   opacity: 0 !important;
 }
 
-.swiper-pagination-bullet-active {
+/* .swiper-pagination-bullet-active {
   background-color: #46e534cc !important;
 }
 
 .swiper-pagination-bullet {
   background-color: rgba(70, 229, 52, 0.8) !important;
-}
+} */
