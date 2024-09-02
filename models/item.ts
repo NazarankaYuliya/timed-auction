@@ -4,6 +4,7 @@ const ItemSchema = new Schema(
   {
     catalogNumber: Number,
     description: String,
+    startPrice: String,
     image: [String],
   },
   {

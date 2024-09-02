@@ -1,6 +1,6 @@
 import { connectToDB } from "@utils/database";
 import Item from "@models/item";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import axios from "axios";
 
 const URL = process.env.NINOX_LINK as string;
@@ -23,6 +23,7 @@ async function getItems() {
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
+      startPrice: item.M2,
     }));
 
     return NextResponse.json(filteredData);
@@ -44,11 +45,11 @@ export async function POST() {
     const items = await rawItems.json();
 
     for (const item of items) {
-      const { catalogNumber, description } = item;
+      const { catalogNumber, description, startPrice } = item;
 
       await Item.findOneAndUpdate(
         { catalogNumber },
-        { description },
+        { description, startPrice },
         { upsert: true, new: true, setDefaultsOnInsert: true },
       );
     }

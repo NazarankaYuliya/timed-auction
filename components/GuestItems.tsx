@@ -57,6 +57,9 @@ export default async function GuestItems() {
               <p className="text-blue-600 font-semibold mb-2">
                 Losnummer: {item.catalogNumber}
               </p>
+              <p className="text-blue-600 font-semibold mb-2">
+                Aufruf: €{item.startPrice}
+              </p>
               <p className="text-gray-700 mb-2">{item.description}</p>
               <p className="text-red-500 font-semibold mb-2">
                 Endet am: {new Date(item.endTime).toLocaleString()}

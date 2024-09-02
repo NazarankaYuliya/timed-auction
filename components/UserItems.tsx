@@ -55,6 +55,9 @@ export default async function UserItems({ session }: { session: any }) {
               <p className="text-blue-600 font-semibold mb-2">
                 Losnummer: {item.catalogNumber}
               </p>
+              <p className="text-blue-600 font-semibold mb-2">
+                Aufruf: €{item.startPrice}
+              </p>
               <p className="text-gray-700 mb-4">{item.description}</p>
               <p className="text-gray-800 font-bold">
                 Current Bid: €{item.currentBid}
