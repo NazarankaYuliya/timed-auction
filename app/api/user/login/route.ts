@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select("+password +isVerified");
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -29,6 +29,15 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { message: "Invalid email or password" },
         { status: 400 },
+      );
+    }
+
+    if (!user.isVerified) {
+      return NextResponse.json(
+        {
+          message: "Email not verified. Please verify your email.",
+        },
+        { status: 403 },
       );
     }
 

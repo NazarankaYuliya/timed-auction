@@ -32,10 +32,14 @@ export default function UserRegisterForm() {
         setIsCodeSent(true);
       } else {
         const resp = await res.json();
-        setError(resp.message || "Registration failed");
+        setError(resp.message || "Registrierung fehlgeschlagen");
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "An unknown error occurred");
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Ein unbekannter Fehler ist aufgetreten",
+      );
     }
   };
 
@@ -52,10 +56,13 @@ export default function UserRegisterForm() {
         setIsCodeResent(true);
       } else {
         const resp = await res.json();
-        setError(resp.message || "Failed to resend verification email");
+        setError(
+          resp.message ||
+            "Fehler beim erneuten Senden der Verifizierungs-E-Mail",
+        );
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "An unknown error occurred");
+      setError("Ein unbekannter Fehler ist aufgetreten");
     }
   };
 
