@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     const verificationLink = `${process.env.BASE_URL}/verify-email?verifyToken=${verificationToken}&id=${newUser._id}`;
     const message = verificationEmailTemplate(verificationLink);
 
-    await sendEmail(newUser.email, "Email verification", message);
+    await sendEmail(newUser.email, "E-Mail-Bestätigung", message);
 
     return NextResponse.json(
       { message: "User created successfully" },

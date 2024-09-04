@@ -38,7 +38,7 @@ export const verificationEmailTemplate = (verificationLink: string) => {
           color: #ffffff;
           text-decoration: none;
           border-radius: 5px;
-          text-align: center; /* Added to center the button */
+          text-align: center;
         }
 
         .expire-time {
@@ -54,16 +54,15 @@ export const verificationEmailTemplate = (verificationLink: string) => {
     </head>
     <body>
       <div class="container">
-        <h1>Verify Your Email Address</h1>
+        <h1>Bestätigen Sie Ihre E-Mail-Adresse</h1>
         <p>
-          Thank you for signing up! To complete your registration, please click
-          the button below to verify your email address.
+          Vielen Dank für Ihre Anmeldung! Um Ihre Registrierung abzuschließen,
+          klicken Sie bitte auf die Schaltfläche unten, um Ihre E-Mail-Adresse zu bestätigen.
         </p>
-        <a href=${verificationLink} class="button">Verify Email</a>
-        <p class="expire-time">This link will expire in 30 minutes.</p>
+        <a href=${verificationLink} class="button">E-Mail bestätigen</a>
+        <p class="expire-time">Dieser Link läuft in 30 Minuten ab.</p>
       </div>
     </body>
   </html>
-
-      `;
+  `;
 };

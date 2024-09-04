@@ -8,15 +8,20 @@ export const sendEmail = async (
 ) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.ionos.de",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.IONOS_EMAIL,
+        pass: process.env.IONOS_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.IONOS_EMAIL,
       to: userEmail,
       subject,
       html: message,
@@ -25,7 +30,7 @@ export const sendEmail = async (
     await transporter.sendMail(mailOptions);
   } catch (error) {
     return NextResponse.json(
-      { message: "Something went wrong" + error },
+      { message: "Etwas ist schief gelaufen: " + error },
       { status: 500 },
     );
   }

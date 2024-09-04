@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     const verificationLink = `${process.env.BASE_URL}/verify-email?verifyToken=${verificationToken}&id=${user._id}`;
     const message = verificationEmailTemplate(verificationLink);
 
-    await sendEmail(user.email, "Email Verification", message);
+    await sendEmail(user.email, "E-Mail-Bestätigung", message);
 
     return NextResponse.json(
       { message: "Verification email sent successfully" },
