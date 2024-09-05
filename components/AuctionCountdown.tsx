@@ -1,21 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import BidForm from "./BidForm";
 
-const formatTimeUnit = (unit: number) => unit.toString().padStart(2, "0");
+const formatTimeUnit = (unit: number, singular: string) =>
+  unit > 0 ? `${unit}${singular} ` : "";
 
 const AuctionCountdown = ({
   startDate,
   endDate,
+  userId,
+  itemId,
 }: {
   startDate: Date;
   endDate: Date;
+  userId: string;
+  itemId: string;
 }) => {
-  const [weeks, setWeeks] = useState<number>(0);
-  const [days, setDays] = useState<number>(0);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [seconds, setSeconds] = useState<number>(0);
+  const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
@@ -26,44 +28,41 @@ const AuctionCountdown = ({
 
       if (now < start) {
         // Auction has not started yet
-        const timeToStart = start.getTime() - now.getTime();
-        setWeeks(Math.floor(timeToStart / (1000 * 60 * 60 * 24 * 7)));
-        setDays(
-          Math.floor(
-            (timeToStart % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24),
-          ),
-        );
-        setHours(
-          Math.floor((timeToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        );
-        setMinutes(Math.floor((timeToStart % (1000 * 60 * 60)) / (1000 * 60)));
-        setSeconds(Math.floor((timeToStart % (1000 * 60)) / 1000));
+        setTimeRemaining("");
         setStatus(
-          `Auktion beginnt am ${start.toLocaleDateString()} um ${start.toLocaleTimeString()} und endet am ${end.toLocaleDateString()} um ${end.toLocaleTimeString()}`,
+          `Los öffnet am ${start.toLocaleDateString(
+            "de-DE",
+          )} um ${start.toLocaleTimeString("de-DE")}`,
         );
       } else if (now < end) {
         // Auction is ongoing
         const timeToEnd = end.getTime() - now.getTime();
-        setWeeks(Math.floor(timeToEnd / (1000 * 60 * 60 * 24 * 7)));
-        setDays(
-          Math.floor(
-            (timeToEnd % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24),
-          ),
+        const weeks = Math.floor(timeToEnd / (1000 * 60 * 60 * 24 * 7));
+        const days = Math.floor(
+          (timeToEnd % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24),
         );
-        setHours(
-          Math.floor((timeToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        const hours = Math.floor(
+          (timeToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
-        setMinutes(Math.floor((timeToEnd % (1000 * 60 * 60)) / (1000 * 60)));
-        setSeconds(Math.floor((timeToEnd % (1000 * 60)) / 1000));
-        setStatus("Auktion endet in:");
+        const minutes = Math.floor(
+          (timeToEnd % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((timeToEnd % (1000 * 60)) / 1000);
+
+        setTimeRemaining(
+          `${formatTimeUnit(weeks, "w")}${formatTimeUnit(
+            days,
+            "d",
+          )}${formatTimeUnit(hours, "h")}${formatTimeUnit(
+            minutes,
+            "m",
+          )}${formatTimeUnit(seconds, "s")}verbleibend`,
+        );
+        setStatus("");
       } else {
         // Auction has ended
-        setWeeks(0);
-        setDays(0);
-        setHours(0);
-        setMinutes(0);
-        setSeconds(0);
-        setStatus("Auktion ist abgeschlossen");
+        setTimeRemaining("");
+        setStatus("Los geschlossen");
       }
     };
 
@@ -74,26 +73,17 @@ const AuctionCountdown = ({
   }, [startDate, endDate]);
 
   return (
-    <div className="text-center bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-      <h2 className="text-lg font-bold mb-4">{status}</h2>
-      {status === "Auktion endet in:" && (
-        <div className="grid grid-cols-5 gap-2">
-          <TimeSquare label="Wochen" value={formatTimeUnit(weeks)} />
-          <TimeSquare label="Tage" value={formatTimeUnit(days)} />
-          <TimeSquare label="Stunden" value={formatTimeUnit(hours)} />
-          <TimeSquare label="Minuten" value={formatTimeUnit(minutes)} />
-          <TimeSquare label="Sekunden" value={formatTimeUnit(seconds)} />
-        </div>
+    <div className="">
+      {status ? (
+        <h2 className="text-sm  mb-4">{status}</h2>
+      ) : (
+        <>
+          <BidForm userId={userId} itemId={itemId} />
+          <div className="text-sm mb-4 font-mono">{timeRemaining}</div>
+        </>
       )}
     </div>
   );
 };
-
-const TimeSquare = ({ label, value }: { label: string; value: string }) => (
-  <div className="bg-white border border-gray-200 p-2 rounded-lg shadow-sm flex flex-col items-center">
-    <span className="text-xl font-bold text-gray-800">{value}</span>
-    <span className="text-xs text-gray-500 mt-1">{label}</span>
-  </div>
-);
 
 export default AuctionCountdown;

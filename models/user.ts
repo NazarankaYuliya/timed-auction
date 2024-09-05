@@ -1,7 +1,30 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 import crypto from "crypto";
 
-const UserSchema = new Schema({
+interface UserDocument extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  street: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  phone: string;
+  agb: string;
+  verificationCode: string;
+  verifyToken: string;
+  verifyTokenExpire: Date;
+  isVerified: Boolean;
+  bids: {
+    itemId: mongoose.Types.ObjectId;
+    amount: number;
+    catalogNumber: number;
+    currentBid: number;
+  }[];
+}
+
+const UserSchema = new Schema<UserDocument>({
   firstName: String,
   lastName: String,
   email: String,
@@ -16,6 +39,14 @@ const UserSchema = new Schema({
   verifyToken: String,
   verifyTokenExpire: Date,
   isVerified: Boolean,
+  bids: [
+    {
+      itemId: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
+      amount: { type: Number },
+      catalogNumber: { type: Number },
+      currentBid: { type: Number },
+    },
+  ],
 });
 
 UserSchema.methods.getVerificationToken = function (): string {
@@ -31,6 +62,7 @@ UserSchema.methods.getVerificationToken = function (): string {
   return verificationToken;
 };
 
-const User = mongoose.models.User || mongoose.model("User", UserSchema);
+const User: Model<UserDocument> =
+  mongoose.models.User || mongoose.model<UserDocument>("User", UserSchema);
 
 export default User;

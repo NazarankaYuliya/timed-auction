@@ -23,7 +23,7 @@ async function getItems() {
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
-      startPrice: item.M2,
+      startPrice: +item.M2,
     }));
 
     return NextResponse.json(filteredData);
