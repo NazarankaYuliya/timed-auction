@@ -12,9 +12,9 @@ interface UserDocument extends Document {
   country: string;
   phone: string;
   agb: string;
-  verificationCode: string;
-  verifyToken: string;
-  verifyTokenExpire: Date;
+  verificationCode: string | undefined;
+  verifyToken: string | undefined;
+  verifyTokenExpire: Date | undefined;
   isVerified: Boolean;
   bids: {
     itemId: mongoose.Types.ObjectId;
