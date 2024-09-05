@@ -22,6 +22,7 @@ interface UserDocument extends Document {
     catalogNumber: number;
     currentBid: number;
   }[];
+  getVerificationToken: () => string;
 }
 
 const UserSchema = new Schema<UserDocument>({
