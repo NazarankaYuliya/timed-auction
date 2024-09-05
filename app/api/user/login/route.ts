@@ -3,6 +3,7 @@ import { connectToDB } from "@utils/database";
 import { createSession } from "@utils/session";
 import User from "@models/user";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
@@ -41,7 +42,8 @@ export async function POST(req: Request) {
       );
     }
 
-    await createSession(user._id, "user");
+    const id = user._id as mongoose.Types.ObjectId;
+    await createSession(id.toString(), "user");
 
     return NextResponse.json({ message: "User logged in" }, { status: 200 });
   } catch (error) {
