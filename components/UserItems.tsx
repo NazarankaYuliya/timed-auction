@@ -1,18 +1,18 @@
 import Item from "@models/item";
 import { connectToDB } from "@utils/database";
 import LogoutButton from "./LogoutButton";
-import SwiperComponent from "./Swiper";
 import User from "@models/user";
 import ItemCard from "./ItemCard";
+import { IItem, IUser } from "@types";
 
 export default async function UserItems({ session }: { session: any }) {
-  let items: any = [];
-  let user: any;
+  let items: IItem[] = [];
+  let user!: IUser;
 
   try {
     await connectToDB();
     items = await Item.find({}).lean();
-    user = await User.findById(session.id).lean();
+    user = (await User.findById(session.id).lean()) as IUser;
   } catch (error) {
     console.log(error);
   }
@@ -36,7 +36,12 @@ export default async function UserItems({ session }: { session: any }) {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
         {items.map((item: any) => (
-          <ItemCard key={item._id} item={item} userId={user._id.toString()} />
+          <ItemCard
+            key={item._id}
+            item={item}
+            userId={user._id.toString()}
+            status="user"
+          />
         ))}
       </div>
     </div>

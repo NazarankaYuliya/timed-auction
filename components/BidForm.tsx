@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 interface BidFormProps {
-  userId: string;
+  userId?: string;
   itemId: string;
 }
 

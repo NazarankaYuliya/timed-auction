@@ -11,14 +11,16 @@ const AuctionCountdown = ({
   endDate,
   userId,
   itemId,
+  status,
 }: {
   startDate: Date;
   endDate: Date;
-  userId: string;
+  userId?: string;
   itemId: string;
+  status: string;
 }) => {
   const [timeRemaining, setTimeRemaining] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  const [auctionStatus, setAuctionStatus] = useState<string>("");
 
   useEffect(() => {
     const updateTime = () => {
@@ -29,7 +31,7 @@ const AuctionCountdown = ({
       if (now < start) {
         // Auction has not started yet
         setTimeRemaining("");
-        setStatus(
+        setAuctionStatus(
           `Los öffnet am ${start.toLocaleDateString(
             "de-DE",
           )} um ${start.toLocaleTimeString("de-DE")}`,
@@ -58,11 +60,11 @@ const AuctionCountdown = ({
             "m",
           )}${formatTimeUnit(seconds, "s")}verbleibend`,
         );
-        setStatus("");
+        setAuctionStatus("");
       } else {
         // Auction has ended
         setTimeRemaining("");
-        setStatus("Los geschlossen");
+        setAuctionStatus("Los geschlossen");
       }
     };
 
@@ -74,12 +76,12 @@ const AuctionCountdown = ({
 
   return (
     <div className="">
-      {status ? (
-        <h2 className="text-sm  mb-4">{status}</h2>
+      {auctionStatus ? (
+        <h2 className="text-sm  mb-4">{auctionStatus}</h2>
       ) : (
         <>
-          <BidForm userId={userId} itemId={itemId} />
-          <div className="text-sm mb-4 font-mono">{timeRemaining}</div>
+          {status === "user" && <BidForm userId={userId} itemId={itemId} />}
+          <div className="text-sm mb-4 font-mono ">{timeRemaining}</div>
         </>
       )}
     </div>

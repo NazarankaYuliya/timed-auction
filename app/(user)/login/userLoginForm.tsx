@@ -87,6 +87,9 @@ export default function UserLoginForm() {
 
       {!isVerificationRequired ? (
         <>
+          <Link href="/" className="text-blue-500 hover:text-blue-700">
+            Home
+          </Link>
           <h1 className="font-bold text-3xl text-center text-gray-800 mb-6">
             Anmelden
           </h1>

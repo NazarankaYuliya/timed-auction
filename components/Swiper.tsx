@@ -28,6 +28,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
           <img
             src={imgUrl}
             alt={`Image ${index + 1}`}
+            loading="lazy"
             className="w-full h-full object-contain rounded-lg "
           />
         </SwiperSlide>
@@ -37,6 +38,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
     <img
       src={IMG.src}
       alt="Placeholder"
+      loading="lazy"
       className="w-full h-48 md:h-64 object-contain rounded-lg "
     />
   );
