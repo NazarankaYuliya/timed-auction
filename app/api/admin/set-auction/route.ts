@@ -15,8 +15,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = new Date(startDate).toISOString();
+    const end = new Date(endDate).toISOString();
 
     await Item.updateMany(
       {},
