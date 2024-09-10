@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import User from "@models/user";
+import { calculateStep } from "@utils/calculateStep";
 
 interface Bid {
   user: mongoose.Types.ObjectId;
   amount: number;
-  userName?: string;
   createdAt?: Date;
 }
 
@@ -21,13 +21,12 @@ interface ItemDocument extends Document {
   image: string[];
   bids: Bid[];
   auctionDates: AuctionDates;
-  addBid: (userId: mongoose.Types.ObjectId, bidAmount: number) => Promise<void>;
+  addBid: (userId: mongoose.Types.ObjectId, limit: number) => Promise<void>;
 }
 
 const BidSchema = new Schema<Bid>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   amount: { type: Number, required: true },
-  userName: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -49,32 +48,26 @@ const ItemSchema = new Schema<ItemDocument>(
   },
 );
 
-ItemSchema.methods.calculateBiddingStep = function (limit: number): number {
-  if (limit > 0 && limit <= 19) return 2;
-  if (limit > 19 && limit <= 59) return 5;
-  if (limit > 59 && limit <= 159) return 10;
-  if (limit > 159 && limit <= 299) return 20;
-  if (limit > 299 && limit <= 449) return 30;
-  if (limit > 449 && limit <= 899) return 50;
-  if (limit > 899 && limit <= 1799) return 100;
-  if (limit > 1799 && limit <= 2999) return 200;
-  if (limit > 2999 && limit <= 4499) return 300;
-  if (limit > 4499 && limit <= 9999) return 500;
-  if (limit > 9999 && limit <= 24999) return 1000;
-  if (limit > 24999 && limit <= 49999) return 2500;
-  return 5000;
-};
-
 ItemSchema.methods.addBid = async function (
   userId: mongoose.Types.ObjectId,
-  bidAmount: number,
+  limit: number,
 ) {
-  const step = this.calculateBiddingStep(bidAmount);
-
+  const step = this.currentBid
+    ? calculateStep(this.currentBid)
+    : calculateStep(this.startPrice);
   const user = await User.findById(userId);
 
   if (!user) {
     throw new Error("User not found");
+  }
+
+  const now = new Date();
+
+  const timeLeft = this.auctionDates.endDate.getTime() - now.getTime();
+  const fiveMinutesInMillis = 5 * 60 * 1000;
+
+  if (timeLeft < fiveMinutesInMillis) {
+    this.auctionDates.endDate = new Date(now.getTime() + fiveMinutesInMillis);
   }
 
   const existingBidIndex = this.bids.findIndex((bid: Bid) =>
@@ -82,62 +75,40 @@ ItemSchema.methods.addBid = async function (
   );
 
   if (existingBidIndex !== -1) {
-    this.bids[existingBidIndex].amount = bidAmount;
-    this.bids[existingBidIndex].userName = user.firstName + " " + user.lastName;
-    this.bids[existingBidIndex].createdAt = new Date();
+    this.bids[existingBidIndex].amount = limit;
+    this.bids[existingBidIndex].createdAt = now;
   } else {
     this.bids.push({
       user: userId,
-      amount: bidAmount,
-      userName: user.firstName + " " + user.lastName,
-      createdAt: new Date(),
+      amount: limit,
+      createdAt: now,
     });
   }
 
-  const uniqueBids = Array.from(
-    new Map(this.bids.map((bid: Bid) => [bid.amount, bid])).values(),
-  ) as Bid[];
+  await this.recalculateCurrentBid(step);
 
-  const sortedBids: Bid[] = uniqueBids.sort(
-    (a: Bid, b: Bid) => b.amount - a.amount,
-  );
+  await user.updateBid(this._id, limit);
 
-  if (sortedBids.length === 0) {
-    this.currentBid = this.startPrice;
-  } else if (sortedBids.length === 1) {
-    this.currentBid = this.startPrice;
-  } else {
-    const secondHighestBid = sortedBids[1].amount;
-    this.currentBid = secondHighestBid + step;
-  }
-
-  const userBidIndex = user.bids.findIndex((bid) =>
-    bid.itemId.equals(this._id),
-  );
-  if (userBidIndex !== -1) {
-    user.bids[userBidIndex].amount = bidAmount;
-    user.bids[userBidIndex].catalogNumber = this.catalogNumber;
-    user.bids[userBidIndex].currentBid = this.currentBid;
-  } else {
-    user.bids.push({
-      itemId: this._id,
-      amount: bidAmount,
-      catalogNumber: this.catalogNumber,
-      currentBid: this.currentBid,
-    });
-  }
-
-  const now = new Date();
-  const remainingTime = this.auctionDates.endDate.getTime() - now.getTime();
-
-  const fiveMinutes = 5 * 60 * 1000;
-
-  if (remainingTime < fiveMinutes) {
-    this.auctionDates.endDate = new Date(now.getTime() + fiveMinutes);
-  }
-
-  await user.save();
   await this.save();
+};
+
+ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
+  if (this.bids.length === 1) {
+    this.currentBid = this.startPrice;
+  } else if (this.bids.length > 1) {
+    const sortedBids = this.bids
+      .map((bid: Bid) => bid.amount)
+      .sort((a: number, b: number) => b - a);
+
+    const highestBid = sortedBids[0];
+    const secondHighestBid = sortedBids[1];
+
+    this.currentBid = secondHighestBid + step;
+
+    if (this.currentBid > highestBid) {
+      this.currentBid = highestBid;
+    }
+  }
 };
 
 const Item: Model<ItemDocument> =

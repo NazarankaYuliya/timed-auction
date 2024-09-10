@@ -1,8 +1,7 @@
 import React from "react";
-import ItemInnerCard from "./ItemInnerCard";
 import ImageComponent from "./ImageComponent";
 import { IItem } from "@types";
-import AuctionCountdown from "./AuctionCountdown";
+import AuctionContainer from "./AuctionContainer";
 
 interface ItemCardProps {
   item: IItem;
@@ -15,24 +14,18 @@ const ItemCard: React.FC<ItemCardProps> = ({
   userId,
   status,
 }: ItemCardProps) => {
-  const userBid = item.bids?.find(
-    (bid) => bid.user.toString() === userId?.toString(),
-  );
-
   return (
     <div
       key={item._id}
       className="border border-gray-200 rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row bg-white"
     >
+      <div></div>
+      <div></div>
       <div className="md:w-1/3 mb-4 md:mb-0">
         <ImageComponent itemImage={item.image} />
       </div>
 
       <div className="md:w-2/3 md:ml-4 flex flex-col justify-between">
-        {/* <AuctionCountdown
-          startDate={item.auctionDates.startDate}
-          endDate={item.auctionDates.endDate}
-        /> */}
         <p className="text-blue-600 font-semibold mb-2">
           Losnummer: {item.catalogNumber}
         </p>
@@ -41,13 +34,17 @@ const ItemCard: React.FC<ItemCardProps> = ({
           Aufruf: €{item.startPrice}
         </p>
 
-        <ItemInnerCard
-          initialCurrentBid={item.currentBid}
-          startDate={item.auctionDates.startDate}
-          initialEndDate={item.auctionDates.endDate}
-          initialUserBidAmount={userBid?.amount}
+        <AuctionContainer
+          item={{
+            ...item,
+            _id: item._id.toString(),
+            bids: item.bids?.map((bid) => ({
+              ...bid,
+              _id: bid._id.toString(),
+              user: bid.user.toString(),
+            })),
+          }}
           userId={userId?.toString()}
-          itemId={item._id.toString()}
           status={status}
         />
       </div>

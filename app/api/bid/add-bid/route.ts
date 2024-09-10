@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     await pusherServer.trigger("auction-channel", `bid-updated-${itemId}`, {
       currentBid: item.currentBid,
-      bids: item.bids,
       endDate: item.auctionDates.endDate,
     });
 
