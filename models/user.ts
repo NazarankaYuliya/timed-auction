@@ -29,7 +29,11 @@ interface UserDocument extends Document {
 const UserSchema = new Schema<UserDocument>({
   firstName: String,
   lastName: String,
-  email: String,
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: String,
   street: String,
   postalCode: String,
