@@ -1,20 +1,19 @@
 import { pusherClient } from "@utils/pusher";
 
 export const subscribeToAuction = (
-  itemId: string,
-  handleBidUpdate: (currentBid: number) => void,
-  handleEndDateUpdate: (endDate: Date) => void,
+  handleItemUpdate: (itemId: string, currentBid: number, endDate: Date) => void,
 ) => {
   const channel = pusherClient.subscribe("auction-channel");
-  const event = `bid-updated-${itemId}`;
 
-  channel.bind(event, (data: { currentBid: number; endDate: Date }) => {
-    handleBidUpdate(data.currentBid);
-    handleEndDateUpdate(data.endDate);
-  });
+  channel.bind(
+    "bid-updated",
+    (data: { itemId: string; currentBid: number; endDate: Date }) => {
+      handleItemUpdate(data.itemId, data.currentBid, new Date(data.endDate));
+    },
+  );
 
   return () => {
-    channel.unbind(event);
+    channel.unbind("bid-updated");
     pusherClient.unsubscribe("auction-channel");
   };
 };

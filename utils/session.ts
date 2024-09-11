@@ -35,20 +35,3 @@ export async function createSession(id: string, role: string) {
 export async function deleteSession(role: string) {
   cookies().delete(role);
 }
-
-// export async function getSession(role: string) {
-//   const sessionCookie = cookies().get(role)?.value;
-//   if (!sessionCookie) return null;
-
-//   try {
-//     const session = await decrypt(sessionCookie);
-//     return session;
-//   } catch (error) {
-//     return null;
-//   }
-// }
-
-// export async function updateSession(request: NextRequest) {
-//   const session = request.cookies.get("session")?.value;
-//   if (!session) return;
-// }

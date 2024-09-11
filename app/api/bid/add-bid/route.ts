@@ -24,7 +24,8 @@ export async function POST(req: NextRequest) {
 
     await item.addBid(new mongoose.Types.ObjectId(userId), bidAmount);
 
-    await pusherServer.trigger("auction-channel", `bid-updated-${itemId}`, {
+    await pusherServer.trigger("auction-channel", `bid-updated`, {
+      itemId: itemId,
       currentBid: item.currentBid,
       endDate: item.auctionDates.endDate,
     });

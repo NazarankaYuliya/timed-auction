@@ -48,15 +48,8 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
     const intervalId = setInterval(updateTime, 1000);
     updateTime();
 
-    const unsubscribe = subscribeToAuction(
-      item._id,
-      (newBid) => setCurrentBid(newBid),
-      (newEndDate) => setEndDate(new Date(newEndDate)),
-    );
-
     return () => {
       clearInterval(intervalId);
-      unsubscribe();
     };
   }, [item._id, endDate, startDate]);
 

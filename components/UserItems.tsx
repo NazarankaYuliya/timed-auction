@@ -4,6 +4,7 @@ import LogoutButton from "./LogoutButton";
 import User from "@models/user";
 import ItemCard from "./ItemCard";
 import { IItem, IUser } from "@types";
+import ItemsWrapper from "./ItemsWrapper";
 
 export default async function UserItems({ session }: { session: any }) {
   let items: IItem[] = [];
@@ -34,7 +35,7 @@ export default async function UserItems({ session }: { session: any }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
+      {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
         {items.map((item: any) => (
           <ItemCard
             key={item._id}
@@ -43,7 +44,20 @@ export default async function UserItems({ session }: { session: any }) {
             status="user"
           />
         ))}
-      </div>
+      </div> */}
+      <ItemsWrapper
+        items={items.map((item) => ({
+          ...item,
+          _id: item._id.toString(),
+          bids: item.bids?.map((bid) => ({
+            ...bid,
+            _id: bid._id.toString(),
+            user: bid.user.toString(),
+          })),
+        }))}
+        userId={user._id.toString()}
+        status="user"
+      />
     </div>
   );
 }
