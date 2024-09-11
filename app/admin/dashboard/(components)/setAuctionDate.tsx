@@ -15,12 +15,15 @@ const SetAuctionDateComponent = () => {
     setSuccess(null);
 
     try {
+      const startUTC = new Date(startDate).toISOString();
+      const endUTC = new Date(endDate).toISOString();
+
       const res = await fetch("/api/admin/set-auction", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ startDate, endDate }),
+        body: JSON.stringify({ startDate: startUTC, endDate: endUTC }),
       });
 
       if (res.ok) {

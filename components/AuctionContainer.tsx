@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AuctionCountdown from "./AuctionCountdown";
 import BidForm from "./BidForm";
 import { IItem } from "@types";
 import { subscribeToAuction } from "@utils/pusherUtils";
