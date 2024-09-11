@@ -14,27 +14,27 @@ interface ItemsWrapperProps {
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
 
-  useEffect(() => {
-    const updateItem = (itemId: string, currentBid: number, endDate: Date) => {
-      setAuctionItems((prevItems) =>
-        prevItems.map((item) =>
-          item._id === itemId
-            ? {
-                ...item,
-                currentBid,
-                auctionDates: { ...item.auctionDates, endDate },
-              }
-            : item,
-        ),
-      );
-    };
+  // useEffect(() => {
+  //   const updateItem = (itemId: string, currentBid: number, endDate: Date) => {
+  //     setAuctionItems((prevItems) =>
+  //       prevItems.map((item) =>
+  //         item._id === itemId
+  //           ? {
+  //               ...item,
+  //               currentBid,
+  //               auctionDates: { ...item.auctionDates, endDate },
+  //             }
+  //           : item,
+  //       ),
+  //     );
+  //   };
 
-    const unsubscribe = subscribeToAuction(updateItem);
+  //   const unsubscribe = subscribeToAuction(updateItem);
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">

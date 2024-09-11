@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IItem } from "@types";
+import { placeBidApi } from "@utils/placeBidApi";
 
 interface BidFormProps {
   userId?: string;
@@ -28,27 +29,15 @@ const BidForm = ({
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("/api/bid/add-bid", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ itemId, userId, bidAmount }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || "Fehler beim Platzieren des Gebots.");
-      }
-
+      await placeBidApi(itemId, userId as string, parseFloat(bidAmount));
       setUserBid(parseFloat(bidAmount));
-      setMessage("success");
+      setMessage("success"); // Сообщение об успешной ставке
       setBidAmount("");
       setLoading(false);
-      setTimeout(() => setMessage(null), 2000);
+      setTimeout(() => setMessage(null), 2000); // Убрать сообщение через 2 секунды
     } catch (error) {
       console.error(error);
-      setMessage("error");
+      setMessage("error"); // Сообщение об ошибке
       setLoading(false);
     }
   };
