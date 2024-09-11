@@ -115,6 +115,21 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
   this.bids.forEach((bid: Bid) => {
     bid.isWinning = bid.amount >= this.currentBid;
   });
+
+  const winningBids = this.bids.filter((bid: Bid) => {
+    bid.isWinning;
+  });
+  if (winningBids.length > 1) {
+    winningBids.sort(
+      (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
+    );
+    const earliestWinningBid = winningBids[0];
+    this.bids.forEach((bid: any) => {
+      if (bid.isWinning) {
+        bid.isWinning = bid._id.equals(earliestWinningBid._id);
+      }
+    });
+  }
 };
 
 const Item: Model<ItemDocument> =

@@ -3,6 +3,7 @@ export interface IBid {
   user: string;
   amount: number;
   createdAt?: Date;
+  isWinning: boolean;
 }
 
 export interface IItem {
