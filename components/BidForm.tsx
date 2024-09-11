@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { IItem } from "@types";
-import { placeBidApi } from "@utils/placeBidApi";
 
 interface BidFormProps {
   userId?: string;
@@ -17,7 +16,7 @@ const BidForm = ({
 }: BidFormProps) => {
   const [loading, setLoading] = useState(false);
   const [bidAmount, setBidAmount] = useState<string>("");
-  const [message, setMessage] = useState<"success" | "error" | null>(null); // Статус сообщения: успех или ошибка
+  const [message, setMessage] = useState<"success" | "error" | null>(null);
   const itemId = item._id;
   const [userBid, setUserBid] = useState<number | null>(
     () =>
@@ -29,15 +28,27 @@ const BidForm = ({
     e.preventDefault();
     setLoading(true);
     try {
-      await placeBidApi(itemId, userId as string, parseFloat(bidAmount));
+      const response = await fetch("/api/bid/add-bid", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId, userId, bidAmount }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Fehler beim Platzieren des Gebots.");
+      }
+
       setUserBid(parseFloat(bidAmount));
-      setMessage("success"); // Сообщение об успешной ставке
+      setMessage("success");
       setBidAmount("");
       setLoading(false);
-      setTimeout(() => setMessage(null), 2000); // Убрать сообщение через 2 секунды
+      setTimeout(() => setMessage(null), 2000);
     } catch (error) {
       console.error(error);
-      setMessage("error"); // Сообщение об ошибке
+      setMessage("error");
       setLoading(false);
     }
   };
