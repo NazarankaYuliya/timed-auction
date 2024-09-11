@@ -117,17 +117,14 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
     bid.isWinning = bid.amount >= this.currentBid;
   });
 
-  const winningBids = this.bids.filter((bid: Bid) => {
-    bid.isWinning;
-  });
-
+  const winningBids = this.bids.filter((bid: Bid) => bid.isWinning);
   if (winningBids.length > 1) {
     winningBids.sort(
       (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
     );
-    const earliestWinningBidId = winningBids[0]._id;
+    const earliestWinningBid = winningBids[0];
     this.bids.forEach((bid: Bid) => {
-      bid.isWinning = false;
+      bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
     });
   }
 };
