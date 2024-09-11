@@ -56,7 +56,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [endDate, startDate]);
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
