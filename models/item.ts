@@ -6,6 +6,7 @@ interface Bid {
   user: mongoose.Types.ObjectId;
   amount: number;
   createdAt?: Date;
+  isWinning?: boolean;
 }
 
 interface AuctionDates {
@@ -28,6 +29,7 @@ const BidSchema = new Schema<Bid>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   amount: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
+  isWinning: { type: Boolean, default: false },
 });
 
 const ItemSchema = new Schema<ItemDocument>(
@@ -109,6 +111,10 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
       this.currentBid = highestBid;
     }
   }
+
+  this.bids.forEach((bid: Bid) => {
+    bid.isWinning = bid.amount >= this.currentBid;
+  });
 };
 
 const Item: Model<ItemDocument> =
