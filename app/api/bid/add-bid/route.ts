@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Item not found" }, { status: 400 });
     }
 
-    await item.addBid(new mongoose.Types.ObjectId(userId), bidAmount);
+    await item.addBid(new mongoose.Types.ObjectId(userId), Number(bidAmount));
 
     await pusherServer.trigger("auction-channel", `bid-updated`, {
       itemId: itemId,
