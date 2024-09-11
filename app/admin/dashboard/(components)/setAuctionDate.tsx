@@ -25,7 +25,7 @@ const SetAuctionDateComponent = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ startUTC, endUTC }),
+        body: JSON.stringify({ startDate: startUTC, endDate: endUTC }),
       });
 
       if (res.ok) {
