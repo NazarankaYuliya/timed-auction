@@ -3,6 +3,7 @@ import User from "@models/user";
 import { calculateStep } from "@utils/calculateStep";
 
 interface Bid {
+  _id: mongoose.Types.ObjectId;
   user: mongoose.Types.ObjectId;
   amount: number;
   createdAt?: Date;
@@ -124,10 +125,8 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
       (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
     );
     const earliestWinningBid = winningBids[0];
-    this.bids.forEach((bid: any) => {
-      if (bid.isWinning) {
-        bid.isWinning = bid._id.equals(earliestWinningBid._id);
-      }
+    this.bids.forEach((bid: Bid) => {
+      bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
     });
   }
 };
