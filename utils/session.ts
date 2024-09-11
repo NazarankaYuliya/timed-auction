@@ -20,13 +20,13 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function createSession(id: string, role: string) {
-  const expires = new Date(Date.now() + 24 * 60 * 60 * 100);
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encrypt({ id, expires });
 
   cookies().set(role, session, {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
+    sameSite: "none",
     path: "/",
     expires,
   });

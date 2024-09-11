@@ -80,16 +80,13 @@ export default function UserLoginForm() {
   return (
     <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
       {error && (
-        <div className="flex items-center text-center justify-center mb-4 p-4 text-red-700 bg-red-100 rounded border border-red-300">
+        <div className="flex items-center justify-center mb-4 p-4 text-red-700 bg-red-100 rounded border border-red-300">
           {error}
         </div>
       )}
 
       {!isVerificationRequired ? (
         <>
-          <Link href="/" className="text-blue-500 hover:text-blue-700">
-            Home
-          </Link>
           <h1 className="font-bold text-3xl text-center text-gray-800 mb-6">
             Anmelden
           </h1>
