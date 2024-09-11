@@ -15,8 +15,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const start = new Date(startDate).toLocaleString();
-    const end = new Date(endDate).toLocaleString();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
     await Item.updateMany(
       {},

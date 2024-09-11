@@ -32,9 +32,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
 
       if (now < start) {
         setAuctionStatus(
-          `Los öffnet am ${start.toLocaleDateString(
-            "de-DE",
-          )} в ${start.toLocaleTimeString("de-DE")}`,
+          `Los öffnet am ${start.toLocaleDateString()} в ${start.toLocaleTimeString()}`,
         );
         setIsAuctionActive(false);
       } else if (now < endDate) {
