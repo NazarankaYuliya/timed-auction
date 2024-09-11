@@ -120,13 +120,14 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
   const winningBids = this.bids.filter((bid: Bid) => {
     bid.isWinning;
   });
+
   if (winningBids.length > 1) {
     winningBids.sort(
       (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
     );
-    const earliestWinningBid = winningBids[0];
+    const earliestWinningBidId = winningBids[0]._id;
     this.bids.forEach((bid: Bid) => {
-      bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
+      bid.isWinning = false;
     });
   }
 };
