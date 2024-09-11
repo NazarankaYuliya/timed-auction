@@ -35,7 +35,7 @@ export default async function UserItems({ session }: { session: any }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
+      {/* <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
         {items.map((item: any) => (
           <ItemCard
             key={item._id}
@@ -44,8 +44,8 @@ export default async function UserItems({ session }: { session: any }) {
             status="user"
           />
         ))}
-      </div>
-      {/* <ItemsWrapper
+      </div> */}
+      <ItemsWrapper
         items={items.map((item) => ({
           ...item,
           _id: item._id.toString(),
@@ -57,7 +57,7 @@ export default async function UserItems({ session }: { session: any }) {
         }))}
         userId={user._id.toString()}
         status="user"
-      /> */}
+      />
     </div>
   );
 }

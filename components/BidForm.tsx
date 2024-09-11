@@ -31,13 +31,13 @@ const BidForm = ({
     try {
       await placeBidApi(itemId, userId as string, parseFloat(bidAmount));
       setUserBid(parseFloat(bidAmount));
-      setMessage("success"); // Сообщение об успешной ставке
+      setMessage("success");
       setBidAmount("");
       setLoading(false);
-      setTimeout(() => setMessage(null), 2000); // Убрать сообщение через 2 секунды
+      setTimeout(() => setMessage(null), 2000);
     } catch (error) {
       console.error(error);
-      setMessage("error"); // Сообщение об ошибке
+      setMessage("error");
       setLoading(false);
     }
   };
