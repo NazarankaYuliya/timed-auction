@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import BidForm from "./BidForm";
 import { IItem } from "@types";
-import { subscribeToAuction } from "@utils/pusherUtils";
 import { calculateTimeRemaining } from "@utils/timeUtils";
 
 interface AuctionContainerProps {
@@ -23,6 +22,12 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [auctionStatus, setAuctionStatus] = useState<string>("");
   const [isAuctionActive, setIsAuctionActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    setCurrentBid(item.currentBid);
+    setEndDate(new Date(item.auctionDates.endDate));
+    setStartDate(new Date(item.auctionDates.startDate));
+  }, [item]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -51,7 +56,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [item._id, endDate, startDate]);
+  }, [endDate, startDate]);
 
   return (
     <div className="flex flex-col gap-4">

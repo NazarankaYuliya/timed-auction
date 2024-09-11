@@ -18,13 +18,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
     const updateItem = (itemId: string, currentBid: number, endDate: Date) => {
       setAuctionItems((prevItems) =>
         prevItems.map((item) =>
-          item._id === itemId
-            ? {
-                ...item,
-                currentBid,
-                auctionDates: { ...item.auctionDates, endDate },
-              }
-            : item,
+          item._id === itemId ? { ...item, currentBid, endDate } : item,
         ),
       );
     };

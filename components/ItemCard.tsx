@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ImageComponent from "./ImageComponent";
 import { IItem } from "@types";
@@ -19,8 +21,6 @@ const ItemCard: React.FC<ItemCardProps> = ({
       key={item._id}
       className="border border-gray-200 rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row bg-white"
     >
-      <div></div>
-      <div></div>
       <div className="md:w-1/3 mb-4 md:mb-0">
         <ImageComponent itemImage={item.image} />
       </div>
