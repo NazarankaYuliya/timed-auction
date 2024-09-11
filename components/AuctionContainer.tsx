@@ -13,35 +13,30 @@ interface AuctionContainerProps {
 
 const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   const [currentBid, setCurrentBid] = useState<number>(item.currentBid);
-  const [endDate, setEndDate] = useState<Date>(
-    new Date(item.auctionDates.endDate),
-  );
-  const [startDate, setStartDate] = useState<Date>(
-    new Date(item.auctionDates.startDate),
-  );
+  const [endDate, setEndDate] = useState<Date>(item.auctionDates.endDate);
+  const [startDate, setStartDate] = useState<Date>(item.auctionDates.startDate);
   const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [auctionStatus, setAuctionStatus] = useState<string>("");
   const [isAuctionActive, setIsAuctionActive] = useState<boolean>(false);
 
   useEffect(() => {
     setCurrentBid(item.currentBid);
-    setEndDate(new Date(item.auctionDates.endDate));
-    setStartDate(new Date(item.auctionDates.startDate));
-  }, [item]);
+    setEndDate(item.auctionDates.endDate);
+    setStartDate(item.auctionDates.startDate);
 
-  useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       const start = new Date(startDate);
+      const end = new Date(endDate);
 
       if (now < start) {
         setAuctionStatus(
           `Los öffnet am ${start.toLocaleDateString()} в ${start.toLocaleTimeString()}`,
         );
         setIsAuctionActive(false);
-      } else if (now < endDate) {
+      } else if (now < end) {
         setAuctionStatus("");
-        setTimeRemaining(calculateTimeRemaining(endDate));
+        setTimeRemaining(calculateTimeRemaining(end));
         setIsAuctionActive(true);
       } else {
         setAuctionStatus("Los geschlossen");
@@ -53,10 +48,8 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
     const intervalId = setInterval(updateTime, 1000);
     updateTime();
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+    return () => clearInterval(intervalId);
+  }, [item, endDate, startDate]);
 
   return (
     <div className="flex flex-col gap-4">
