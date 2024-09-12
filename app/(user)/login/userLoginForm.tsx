@@ -78,94 +78,95 @@ export default function UserLoginForm() {
   };
 
   return (
-    <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-6 mx-auto w-full max-w-md p-4  font-display">
       {error && (
-        <div className="flex items-center justify-center mb-4 p-4 text-red-700 bg-red-100 rounded border border-red-300">
+        <div className="flex items-center text-center justify-center mb-4 p-4 text-red-700 border-b border-red-700">
           {error}
         </div>
       )}
 
       {!isVerificationRequired ? (
         <>
-          <h1 className="font-bold text-3xl text-center text-gray-800 mb-6">
-            Anmelden
-          </h1>
+          {/* <Link href="/" className="text-grafit hover:text-gold mb-4">
+            Startseite
+          </Link> */}
+          <h1 className="text-3xl text-center text-gold mb-6">Anmelden</h1>
 
-          <form
-            className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-4"
-            onSubmit={handleSubmit}
-          >
-            <div className="mb-4">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="relative">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="email"
               >
-                E-Mail
+                E-Mail*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="email"
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
+            <div className="relative">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="password"
               >
-                Passwort
+                Passwort*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="password"
                 type="password"
               />
             </div>
 
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600">
-                  Sie haben noch kein Benutzerkonto eingerichtet?
-                </p>
-                <Link
-                  href="/register"
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  Klicken Sie hier
-                </Link>
-              </div>
+            <div className="text-center">
               <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-red-400 disabled:cursor-not-allowed"
+                className="border-b-2 border-grafit text-grafit
+                hover:border-b-2 hover:border-gold
+                transition-border duration-300 ease-in-out
+                hover:text-gold  py-2 px-6 focus:outline-none focus:shadow-outline disabled:bg-gray-300 disabled:cursor-not-allowed"
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Laden..." : "Anmelden"}
+                {loading ? "Laden..." : "Senden"}
               </button>
+            </div>
+            <div className="text-center">
+              <p className="text-grafit text-sm mt-10">
+                Sie haben noch kein Benutzerkonto eingerichtet?
+              </p>
+              <Link
+                href="/register"
+                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+              >
+                Klicken Sie hier
+              </Link>
             </div>
           </form>
         </>
       ) : (
         <>
           <div className="text-center">
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-xl font-bold mb-6 text-gold">
               Bitte überprüfen Sie Ihre E-Mails!
             </h2>
-            <p className="text-gray-700">
+            <p className="text-grafit">
               Ein Bestätigungslink wurde an die E-Mail gesendet:{" "}
               <p className="font-bold">{email}</p>Bitte überprüfen Sie Ihr
               Postfach und klicken Sie auf den Link, um Ihre Anmeldung
               abzuschließen.
             </p>
-            <p className="text-gray-700 mt-6">
+            <p className="text-grafit mt-6">
               Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren Spam-Ordner
               oder{" "}
               <button
                 onClick={handleResendEmail}
-                className="text-blue-500 hover:underline"
+                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
               >
                 klicken Sie hier
               </button>{" "}
@@ -173,7 +174,7 @@ export default function UserLoginForm() {
             </p>
           </div>
           {isCodeResent && (
-            <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 bg-green-100 rounded border border-green-300">
+            <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 ">
               Die Bestätigungs-E-Mail wurde erneut gesendet. <br /> Bitte
               überprüfen Sie Ihr Postfach.
             </div>

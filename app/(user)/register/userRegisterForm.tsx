@@ -67,31 +67,28 @@ export default function UserRegisterForm() {
   };
 
   return (
-    <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-6 mx-auto w-full max-w-md p-4  font-display">
       {error && (
-        <div className="flex items-center justify-center mb-4 p-4 text-red-700 bg-red-100 rounded border border-red-300">
+        <div className="flex items-center justify-center mb-4 p-4 text-red-700 border-b border-red-700">
           {error}
         </div>
       )}
       {!isCodeSent ? (
         <>
-          <h1 className="font-bold text-3xl text-center text-gray-800 mb-6">
+          <h1 className="text-3xl text-center text-gold mb-6">
             Neuregistrierung
           </h1>
-          <form
-            className="bg-white shadow-md rounded px-4 pt-4 pb-4 mb-4"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="firstName"
               >
-                Vorname
+                Vorname*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="firstName"
                 type="text"
               />
@@ -99,14 +96,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="lastName"
               >
-                Nachname
+                Nachname*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="lastName"
                 type="text"
               />
@@ -114,14 +111,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="email"
               >
-                E-Mail
+                E-Mail*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="email"
                 type="email"
                 value={email}
@@ -130,14 +127,14 @@ export default function UserRegisterForm() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="password"
               >
-                Passwort
+                Passwort*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="password"
                 type="password"
               />
@@ -145,14 +142,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="street"
               >
-                Straße und Hausnummer
+                Straße und Hausnummer*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="street"
                 type="text"
               />
@@ -160,14 +157,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="postalCode"
               >
-                PLZ
+                PLZ*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="postalCode"
                 type="text"
               />
@@ -175,14 +172,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="city"
               >
-                Stadt
+                Stadt*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="city"
                 type="text"
               />
@@ -190,14 +187,14 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="country"
               >
-                Land
+                Land*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="country"
                 type="text"
               />
@@ -205,70 +202,79 @@ export default function UserRegisterForm() {
 
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-bold mb-1"
+                className="block text-grafit text-sm font-bold mb-1"
                 htmlFor="phone"
               >
-                Telefonnummer
+                Telefonnummer*
               </label>
               <input
                 required
-                className="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
                 name="phone"
                 type="text"
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-1">
-                <input
-                  required
-                  type="checkbox"
-                  name="agb"
-                  className="mr-2 leading-tight"
-                />
+            <div className="flex items-center mb-4">
+              <input
+                required
+                type="checkbox"
+                name="agb"
+                id="agb"
+                className="w-6 h-6 text-gold border-grafit focus:ring-gold dark:focus:ring-gold dark:ring-offset-grafit dark:bg-gold dark:border-gold"
+              />
+              <label
+                htmlFor="agb"
+                className="ml-3 text-grafit dark:text-grafit text-sm "
+              >
                 Ich habe die Allgemeinen Geschäftsbedingungen (AGB) gelesen und
                 stimme zu
               </label>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600">Haben Sie bereits ein Konto?</p>
-                <Link
-                  href="/login"
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  Klicken Sie hier
-                </Link>
-              </div>
+            <div className="text-center">
               <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="border-b-2 border-grafit text-grafit
+               hover:border-b-2 hover:border-gold
+               transition-border duration-300 ease-in-out
+               hover:text-gold  py-2 px-6 focus:outline-none focus:shadow-outline disabled:bg-gray-300 disabled:cursor-not-allowed"
                 type="submit"
                 disabled={loading}
               >
                 {loading ? "Laden..." : "Registrieren"}
               </button>
             </div>
+            <div className="text-center">
+              <p className="text-grafit text-sm mt-10">
+                Haben Sie bereits ein Konto?
+              </p>
+              <Link
+                href="/login"
+                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+              >
+                Klicken Sie hier
+              </Link>
+            </div>
           </form>
         </>
       ) : (
         <>
           <div className="text-center">
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-xl font-bold mb-6 text-gold">
               Bitte überprüfen Sie Ihre E-Mails!
             </h2>
-            <p className="text-gray-700">
+            <p className="text-grafit">
               Ein Bestätigungslink wurde an die E-Mail gesendet:{" "}
               <p className="font-bold">{email}</p>Bitte überprüfen Sie Ihr
               Postfach und klicken Sie auf den Link, um Ihre Registrierung
               abzuschließen.
             </p>
-            <p className="text-gray-700 mt-6">
+            <p className="text-grafit mt-6">
               Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren Spam-Ordner
               oder{" "}
               <button
                 onClick={handleResendEmail}
-                className="text-blue-500 hover:underline"
+                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
               >
                 klicken Sie hier
               </button>{" "}
@@ -276,7 +282,7 @@ export default function UserRegisterForm() {
             </p>
           </div>
           {isCodeResent && (
-            <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 bg-green-100 rounded border border-green-300">
+            <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 ">
               Die Bestätigungs-E-Mail wurde erneut gesendet. <br /> Bitte
               überprüfen Sie Ihr Postfach.
             </div>

@@ -52,7 +52,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   }, [item, endDate, startDate]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
       {status === "user" ? (
         <BidForm
           currentBid={currentBid}

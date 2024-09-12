@@ -31,7 +31,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-6 xl:grid-cols-2 p-4">
+    <div className="flex flex-col gap-2">
       {auctionItems.map((item: IItem) => (
         <ItemCard key={item._id} item={item} userId={userId} status={status} />
       ))}

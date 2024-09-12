@@ -19,34 +19,37 @@ const ItemCard: React.FC<ItemCardProps> = ({
   return (
     <div
       key={item._id}
-      className="border border-gray-200 rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row bg-white"
+      className="border-b-2 border-grafit p-4 flex flex-col sm:flex-row hover:border-gold"
     >
-      <div className="md:w-1/3 mb-4 md:mb-0">
+      <div className="flex-shrink-0 flex items-center mb-4 sm:mb-0">
         <ImageComponent itemImage={item.image} />
       </div>
 
-      <div className="md:w-2/3 md:ml-4 flex flex-col justify-between">
-        <p className="text-blue-600 font-semibold mb-2">
-          Losnummer: {item.catalogNumber}
-        </p>
-        <p className="text-gray-700 mb-4">{item.description}</p>
-        <p className="text-blue-600 font-semibold mb-2">
-          Aufruf: €{item.startPrice}
-        </p>
+      <div className="flex flex-col md:flex-row flex-1 gap-6">
+        <div className="flex-1 min-w-0 flex flex-col gap-2 ">
+          <p className="text-gold ">Losnummer: {item.catalogNumber}</p>
+          <p className="text-gold">Aufruf: €{item.startPrice}</p>
+          <p className="text-gold text-justify">
+            Beschreibung:{" "}
+            <span className="text-sm text-grafit ">{item.description}</span>{" "}
+          </p>
+        </div>
 
-        <AuctionContainer
-          item={{
-            ...item,
-            _id: item._id.toString(),
-            bids: item.bids?.map((bid) => ({
-              ...bid,
-              _id: bid._id.toString(),
-              user: bid.user.toString(),
-            })),
-          }}
-          userId={userId?.toString()}
-          status={status}
-        />
+        <div className="flex-1 min-w-0">
+          <AuctionContainer
+            item={{
+              ...item,
+              _id: item._id.toString(),
+              bids: item.bids?.map((bid) => ({
+                ...bid,
+                _id: bid._id.toString(),
+                user: bid.user.toString(),
+              })),
+            }}
+            userId={userId?.toString()}
+            status={status}
+          />
+        </div>
       </div>
     </div>
   );
