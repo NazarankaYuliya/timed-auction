@@ -45,7 +45,7 @@ const VerifyEmail = () => {
 
         setTimeout(() => {
           router.push(
-            "https://www.petzold-auktionen.de/termine/detailansicht-termin?tx_sfeventmgt_pievent%5Baction%5D=detail&tx_sfeventmgt_pievent%5Bcontroller%5D=Event&tx_sfeventmgt_pievent%5Bevent%5D=73&cHash=059bc449f42d3096ae513489837cdd7b/",
+            "https://www.petzold-auktionen.de/termine/detailansicht-termin?tx_sfeventmgt_pievent%5Baction%5D=detail&tx_sfeventmgt_pievent%5Bcontroller%5D=Event&tx_sfeventmgt_pievent%5Bevent%5D=73&cHash=059bc449f42d3096ae513489837cdd7b",
           );
         }, 1500);
       } else {
