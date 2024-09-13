@@ -65,7 +65,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
       ) : (
         <>
           {isAuctionActive && (
-            <p className="text-sm text-grafit font-bold">
+            <p className="text-sm text-grafit font-bold bg-beige p-2">
               <span role="img" aria-label="info">
                 ⚠️
               </span>{" "}
