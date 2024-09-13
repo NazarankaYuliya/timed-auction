@@ -15,10 +15,25 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
 
   useEffect(() => {
-    const updateItem = (itemId: string, currentBid: number, endDate: Date) => {
+    const updateItem = (
+      itemId: string,
+      currentBid: number,
+      biddingStep: number,
+      endDate: Date,
+    ) => {
       setAuctionItems((prevItems) =>
         prevItems.map((item) =>
-          item._id === itemId ? { ...item, currentBid, endDate } : item,
+          item._id === itemId
+            ? {
+                ...item,
+                currentBid,
+                auctionDates: {
+                  ...item.auctionDates,
+                  endDate,
+                },
+                biddingStep,
+              }
+            : item,
         ),
       );
     };
@@ -31,7 +46,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       {auctionItems.map((item: IItem) => (
         <ItemCard key={item._id} item={item} userId={userId} status={status} />
       ))}

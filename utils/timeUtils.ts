@@ -23,3 +23,16 @@ export const calculateTimeRemaining = (endDate: Date) => {
     "m",
   )}${formatTimeUnit(seconds, "s")} verbleibend`;
 };
+
+export const formatDateAndTime = (date: Date) => {
+  const formattedDate = date.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  const formattedTime =
+    date.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }) +
+    " Uhr";
+
+  return `${formattedDate}\n${formattedTime}`;
+};

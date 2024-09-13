@@ -20,6 +20,7 @@ interface ItemDocument extends Document {
   description: string;
   startPrice: number;
   currentBid: number;
+  biddingStep: number;
   image: string[];
   bids: Bid[];
   auctionDates: AuctionDates;
@@ -39,6 +40,7 @@ const ItemSchema = new Schema<ItemDocument>(
     description: { type: String, required: true },
     startPrice: { type: Number, required: true },
     currentBid: { type: Number, default: 0 },
+    biddingStep: { type: Number },
     image: { type: [String], default: [] },
     bids: { type: [BidSchema], default: [] },
     auctionDates: {
@@ -64,6 +66,14 @@ ItemSchema.methods.addBid = async function (
     throw new Error("User not found");
   }
 
+  // if (limit < this.startPrice) {
+  //   throw new Error("Bid must be at least the starting price");
+  // }
+
+  // if (this.currentBid > 0 && limit < this.currentBid) {
+  //   throw new Error("Bid must be at least the current highest bid");
+  // }
+
   const now = new Date();
 
   const timeLeft = this.auctionDates.endDate.getTime() - now.getTime();
@@ -87,6 +97,7 @@ ItemSchema.methods.addBid = async function (
       createdAt: now,
     });
   }
+  this.biddingStep = step;
 
   await this.recalculateCurrentBid(step);
 
@@ -111,6 +122,7 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
     if (this.currentBid > highestBid) {
       this.currentBid = highestBid;
     }
+    this.biddingStep = step;
   }
 
   this.bids.forEach((bid: Bid) => {

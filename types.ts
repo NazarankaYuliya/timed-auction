@@ -13,6 +13,7 @@ export interface IItem {
   startPrice: number;
   image: string[];
   currentBid: number;
+  biddingStep: number;
   auctionDates: {
     startDate: Date;
     endDate: Date;

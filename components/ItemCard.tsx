@@ -19,37 +19,35 @@ const ItemCard: React.FC<ItemCardProps> = ({
   return (
     <div
       key={item._id}
-      className="border-b-2 border-grafit p-4 flex flex-col sm:flex-row hover:border-gold"
+      className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 p-4 text-sm border-b border-gold"
     >
-      <div className="flex-shrink-0 flex items-center mb-4 sm:mb-0">
+      <div className="flex items-center justify-center mb-4 sm:mb-0 col-span-1 ">
         <ImageComponent itemImage={item.image} />
       </div>
 
-      <div className="flex flex-col md:flex-row flex-1 gap-6">
-        <div className="flex-1 min-w-0 flex flex-col gap-2 ">
-          <p className="text-gold ">Losnummer: {item.catalogNumber}</p>
-          <p className="text-gold">Aufruf: €{item.startPrice}</p>
-          <p className="text-gold text-justify">
-            Beschreibung:{" "}
-            <span className="text-sm text-grafit ">{item.description}</span>{" "}
-          </p>
-        </div>
+      <div className="pl-6 pr-6 pt-4 pb-4 flex flex-col gap-2  col-span-1 sm:col-span-2 md:col-span-2 border-0 border-gold sm:border-l  md:border-r">
+        <p className="text-gold">Losnummer: {item.catalogNumber}</p>
+        <p className="text-gold text-justify">
+          Beschreibung:{" "}
+          <span className="text-xs text-grafit">{item.description}</span>{" "}
+        </p>
+        <p className="text-gold">Aufruf: €{item.startPrice}</p>
+      </div>
 
-        <div className="flex-1 min-w-0">
-          <AuctionContainer
-            item={{
-              ...item,
-              _id: item._id.toString(),
-              bids: item.bids?.map((bid) => ({
-                ...bid,
-                _id: bid._id.toString(),
-                user: bid.user.toString(),
-              })),
-            }}
-            userId={userId?.toString()}
-            status={status}
-          />
-        </div>
+      <div className="pl-6 pr-6 pt-4 pb-4 col-span-1 sm:col-span-3 md:col-span-2 border-0 border-gold sm:border md:border-0">
+        <AuctionContainer
+          item={{
+            ...item,
+            _id: item._id.toString(),
+            bids: item.bids?.map((bid) => ({
+              ...bid,
+              _id: bid._id.toString(),
+              user: bid.user.toString(),
+            })),
+          }}
+          userId={userId?.toString()}
+          status={status}
+        />
       </div>
     </div>
   );

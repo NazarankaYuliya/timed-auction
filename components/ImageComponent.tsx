@@ -10,7 +10,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
   return (
     <>
       {itemImage.length > 0 ? (
-        <Image src={PIC} width={200} height={200} alt="image of item" />
+        <Image src={PIC} width={150} height={150} alt="image of item" />
       ) : (
         <Image src={IMG} width={200} height={200} alt="image of item" />
       )}
