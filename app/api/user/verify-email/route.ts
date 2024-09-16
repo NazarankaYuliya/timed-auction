@@ -3,21 +3,16 @@ import crypto from "crypto";
 import { connectToDB } from "@utils/database";
 import User from "@models/user";
 
-export async function GET(reqeust: Request) {
+export async function POST(request: Request) {
   try {
     await connectToDB();
 
-    const { searchParams } = new URL(reqeust.url);
-    const verificationToken = searchParams.get("verifyToken") as string;
-    const userId = searchParams.get("id");
+    const { token, email } = await request.json();
 
-    const verifyToken = crypto
-      .createHash("sha256")
-      .update(verificationToken)
-      .digest("hex");
+    const verifyToken = crypto.createHash("sha256").update(token).digest("hex");
 
     const user = await User.findOne({
-      _id: userId,
+      email,
       verifyToken,
       verifyTokenExpire: { $gt: new Date() },
     });

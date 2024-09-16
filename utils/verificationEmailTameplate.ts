@@ -1,6 +1,6 @@
-export const verificationEmailTemplate = (verificationLink: string) => {
+export const verificationEmailTemplate = (verificationCode: string) => {
   return `
-          <html>
+    <html>
     <head>
       <style>
         body {
@@ -30,25 +30,23 @@ export const verificationEmailTemplate = (verificationLink: string) => {
           line-height: 1.5;
         }
 
-        .button {
+        .code {
           display: block;
-          margin: 0 auto;
-          padding: 10px 20px;
-          background-color: #007bff;
-          color: #ffffff;
-          text-decoration: none;
-          border-radius: 5px;
+          margin: 20px auto;
+          padding: 10px;
+          background-color: #f2f2f2;
+          color: #333333;
+          font-size: 20px;
           text-align: center;
+          border: 1px dashed #007bff;
+          border-radius: 5px;
+          width: fit-content;
         }
 
         .expire-time {
           text-align: center;
           margin-top: 10px;
           color: #999999;
-        }
-
-        .button:hover {
-          background-color: #0056b3;
         }
       </style>
     </head>
@@ -57,10 +55,10 @@ export const verificationEmailTemplate = (verificationLink: string) => {
         <h1>Bestätigen Sie Ihre E-Mail-Adresse</h1>
         <p>
           Vielen Dank für Ihre Anmeldung! Um Ihre Registrierung abzuschließen,
-          klicken Sie bitte auf die Schaltfläche unten, um Ihre E-Mail-Adresse zu bestätigen.
+          geben Sie bitte den folgenden Bestätigungscode auf unserer Website ein:
         </p>
-        <a href=${verificationLink} class="button">E-Mail bestätigen</a>
-        <p class="expire-time">Dieser Link läuft in 30 Minuten ab.</p>
+        <div class="code">${verificationCode}</div>
+        <p class="expire-time">Dieser Code läuft in 30 Minuten ab.</p>
       </div>
     </body>
   </html>

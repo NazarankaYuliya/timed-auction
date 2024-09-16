@@ -24,6 +24,7 @@ interface ItemDocument extends Document {
   image: string[];
   bids: Bid[];
   auctionDates: AuctionDates;
+  isMarked: boolean;
   addBid: (userId: mongoose.Types.ObjectId, limit: number) => Promise<void>;
 }
 
@@ -47,6 +48,7 @@ const ItemSchema = new Schema<ItemDocument>(
       startDate: { type: Date, required: true },
       endDate: { type: Date, required: true },
     },
+    isMarked: { type: Boolean, default: false },
   },
   {
     timestamps: true,
@@ -65,14 +67,6 @@ ItemSchema.methods.addBid = async function (
   if (!user) {
     throw new Error("User not found");
   }
-
-  // if (limit < this.startPrice) {
-  //   throw new Error("Bid must be at least the starting price");
-  // }
-
-  // if (this.currentBid > 0 && limit < this.currentBid) {
-  //   throw new Error("Bid must be at least the current highest bid");
-  // }
 
   const now = new Date();
 

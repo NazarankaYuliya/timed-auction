@@ -24,6 +24,7 @@ async function getItems() {
       catalogNumber: item.C,
       description: item.D,
       startPrice: +item.M2,
+      isMarked: item.N2 === true,
     }));
 
     return NextResponse.json(filteredData);
@@ -45,11 +46,11 @@ export async function POST() {
     const items = await rawItems.json();
 
     for (const item of items) {
-      const { catalogNumber, description, startPrice } = item;
+      const { catalogNumber, description, startPrice, isMarked } = item;
 
       await Item.findOneAndUpdate(
         { catalogNumber },
-        { description, startPrice },
+        { description, startPrice, isMarked },
         { upsert: true, new: true, setDefaultsOnInsert: true },
       );
     }

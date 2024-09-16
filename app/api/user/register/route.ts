@@ -49,10 +49,11 @@ export async function POST(req: Request) {
 
     const verificationToken = newUser.getVerificationToken();
 
+    console.log(verificationToken);
+
     await newUser.save();
 
-    const verificationLink = `${process.env.BASE_URL}/verify-email?verifyToken=${verificationToken}&id=${newUser._id}`;
-    const message = verificationEmailTemplate(verificationLink);
+    const message = verificationEmailTemplate(verificationToken);
 
     await sendEmail(newUser.email, "E-Mail-Bestätigung", message);
 

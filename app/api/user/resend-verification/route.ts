@@ -29,8 +29,7 @@ export async function POST(req: Request) {
     const verificationToken = user.getVerificationToken();
     await user.save();
 
-    const verificationLink = `${process.env.BASE_URL}/verify-email?verifyToken=${verificationToken}&id=${user._id}`;
-    const message = verificationEmailTemplate(verificationLink);
+    const message = verificationEmailTemplate(verificationToken);
 
     await sendEmail(user.email, "E-Mail-Bestätigung", message);
 

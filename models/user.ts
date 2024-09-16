@@ -74,7 +74,7 @@ UserSchema.methods.updateBid = async function (
 };
 
 UserSchema.methods.getVerificationToken = function (): string {
-  const verificationToken = crypto.randomBytes(20).toString("hex");
+  const verificationToken = crypto.randomBytes(3).toString("hex");
 
   this.verifyToken = crypto
     .createHash("sha256")
