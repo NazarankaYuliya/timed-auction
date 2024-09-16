@@ -11,7 +11,7 @@ export default function Home() {
         onClick={handleClick}
         className="px-8 py-8 bg-beige text-grafit font-semibold hover:text-gold focus:outline-none focus:shadow-outline transition-colors duration-300 text-4xl"
       >
-        zur Online Auction
+        zur Online Auktion
       </button>
     </div>
   );
