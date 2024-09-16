@@ -18,6 +18,7 @@ export interface IItem {
     startDate: Date;
     endDate: Date;
   };
+  isMarked: boolean;
   bids: IBid[];
 }
 

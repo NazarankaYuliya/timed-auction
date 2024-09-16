@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { IItem } from "@types";
 import { placeBidApi } from "@utils/placeBidApi";
@@ -90,17 +91,33 @@ const BidForm = ({
   return (
     <div className="flex flex-col gap-2">
       <div className="font-semibold text-gold">
-        Aktuelles Gebot: {currentBid ? `€${currentBid}` : "Noch keine Gebote"}
+        Aktuelles Gebot:{" "}
+        {currentBid ? <>€{currentBid}</> : <span>Noch keine Gebote</span>}
       </div>
 
       {currentBid && (
-        <div className="text-sm text-gray-500">
-          Nächste Gebot: €{currentBid + biddingStep}
-        </div>
+        <>
+          {item.isMarked ? (
+            <span className="text-sm text-gray-500">
+              {" "}
+              Gesamtpreis inkl. Provision und MwSt. : €
+              {(currentBid * 1.15 * 1.19).toFixed(2)}
+            </span>
+          ) : (
+            <span className="text-sm text-gray-500">
+              {" "}
+              Gesamtpreis inkl. Provision und MwSt. : €
+              {(currentBid + currentBid * 0.15 * 1.19).toFixed(2)}
+            </span>
+          )}
+          <div className="text-sm text-gray-500">
+            Nächster Gebotsschritt: €{currentBid + biddingStep}
+          </div>
+        </>
       )}
 
       <div className={`flex gap-2 p-1 font-semibold ${getUserBidStyle()}`}>
-        Ihr Gebot: {userBid ? `€${userBid}` : "Noch keine Gebote"}
+        Ihr Maximalgebot: {userBid ? `€${userBid}` : "Noch keine Gebote"}
         {success && <div>✔️</div>}
       </div>
 

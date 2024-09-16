@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function UserRegisterForm() {
   const [error, setError] = useState<string | null>(null);
@@ -209,6 +210,17 @@ export default function UserRegisterForm() {
           >
             {loading ? "Laden..." : "Registrieren"}
           </button>
+          <div className="text-center">
+            <p className="text-grafit text-sm mt-10">
+              Haben Sie bereits ein Benutzerkonto?
+            </p>
+            <Link
+              href="/login"
+              className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+            >
+              Klicken Sie hier
+            </Link>
+          </div>
         </div>
       </form>
     </div>
