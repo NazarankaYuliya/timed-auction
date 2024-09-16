@@ -6,7 +6,10 @@ import "@styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Auktion",
+  title: "1645.Auktion - Petzold KG",
+  icons: {
+    icon: "/assets/images/hammer.png",
+  },
 };
 
 export default async function RootLayout({
