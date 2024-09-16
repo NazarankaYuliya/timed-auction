@@ -1,9 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-
   const handleClick = () => {
     window.open("/guest", "_blank");
   };
