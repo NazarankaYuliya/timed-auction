@@ -13,7 +13,7 @@ const LogoutButton = () => {
       });
 
       const resp = await res.json();
-      if (resp) router.push("/");
+      if (resp) router.push("/guest");
     } catch (e) {
       console.log(e);
     }

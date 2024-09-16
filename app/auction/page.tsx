@@ -6,7 +6,7 @@ export default async function AuctionPage() {
   const session = await verifySession("user");
 
   if (!session) {
-    redirect("/");
+    redirect("/guest");
   }
 
   return <UserItems session={session} />;
