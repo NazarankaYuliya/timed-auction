@@ -28,6 +28,7 @@ export const verificationEmailTemplate = (verificationCode: string) => {
         p {
           color: #666666;
           line-height: 1.5;
+          text-align: center;
         }
 
         .code {

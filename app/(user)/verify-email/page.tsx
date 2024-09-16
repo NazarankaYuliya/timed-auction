@@ -10,7 +10,6 @@ const VerifyEmail = () => {
   const [email, setEmail] = useState<string | null>(null);
   const [verificationCode, setVerificationCode] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [resendError, setResendError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -43,7 +42,7 @@ const VerifyEmail = () => {
         setVerified(true);
         setTimeout(() => {
           router.push("/login");
-        }, 1500);
+        }, 2000);
       } else {
         const data = await res.json();
         setError(data.message || "Verifizierung fehlgeschlagen");
@@ -133,7 +132,7 @@ const VerifyEmail = () => {
               disabled={loading}
               className={`px-4 py-2 text-grafit hover:text-gold border-b hover:border-b`}
             >
-              Senden
+              {loading ? "Laden..." : "Senden"}
             </button>
           </form>
           <p className="text-grafit mt-6">
