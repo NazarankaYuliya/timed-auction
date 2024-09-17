@@ -20,9 +20,9 @@ const Navigation = () => {
           Dashboard
         </Link>
         <Link
-          href="/admin/items"
+          href="/admin/dashboard/items"
           className={`text-2xl text-grafit ${
-            isActive("/admin/items")
+            isActive("/admin/dashboard/items")
               ? "border-b-2 border-grafit"
               : "hover:text-gold border-b-2 border-transparent hover:border-gold transition-border duration-300 ease-in-out"
           } `}
@@ -30,9 +30,9 @@ const Navigation = () => {
           Items
         </Link>
         <Link
-          href="/admin/users"
+          href="/admin/dashboard/users"
           className={`text-2xl text-grafit ${
-            isActive("/admin/users")
+            isActive("/admin/dashboard/users")
               ? "border-b-2 border-grafit"
               : "hover:text-gold border-b-2 border-transparent hover:border-gold transition-border duration-300 ease-in-out"
           } `}
@@ -40,9 +40,9 @@ const Navigation = () => {
           Users
         </Link>
         <Link
-          href="/admin/bids"
+          href="/admin/dashboard/bids"
           className={`text-2xl text-grafit ${
-            isActive("/admin/bids")
+            isActive("/admin/dashboard/bids")
               ? "border-b-2 border-grafit"
               : "hover:text-gold border-b-2 border-transparent hover:border-gold transition-border duration-300 ease-in-out"
           } `}
@@ -50,9 +50,9 @@ const Navigation = () => {
           Bids
         </Link>
         <Link
-          href="/admin/winners"
+          href="/admin/dashboard/winners"
           className={`text-2xl text-grafit ${
-            isActive("/admin/winners")
+            isActive("/admin/dashboard/winners")
               ? "border-b-2 border-grafit"
               : "hover:text-gold border-b-2 border-transparent hover:border-gold transition-border duration-300 ease-in-out"
           } `}

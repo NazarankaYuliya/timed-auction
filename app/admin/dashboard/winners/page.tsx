@@ -1,7 +1,7 @@
 import Item from "@models/item";
 import { IItem } from "@types";
 import { connectToDB } from "@utils/database";
-import UserData from "../(components)/UserData";
+import UserData from "../../(components)/UserData";
 
 const AllItems = async () => {
   let items: IItem[] = [];

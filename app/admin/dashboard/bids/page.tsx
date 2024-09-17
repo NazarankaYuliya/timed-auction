@@ -2,8 +2,8 @@ import { connectToDB } from "@utils/database";
 import Item from "@models/item";
 import { IBid, IItem } from "@types";
 import React from "react";
-import UserData from "../(components)/UserData";
-import RemoveBidButton from "../(components)/RemoveBidButton";
+import UserData from "../../(components)/UserData";
+import RemoveBidButton from "../../(components)/RemoveBidButton";
 
 const AllBids = async () => {
   await connectToDB();
