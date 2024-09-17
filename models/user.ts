@@ -1,11 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import crypto from "crypto";
 
-interface Bid {
-  itemId: mongoose.Types.ObjectId;
-  limit: number;
-}
-
 interface UserDocument extends Document {
   firstName: string;
   lastName: string;
@@ -21,8 +16,6 @@ interface UserDocument extends Document {
   verifyToken: string | undefined;
   verifyTokenExpire: Date | undefined;
   isVerified: Boolean;
-  bids: Bid[];
-  updateBid: (itemId: mongoose.Types.ObjectId, limit: number) => Promise<void>;
   getVerificationToken: () => string;
 }
 
@@ -45,33 +38,7 @@ const UserSchema = new Schema<UserDocument>({
   verifyToken: String,
   verifyTokenExpire: Date,
   isVerified: Boolean,
-  bids: [
-    {
-      itemId: { type: mongoose.Schema.Types.ObjectId, ref: "Item" },
-      limit: { type: Number },
-    },
-  ],
 });
-
-UserSchema.methods.updateBid = async function (
-  itemId: mongoose.Types.ObjectId,
-  limit: number,
-) {
-  const existingBidIndex = this.bids.findIndex((bid: Bid) =>
-    bid.itemId.equals(itemId),
-  );
-
-  if (existingBidIndex !== -1) {
-    this.bids[existingBidIndex].limit = limit;
-  } else {
-    this.bids.push({
-      itemId,
-      limit,
-    });
-  }
-
-  await this.save();
-};
 
 UserSchema.methods.getVerificationToken = function (): string {
   const verificationToken = crypto.randomBytes(3).toString("hex");

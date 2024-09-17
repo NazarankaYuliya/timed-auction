@@ -26,6 +26,7 @@ interface ItemDocument extends Document {
   auctionDates: AuctionDates;
   isMarked: boolean;
   addBid: (userId: mongoose.Types.ObjectId, limit: number) => Promise<void>;
+  removeBid: (bidId: mongoose.Types.ObjectId) => Promise<void>;
   winner: mongoose.Types.ObjectId;
 }
 
@@ -65,15 +66,6 @@ ItemSchema.methods.addBid = async function (
   userId: mongoose.Types.ObjectId,
   limit: number,
 ) {
-  const step = this.currentBid
-    ? calculateStep(this.currentBid)
-    : calculateStep(this.startPrice);
-  const user = await User.findById(userId);
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
   const now = new Date();
 
   const timeLeft = this.auctionDates.endDate.getTime() - now.getTime();
@@ -97,51 +89,62 @@ ItemSchema.methods.addBid = async function (
       createdAt: now,
     });
   }
-  this.biddingStep = step;
 
-  await this.recalculateCurrentBid(step);
-
-  await user.updateBid(this._id, limit);
-
+  await this.recalculateCurrentBid();
   await this.save();
 };
 
-ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
-  if (this.bids.length === 1) {
-    this.currentBid = this.startPrice;
-  } else if (this.bids.length > 1) {
-    const sortedBids = this.bids
-      .map((bid: Bid) => bid.amount)
-      .sort((a: number, b: number) => b - a);
+ItemSchema.methods.removeBid = async function (bidId: mongoose.Types.ObjectId) {
+  this.bids = this.bids.filter((bid: Bid) => !bid._id.equals(bidId));
+  await this.recalculateCurrentBid();
+  await this.save();
+};
 
-    const highestBid = sortedBids[0];
-    const secondHighestBid = sortedBids[1];
+ItemSchema.methods.recalculateCurrentBid = async function () {
+  if (this.bids.length === 0) {
+    this.currentBid = null;
+    this.biddingStep = null;
+    this.winner = null;
+  } else {
+    if (this.bids.length === 1) {
+      this.currentBid = this.startPrice;
+      this.biddingStep = calculateStep(this.currentBid);
+    } else if (this.bids.length > 1) {
+      const sortedBids = this.bids
+        .map((bid: Bid) => bid.amount)
+        .sort((a: number, b: number) => b - a);
 
-    this.currentBid = secondHighestBid + step;
+      const highestBid = sortedBids[0];
+      const secondHighestBid = sortedBids[1];
 
-    if (this.currentBid > highestBid) {
-      this.currentBid = highestBid;
+      this.biddingStep = calculateStep(secondHighestBid);
+
+      this.currentBid = secondHighestBid + this.biddingStep;
+
+      if (this.currentBid > highestBid) {
+        this.currentBid = highestBid;
+      }
+      this.biddingStep = calculateStep(this.currentBid);
     }
-    this.biddingStep = step;
-  }
 
-  this.bids.forEach((bid: Bid) => {
-    bid.isWinning = bid.amount >= this.currentBid;
-  });
-
-  const winningBids = this.bids.filter((bid: Bid) => bid.isWinning);
-  this.winner = winningBids[0].user;
-
-  if (winningBids.length > 1) {
-    winningBids.sort(
-      (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
-    );
-    const earliestWinningBid = winningBids[0];
     this.bids.forEach((bid: Bid) => {
-      bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
+      bid.isWinning = bid.amount >= this.currentBid;
     });
 
-    this.winner = earliestWinningBid.user;
+    const winningBids = this.bids.filter((bid: Bid) => bid.isWinning);
+    this.winner = winningBids[0].user;
+
+    if (winningBids.length > 1) {
+      winningBids.sort(
+        (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
+      );
+      const earliestWinningBid = winningBids[0];
+      this.bids.forEach((bid: Bid) => {
+        bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
+      });
+
+      this.winner = earliestWinningBid.user;
+    }
   }
 };
 

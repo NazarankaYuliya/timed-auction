@@ -23,11 +23,6 @@ export interface IItem {
   bids: IBid[];
 }
 
-export interface IUserBid {
-  itemId: string;
-  amount: number;
-}
-
 export interface IUser {
   _id: string;
   firstName: string;
@@ -41,5 +36,4 @@ export interface IUser {
   phone: string;
   agb: string;
   isVerified: boolean;
-  bids: IUserBid[];
 }

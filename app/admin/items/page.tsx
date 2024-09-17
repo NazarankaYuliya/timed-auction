@@ -15,7 +15,6 @@ const AllItems = async () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">All Items</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -31,9 +30,9 @@ const AllItems = async () => {
           </thead>
           <tbody>
             {items.map((item: IItem, index: number) => (
-              <tr key={item._id}>
-                <td className="py-2 px-4 border-b">{index + 1}</td>
-                <td className="py-2 px-4 border-b">{item.catalogNumber}</td>
+              <tr key={item._id} className={`${item.isMarked && `bg-beige`}`}>
+                <td className="py-2 px-4 border-b ">{index + 1}</td>
+                <td className="py-2 px-4 border-b ">{item.catalogNumber}</td>
                 <td className="py-2 px-4 border-b">{item.description}</td>
                 <td className="py-2 px-4 border-b">{item.image?.length}</td>
                 <td className="py-2 px-4 border-b">€{item.startPrice}</td>

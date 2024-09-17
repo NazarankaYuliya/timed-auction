@@ -15,7 +15,6 @@ const AllUsers = async () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">All Users</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -24,10 +23,11 @@ const AllUsers = async () => {
               <th className="text-left py-2 px-4 border-b">First Name</th>
               <th className="text-left py-2 px-4 border-b">Last Name</th>
               <th className="text-left py-2 px-4 border-b">Email</th>
-              <th className="text-left py-2 px-4 border-b">City</th>
               <th className="text-left py-2 px-4 border-b">Phone</th>
+              <th className="text-left py-2 px-4 border-b">City</th>
+              <th className="text-left py-2 px-4 border-b">Country</th>
+              <th className="text-left py-2 px-4 border-b">PLZ</th>
               <th className="text-left py-2 px-4 border-b">Verified</th>
-              <th className="text-left py-2 px-4 border-b">Bids</th>
             </tr>
           </thead>
           <tbody>
@@ -37,12 +37,13 @@ const AllUsers = async () => {
                 <td className="py-2 px-4 border-b">{user.firstName}</td>
                 <td className="py-2 px-4 border-b">{user.lastName}</td>
                 <td className="py-2 px-4 border-b">{user.email}</td>
-                <td className="py-2 px-4 border-b">{user.city}</td>
                 <td className="py-2 px-4 border-b">{user.phone}</td>
+                <td className="py-2 px-4 border-b">{user.city}</td>
+                <td className="py-2 px-4 border-b">{user.country}</td>
+                <td className="py-2 px-4 border-b">{user.postalCode}</td>
                 <td className="py-2 px-4 border-b">
                   {user.isVerified ? "Yes" : "No"}
                 </td>
-                <td className="py-2 px-4 border-b">{user.bids?.length}</td>
               </tr>
             ))}
           </tbody>

@@ -4,8 +4,10 @@ import axios from "axios";
 
 const UploadItemsButton = () => {
   const [message, setMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const createItem = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post("/api/items");
       if (response.status === 201) {
@@ -16,19 +18,20 @@ const UploadItemsButton = () => {
     } catch (error) {
       setMessage(`Error: ${(error as Error).message}`);
     }
+    setIsLoading(false);
   };
 
   return (
-    <div className="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col justify-between">
+    <div className="border-2 border-beige p-6 rounded-lg shadow-md flex flex-col gap-4 justify-between">
       <h2 className="text-2xl font-semibold mb-4 text-gray-700">
         Upload Items
       </h2>
       <p>Upload items from Ninox table</p>
       <button
         onClick={createItem}
-        className="w-full py-2 px-4 bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-300"
+        className="w-full py-2 px-4 bg-grafit text-white rounded hover:bg-green-600 transition-colors duration-300"
       >
-        Upload Items
+        {isLoading ? "Loading..." : "Upload"}
       </button>
 
       {message && (
