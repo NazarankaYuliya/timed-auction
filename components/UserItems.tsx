@@ -40,6 +40,7 @@ export default async function UserItems({ session }: { session: any }) {
             _id: bid._id.toString(),
             user: bid.user.toString(),
           })),
+          winner: item.winner?.toString(),
         }))}
         userId={user._id.toString()}
         status="user"

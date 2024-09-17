@@ -10,6 +10,7 @@ interface BidFormProps {
   currentBid: number;
   biddingStep: number;
   isAuctionActive: boolean;
+  winner?: string;
 }
 
 const BidForm = ({
@@ -18,6 +19,7 @@ const BidForm = ({
   currentBid,
   biddingStep,
   isAuctionActive,
+  winner,
 }: BidFormProps) => {
   const [loading, setLoading] = useState(false);
   const [bidAmount, setBidAmount] = useState<string>("");
@@ -81,7 +83,7 @@ const BidForm = ({
 
   const getUserBidStyle = () => {
     if (userBid && currentBid) {
-      return userBid >= currentBid
+      return winner === userId?.toString()
         ? "bg-green-100 text-green-700"
         : "bg-red-100 text-red-700";
     }

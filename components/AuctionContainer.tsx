@@ -14,6 +14,7 @@ interface AuctionContainerProps {
 const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   const [currentBid, setCurrentBid] = useState<number>(item.currentBid);
   const [biddingStep, setBiddingStep] = useState<number>(item.biddingStep);
+  const [winner, setWinner] = useState<string>(item.winner);
   const [endDate, setEndDate] = useState<Date>(item.auctionDates.endDate);
   const [startDate, setStartDate] = useState<Date>(item.auctionDates.startDate);
   const [timeRemaining, setTimeRemaining] = useState<string>("");
@@ -25,6 +26,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
     setBiddingStep(item.biddingStep);
     setEndDate(item.auctionDates.endDate);
     setStartDate(item.auctionDates.startDate);
+    setWinner(item.winner);
 
     const updateTime = () => {
       const now = new Date();
@@ -61,6 +63,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
           userId={userId}
           item={item}
           isAuctionActive={isAuctionActive}
+          winner={winner}
         />
       ) : (
         <>

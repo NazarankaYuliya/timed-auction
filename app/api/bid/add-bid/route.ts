@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
       currentBid: item.currentBid,
       biddingStep: item.biddingStep,
       endDate: item.auctionDates.endDate,
+      winner: item.winner,
     });
 
     return NextResponse.json(

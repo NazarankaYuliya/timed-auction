@@ -44,6 +44,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
               _id: bid._id.toString(),
               user: bid.user.toString(),
             })),
+            winner: item.winner?.toString(),
           }}
           userId={userId?.toString()}
           status={status}

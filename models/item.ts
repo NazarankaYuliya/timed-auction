@@ -26,6 +26,7 @@ interface ItemDocument extends Document {
   auctionDates: AuctionDates;
   isMarked: boolean;
   addBid: (userId: mongoose.Types.ObjectId, limit: number) => Promise<void>;
+  winner: mongoose.Types.ObjectId;
 }
 
 const BidSchema = new Schema<Bid>({
@@ -49,6 +50,11 @@ const ItemSchema = new Schema<ItemDocument>(
       endDate: { type: Date, required: true },
     },
     isMarked: { type: Boolean, default: false },
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -124,6 +130,8 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
   });
 
   const winningBids = this.bids.filter((bid: Bid) => bid.isWinning);
+  this.winner = winningBids[0].user;
+
   if (winningBids.length > 1) {
     winningBids.sort(
       (a: Bid, b: Bid) => a.createdAt!.getTime() - b.createdAt!.getTime(),
@@ -132,6 +140,8 @@ ItemSchema.methods.recalculateCurrentBid = async function (step: number) {
     this.bids.forEach((bid: Bid) => {
       bid.isWinning = bid.isWinning && bid._id.equals(earliestWinningBid._id);
     });
+
+    this.winner = earliestWinningBid.user;
   }
 };
 

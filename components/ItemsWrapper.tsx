@@ -20,6 +20,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
       currentBid: number,
       biddingStep: number,
       endDate: Date,
+      winner: string,
     ) => {
       setAuctionItems((prevItems) =>
         prevItems.map((item) =>
@@ -32,6 +33,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
                   endDate,
                 },
                 biddingStep,
+                winner,
               }
             : item,
         ),

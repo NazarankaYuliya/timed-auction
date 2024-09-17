@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         display: ["Playfair Display", "serif"],
       },
+      fontSize: {
+        "4xl": "2.5rem",
+      },
       colors: {
         gold: "#ceb27a",
         grafit: "#454d4f",
