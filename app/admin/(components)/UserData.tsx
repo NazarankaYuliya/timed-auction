@@ -1,10 +1,32 @@
-import User from "@models/user";
-import { IUser } from "@types";
-import { connectToDB } from "@utils/database";
+"use client";
 
-const UserData = async ({ userId, all }: { userId: string; all: boolean }) => {
-  await connectToDB();
-  const user: IUser | null = await User.findById(userId).lean();
+import { IUser } from "@types";
+import { useEffect, useState } from "react";
+
+const UserData = ({ userId, all }: { userId: string; all: boolean }) => {
+  const [user, setUser] = useState<IUser | null>(null);
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch("/api/admin/get-users", {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      const user = data.users.find((user: IUser) => user._id === userId);
+      setUser(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [userId]);
 
   return (
     <>

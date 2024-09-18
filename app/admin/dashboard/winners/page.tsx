@@ -1,18 +1,29 @@
-import Item from "@models/item";
+"use client";
+
 import { IItem } from "@types";
-import { connectToDB } from "@utils/database";
 import UserData from "../../(components)/UserData";
+import { useEffect, useState } from "react";
 
-const AllItems = async () => {
-  let items: IItem[] = [];
+const AllWinners = () => {
+  const [items, setItems] = useState<IItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const fetchItems = async () => {
+    try {
+      const response = await fetch("/api/admin/get-winners", { method: "GET" });
+      const data = await response.json();
+      setItems(data.items);
+    } catch (error) {
+      console.error("Error fetching bids:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  try {
-    await connectToDB();
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
-    items = await Item.find({ winner: { $ne: null } }).lean();
-  } catch (error) {
-    console.log(error);
-  }
+  if (loading) return <p>Loading...</p>;
 
   const itemsByWinners = items.reduce(
     (acc: Record<string, IItem[]>, item: IItem) => {
@@ -86,4 +97,4 @@ const AllItems = async () => {
   );
 };
 
-export default AllItems;
+export default AllWinners;

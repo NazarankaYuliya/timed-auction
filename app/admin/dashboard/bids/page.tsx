@@ -1,15 +1,30 @@
-import { connectToDB } from "@utils/database";
-import Item from "@models/item";
+"use client";
+
 import { IBid, IItem } from "@types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserData from "../../(components)/UserData";
 import RemoveBidButton from "../../(components)/RemoveBidButton";
 
-const AllBids = async () => {
-  await connectToDB();
+const AllBids = () => {
+  const [items, setItems] = useState<IItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const items: IItem[] = await Item.find({}).lean();
+  const fetchItems = async () => {
+    try {
+      const response = await fetch("/api/admin/get-items", { method: "GET" });
+      const data = await response.json();
+      setItems(data.items);
+    } catch (error) {
+      console.error("Error fetching bids:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    fetchItems();
+  }, []);
+  if (loading) return <p>Loading...</p>;
   return (
     <div className="container mx-auto p-4">
       <div className="overflow-x-auto">
