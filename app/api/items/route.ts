@@ -2,6 +2,7 @@ import { connectToDB } from "@utils/database";
 import Item from "@models/item";
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { getValidBidOrSuggestion } from "@utils/verifyLimit";
 
 const URL = process.env.NINOX_LINK as string;
 
@@ -19,11 +20,12 @@ async function getItems() {
         filters: JSON.stringify(filters),
       },
     });
+
     const data = response.data;
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
-      startPrice: +item.M2,
+      startPrice: getValidBidOrSuggestion(+item.M2),
       isMarked: item.N2 === true,
     }));
 

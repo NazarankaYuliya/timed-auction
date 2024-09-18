@@ -29,15 +29,15 @@ const getStepForPrice = (price: number): PriceRange => {
   throw new Error("Price is out of valid ranges");
 };
 
-export const getValidBidOrSuggestion = (maxBid: number): number | string => {
-  const range = getStepForPrice(maxBid);
+export const getValidBidOrSuggestion = (price: number): number | string => {
+  const range = getStepForPrice(price);
 
-  const remainder = (maxBid - range.min) % range.step;
+  const remainder = (price - range.min) % range.step;
 
   if (remainder === 0) {
-    return maxBid;
+    return price;
   } else {
-    const suggestedBid = maxBid + (range.step - remainder);
+    const suggestedBid = price + (range.step - remainder);
     return suggestedBid;
   }
 };

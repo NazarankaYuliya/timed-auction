@@ -90,6 +90,15 @@ const BidForm = ({
     return "bg-beige";
   };
 
+  const getBidStatusMessage = () => {
+    if (userBid && currentBid) {
+      return winner === userId?.toString()
+        ? "Sie sind Höchstbietender!"
+        : "Sie wurden überboten!";
+    }
+    return "";
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="font-semibold text-gold">
@@ -118,9 +127,15 @@ const BidForm = ({
         </>
       )}
 
-      <div className={`flex gap-2 p-1 font-semibold ${getUserBidStyle()}`}>
-        Ihr Maximalgebot: {userBid ? `€${userBid}` : "Noch keine Gebote"}
-        {success && <div>✔️</div>}
+      <div
+        className={`flex justify-between gap-2 p-1 font-semibold ${getUserBidStyle()}`}
+      >
+        <div className="flex gap-2">
+          Ihr Maximalgebot: {userBid ? `€${userBid}` : "Noch keine Gebote"}
+          {success && <div>✔️</div>}
+        </div>
+
+        <span className="">{getBidStatusMessage()}</span>
       </div>
 
       {isAuctionActive ? (
