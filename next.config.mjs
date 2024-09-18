@@ -1,18 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async headers() {
-    return [
-      {
-        source: "/admin",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=60",
-          },
-        ],
-      },
-    ];
-  },
   images: {
     remotePatterns: [
       {
