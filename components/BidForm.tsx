@@ -100,7 +100,7 @@ const BidForm = ({
   };
 
   return (
-    <div className="flex flex-col justify-between gap-2">
+    <div className="flex flex-col justify-between gap-2 h-60">
       <div className="w-full flex justify-between gap-4 items-baseline">
         <span className="text-grafit">Aktuelles Gebot:</span>
         {currentBid ? (
@@ -166,32 +166,43 @@ const BidForm = ({
         <div className="text-sm text-gray-600">{getBidStatusMessage()}</div>
       </div>
 
-      {isAuctionActive && (
-        <form onSubmit={placeBid} className="flex flex-col gap-2">
-          <div className="flex gap-2 w-full">
-            <input
-              type="number"
-              value={bidAmount}
-              onChange={(e) => setBidAmount(e.target.value)}
-              placeholder="Ihr Gebot"
-              className={`w-full p-2 border text-grafit
-              ${error ? "border-red-700" : "border-green-700"}
-              focus:border-gold focus:outline-none`}
-              required
-            />
-            <button
-              type="submit"
-              className="py-2 px-4 border  border-grafit text-grafit
-              hover:border-gold hover:text-gold transition-colors duration-300 ease-in-out
-              focus:outline-none disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              {loading ? "Laden..." : "Bieten"}
-            </button>
-          </div>
-          <p className="h-2"></p>
-          {error && <p className="text-xs text-red-700 mt-1">{error}</p>}
-        </form>
-      )}
+      <form onSubmit={placeBid} className="flex flex-col gap-2">
+        <div className="flex gap-2 w-full">
+          <input
+            type="number"
+            value={bidAmount}
+            onChange={(e) => setBidAmount(e.target.value)}
+            placeholder="Ihr Gebot"
+            className={`w-full p-2 border text-grafit
+    ${
+      error
+        ? "border-red-700"
+        : isAuctionActive
+        ? "border-cgreen"
+        : "border-gray-300"
+    }
+    ${isAuctionActive ? "focus:border-gold" : "bg-gray-100 cursor-not-allowed"}
+    focus:outline-none`}
+            required
+            disabled={!isAuctionActive}
+          />
+
+          <button
+            type="submit"
+            className={`py-2 px-4 border ${
+              isAuctionActive
+                ? "border-cgreen text-cgreen hover:border-gold hover:text-gold"
+                : "border-gray-300 text-gray-300 cursor-not-allowed"
+            } transition-colors duration-300 ease-in-out focus:outline-none`}
+            disabled={!isAuctionActive}
+          >
+            {loading ? "Laden..." : "Bieten"}
+          </button>
+        </div>
+        <div className="h-5">
+          {error && <span className="text-xs text-red-700 mt-1">{error}</span>}
+        </div>
+      </form>
     </div>
   );
 };

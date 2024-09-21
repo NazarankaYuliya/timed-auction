@@ -67,8 +67,8 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
         />
       ) : (
         <>
-          {isAuctionActive && (
-            <div className="flex flex-col gap-2">
+          {isAuctionActive ? (
+            <div className="h-9 flex flex-col gap-2">
               <div className="w-full flex justify-between gap-4  items-baseline">
                 <span className="text-grafit">Aktuelles Gebot:</span>
                 {currentBid ? (
@@ -84,12 +84,29 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
                 )}
               </div>
 
-              <p className="w-full text-sm text-grafit font-oswald bg-beige flex gap-2 items-center px-2 py-1 mt-4">
+              <p className="w-full text-sm text-grafit font-oswald bg-beige flex gap-2 items-center px-2 py-1 mt-2">
                 <span role="img" aria-label="info">
                   ⚠️
                 </span>{" "}
                 Melden Sie sich an, um ein Gebot abzugeben.
               </p>
+            </div>
+          ) : (
+            <div className="h-9">
+              {currentBid ? (
+                <>
+                  <div className="w-full h-6 flex justify-between gap-4  items-baseline">
+                    <span className="text-grafit">Verkaufspreis:</span>
+                    <div className="">
+                      <span className=" font-semibold text-gold">
+                        € {currentBid.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           )}
         </>
@@ -97,7 +114,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
       <div className="w-full mt-4">
         {auctionStatus ? (
           <h2 className="text-sm text-gray-500 tracking-wide">
-            {auctionStatus}
+            {currentBid ? <>Los verkauft</> : <>{auctionStatus}</>}
           </h2>
         ) : (
           <div className="text-sm text-gray-500 tracking-wide">
