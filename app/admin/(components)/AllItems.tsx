@@ -3,7 +3,7 @@
 import { IItem } from "@types";
 import { useEffect, useState } from "react";
 
-const AllItems = async () => {
+const AllItems = () => {
   const [items, setItems] = useState<IItem[]>([]);
   const [pageLoading, setPageLoading] = useState(false);
 

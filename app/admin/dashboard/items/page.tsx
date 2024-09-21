@@ -2,8 +2,8 @@
 
 import AllItems from "@app/admin/(components)/AllItems";
 
-const Bids = () => {
+const Items = () => {
   return <AllItems />;
 };
 
-export default Bids;
+export default Items;
