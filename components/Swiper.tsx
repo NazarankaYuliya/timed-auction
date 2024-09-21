@@ -15,13 +15,13 @@ interface SwiperComponentProps {
 export default function SwiperComponent({ images }: SwiperComponentProps) {
   return images.length > 0 ? (
     <Swiper
-      modules={[Navigation, Pagination, A11y, Zoom]}
-      spaceBetween={10}
+      modules={[Navigation, Pagination, A11y]}
+      spaceBetween={1}
       slidesPerView={1}
       navigation={true}
       pagination={{ clickable: true }}
       loop={false}
-      className="w-full h-full "
+      className="w-full h-full"
     >
       {images.map((imgUrl: string, index: number) => (
         <SwiperSlide key={index}>
@@ -29,7 +29,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
             src={imgUrl}
             alt={`Image ${index + 1}`}
             loading="lazy"
-            className="w-full h-full object-contain rounded-lg "
+            className="w-full h-full object-contain"
           />
         </SwiperSlide>
       ))}

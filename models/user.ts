@@ -12,6 +12,7 @@ interface UserDocument extends Document {
   country: string;
   phone: string;
   agb: string;
+  privacyPolicy: string;
   verificationCode: string | undefined;
   verifyToken: string | undefined;
   verifyTokenExpire: Date | undefined;
@@ -34,6 +35,7 @@ const UserSchema = new Schema<UserDocument>({
   country: String,
   phone: String,
   agb: String,
+  privacyPolicy: String,
   verificationCode: String,
   verifyToken: String,
   verifyTokenExpire: Date,

@@ -55,7 +55,7 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   }, [item, endDate, startDate]);
 
   return (
-    <div className="w-full flex flex-col gap-4 text-sm">
+    <div className="w-full flex flex-col gap-6">
       {status === "user" ? (
         <BidForm
           currentBid={currentBid}
@@ -68,20 +68,41 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
       ) : (
         <>
           {isAuctionActive && (
-            <p className="text-sm text-grafit font-bold bg-beige p-2">
-              <span role="img" aria-label="info">
-                ⚠️
-              </span>{" "}
-              Melden Sie sich an, um ein Gebot abzugeben.
-            </p>
+            <div className="flex flex-col gap-2">
+              <div className="w-full flex justify-between gap-4  items-baseline">
+                <span className="text-grafit">Aktuelles Gebot:</span>
+                {currentBid ? (
+                  <div className="">
+                    <span className=" font-semibold text-gold">
+                      € {currentBid.toFixed(2)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-gray-500 text-xs">
+                    Sei der Erste, der bietet!
+                  </span>
+                )}
+              </div>
+
+              <p className="w-full text-sm text-grafit font-oswald bg-beige flex gap-2 items-center px-2 py-1 mt-4">
+                <span role="img" aria-label="info">
+                  ⚠️
+                </span>{" "}
+                Melden Sie sich an, um ein Gebot abzugeben.
+              </p>
+            </div>
           )}
         </>
       )}
-      <div>
+      <div className="w-full mt-4">
         {auctionStatus ? (
-          <h2 className="text-sm text-grafit">{auctionStatus}</h2>
+          <h2 className="text-sm text-gray-500 tracking-wide">
+            {auctionStatus}
+          </h2>
         ) : (
-          <div className="text-sm text-garit">{timeRemaining}</div>
+          <div className="text-sm text-gray-500 tracking-wide">
+            {timeRemaining}
+          </div>
         )}
       </div>
     </div>

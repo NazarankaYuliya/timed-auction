@@ -44,7 +44,7 @@ export default function UserRegisterForm() {
   };
 
   return (
-    <div className="mt-6 mx-auto w-full max-w-md p-4  font-display">
+    <div className="mt-6 mx-auto w-full max-w-md p-4 font-display">
       {error && (
         <div className="flex items-center justify-center mb-4 p-4 text-red-700 border-b border-red-700">
           {error}
@@ -194,11 +194,42 @@ export default function UserRegisterForm() {
             type="checkbox"
             name="agb"
             id="agb"
-            className="w-6 h-6 text-gold border-grafit focus:ring-gold dark:focus:ring-gold dark:ring-offset-grafit dark:bg-gold dark:border-gold"
+            className="w-4 h-4 text-gold border-grafit focus:ring-gold dark:focus:ring-gold dark:ring-offset-grafit dark:bg-gold dark:border-gold"
           />
           <label htmlFor="agb" className="ml-3 text-grafit text-sm">
-            Ich habe die Allgemeinen Geschäftsbedingungen (AGB) gelesen und
-            stimme zu
+            Ich habe die{" "}
+            <Link
+              href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2024/Versteigerungsbedingungen_KJF24.pdf"
+              className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Allgemeinen Geschäftsbedingungen (AGB)
+            </Link>{" "}
+            gelesen und stimme zu
+          </label>
+        </div>
+
+        <div className="flex items-center mb-4">
+          <input
+            required
+            type="checkbox"
+            name="privacyPolicy"
+            id="privacyPolicy"
+            className="w-4 h-4 text-gold border-grafit focus:ring-gold dark:focus:ring-gold dark:ring-offset-grafit dark:bg-gold dark:border-gold"
+          />
+          <label htmlFor="privacyPolicy" className="ml-3 text-grafit text-sm">
+            Ich habe die{" "}
+            <Link
+              href="https://www.petzold-auktionen.de/datenschutz"
+              className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Datenschutzerklärung
+            </Link>{" "}
+            gelesen und stimme der Verarbeitung meiner personenbezogenen Daten
+            zu
           </label>
         </div>
 

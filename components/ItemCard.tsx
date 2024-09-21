@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ImageComponent from "./ImageComponent";
 import { IItem } from "@types";
 import AuctionContainer from "./AuctionContainer";
+import ItemDescription from "./ItemDescription";
 
 interface ItemCardProps {
   item: IItem;
@@ -19,22 +20,25 @@ const ItemCard: React.FC<ItemCardProps> = ({
   return (
     <div
       key={item._id}
-      className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 p-4 text-sm border-b border-gold"
+      className="w-80 h-auto flex flex-col shadow-lg font-display p-4 bg-white"
     >
-      <div className="flex items-center justify-center mb-4 sm:mb-0 col-span-1 ">
+      <div className="flex items-center justify-center w-full h-72 relative cursor-pointer">
         <ImageComponent itemImage={item.image} />
       </div>
 
-      <div className="pl-6 pr-6 pt-4 pb-4 flex flex-col gap-2  col-span-1 sm:col-span-2 md:col-span-2 border-0 border-gold sm:border-l  md:border-r">
-        <p className="text-gold">Losnummer: {item.catalogNumber}</p>
-        <p className="text-gold text-justify">
-          Beschreibung:{" "}
-          <span className="text-xs text-grafit">{item.description}</span>{" "}
-        </p>
-        <p className="text-gold">Aufruf: €{item.startPrice}</p>
+      <div className="w-full flex flex-col gap-1 mt-2">
+        <ItemDescription
+          catalogNumber={item.catalogNumber}
+          description={item.description}
+        />
+        <div className="w-full flex justify-between gap-6  mt-5">
+          <span className="text-grafit"> Aufruf:</span>
+          <span className=" font-semibold text-grafit">
+            € {item.startPrice.toFixed(2)}
+          </span>
+        </div>
       </div>
-
-      <div className="pl-6 pr-6 pt-4 pb-4 col-span-1 sm:col-span-3 md:col-span-2 border-0 border-gold sm:border md:border-0">
+      <div className="w-full mt-auto">
         <AuctionContainer
           item={{
             ...item,

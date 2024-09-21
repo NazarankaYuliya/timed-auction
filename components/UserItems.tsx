@@ -4,6 +4,8 @@ import LogoutButton from "./LogoutButton";
 import User from "@models/user";
 import { IItem, IUser } from "@types";
 import ItemsWrapper from "./ItemsWrapper";
+import HeaderTitle from "./HeaderTitle";
+import Link from "next/link";
 
 export default async function UserItems({ session }: { session: any }) {
   let items: IItem[] = [];
@@ -18,15 +20,23 @@ export default async function UserItems({ session }: { session: any }) {
   }
 
   return (
-    <div className="container mx-auto p-4 font-display">
-      <div className="sticky top-0 left-0 w-full z-10 bg-white pt-2 pb-4">
-        <div className="flex justify-between space-x-4 p-3 border border-gold ">
-          <div>
+    <div className="">
+      <div className="sticky top-0 left-0 w-full z-10 bg-white pt-2 pb-4 flex flex-row flex-wrap items-center justify-between px-2 pt-1 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
+        <HeaderTitle />
+
+        <div className="flex gap-6 items-center">
+          <div className="text-left">
             <p className="text-sm font-medium text-grafit">
               {user.firstName} {user.lastName}
             </p>
             <p className="text-xs text-gray-500">{user.email}</p>
           </div>
+          <Link
+            href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2024/Versteigerungsbedingungen_KJF24.pdf"
+            className="border-2 rounded-lg border-grafit px-2 py-1 hover:text-gold hover:border-gold transition duration-300 text-xs uppercase tracking-wide"
+          >
+            AGB
+          </Link>
           <LogoutButton />
         </div>
       </div>

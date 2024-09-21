@@ -1,12 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* .swiper-button-next,
+* {
+  box-sizing: border-box;
+}
+
+.swiper-button-next,
 .swiper-button-prev {
-  color: #46e534cc !important;
-} */
+  color: #ceb27a !important;
+}
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
@@ -18,10 +25,10 @@
   opacity: 0 !important;
 }
 
-/* .swiper-pagination-bullet-active {
-  background-color: #46e534cc !important;
+.swiper-pagination-bullet-active {
+  background-color: #ceb27a !important;
 }
 
 .swiper-pagination-bullet {
-  background-color: rgba(70, 229, 52, 0.8) !important;
-} */
+  background-color: rgba(206, 178, 122, 0.8) !important;
+}

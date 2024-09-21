@@ -96,77 +96,101 @@ const BidForm = ({
         ? "Sie sind Höchstbietender!"
         : "Sie wurden überboten!";
     }
-    return "";
+    return "Sie haben noch kein Gebot abgegeben.";
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="font-semibold text-gold">
-        Aktuelles Gebot:{" "}
-        {currentBid ? <>€{currentBid}</> : <span>Noch keine Gebote</span>}
+    <div className="flex flex-col justify-between gap-2">
+      <div className="w-full flex justify-between gap-4 items-baseline">
+        <span className="text-grafit">Aktuelles Gebot:</span>
+        {currentBid ? (
+          <span className=" font-semibold text-gold">
+            € {currentBid.toFixed(2)}
+          </span>
+        ) : (
+          <span className="text-gray-500 text-xs">
+            Sei der Erste, der bietet!
+          </span>
+        )}
       </div>
 
-      {currentBid && (
-        <>
-          {item.isMarked ? (
-            <span className="text-sm text-gray-500">
-              {" "}
-              Gesamtpreis inkl. Provision und MwSt. : €
-              {(currentBid * 1.15 * 1.19).toFixed(2)}
+      <div className="w-full flex justify-between gap-6 items-baseline text-xs text-gray-500 mt-5">
+        <span>Gesamtpreis inkl. Provision und MwSt.:</span>
+        {currentBid ? (
+          <div className="flex gap-1">
+            <span>€</span>
+            <span>
+              {(item.isMarked
+                ? currentBid * 1.15 * 1.19
+                : currentBid * 1.15 * 1.19
+              ).toFixed(2)}
             </span>
-          ) : (
-            <span className="text-sm text-gray-500">
-              {" "}
-              Gesamtpreis inkl. Provision und MwSt. : €
-              {(currentBid + currentBid * 0.15 * 1.19).toFixed(2)}
-            </span>
-          )}
-          <div className="text-sm text-gray-500">
-            Nächster Gebotsschritt: €{currentBid + biddingStep}
           </div>
-        </>
-      )}
+        ) : (
+          <div className="flex gap-1">
+            <span>€</span>
+            <span>
+              {(item.isMarked
+                ? item.startPrice * 1.15 * 1.19
+                : item.startPrice * 1.15 * 1.19
+              ).toFixed(2)}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="flex justify-between gap-6 items-baseline text-xs text-gray-500 mb-5">
+        <span>Nächster Gebotsschritt:</span>
+        {currentBid ? (
+          <span> € {(currentBid + biddingStep).toFixed(2)}</span>
+        ) : (
+          <span> € {item.startPrice.toFixed(2)}</span>
+        )}
+      </div>
 
       <div
-        className={`flex justify-between gap-2 p-1 font-semibold ${getUserBidStyle()}`}
+        className={`flex flex-col gap-2 font-semibold ${getUserBidStyle()} p-2`}
       >
-        <div className="flex gap-2">
-          Ihr Maximalgebot: {userBid ? `€${userBid}` : "Noch keine Gebote"}
-          {success && <div>✔️</div>}
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold">Ihr Maximalgebot:</span>
+          <span>
+            {userBid ? (
+              <span>€ {userBid.toFixed(2)}</span>
+            ) : (
+              <span className="text-xs">Noch keine Gebote</span>
+            )}
+          </span>
+          {success && <div className="text-green-500 text-lg">✔️</div>}
         </div>
 
-        <span className="">{getBidStatusMessage()}</span>
+        <div className="text-sm text-gray-600">{getBidStatusMessage()}</div>
       </div>
 
-      {isAuctionActive ? (
-        <form onSubmit={placeBid} className="flex flex-col gap-2 relative">
-          <div className="flex gap-2 w-full relative">
+      {isAuctionActive && (
+        <form onSubmit={placeBid} className="flex flex-col gap-2">
+          <div className="flex gap-2 w-full">
             <input
               type="number"
               value={bidAmount}
               onChange={(e) => setBidAmount(e.target.value)}
               placeholder="Ihr Gebot"
-              className={`w-full p-1 border-b border-grafit focus:border-gold outline-none text-grafit  ${
-                error ? "border-red-700" : "border-green-700"
-              }`}
+              className={`w-full p-2 border text-grafit
+              ${error ? "border-red-700" : "border-green-700"}
+              focus:border-gold focus:outline-none`}
               required
             />
             <button
               type="submit"
-              className="py-1 px-2 border-b border-grafit text-grafit
-              hover:border-b-2 hover:border-gold
-              transition-border duration-300 ease-in-out
-              hover:text-gold  focus:outline-none focus:shadow-outline disabled:bg-gray-300 disabled:cursor-not-allowed"
+              className="py-2 px-4 border  border-grafit text-grafit
+              hover:border-gold hover:text-gold transition-colors duration-300 ease-in-out
+              focus:outline-none disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
               {loading ? "Laden..." : "Bieten"}
             </button>
           </div>
-          {error && <p className="text-xs text-red-700 flex gap-1">{error}</p>}
+          <p className="h-2"></p>
+          {error && <p className="text-xs text-red-700 mt-1">{error}</p>}
         </form>
-      ) : (
-        <div className="text-sm text-gray-500">
-          Das Auktionsgebot ist derzeit nicht aktiv.
-        </div>
       )}
     </div>
   );

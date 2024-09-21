@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     country,
     phone,
     agb,
+    privacyPolicy,
   } = await req.json();
 
   try {
@@ -44,6 +45,7 @@ export async function POST(req: Request) {
       country,
       phone,
       agb,
+      privacyPolicy,
       isVerified: false,
     });
 
