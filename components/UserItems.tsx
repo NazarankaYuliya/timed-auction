@@ -34,6 +34,8 @@ export default async function UserItems({ session }: { session: any }) {
           <Link
             href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2024/Versteigerungsbedingungen_KJF24.pdf"
             className="border-2 rounded-lg border-grafit px-2 py-1 hover:text-gold hover:border-gold transition duration-300 text-xs uppercase tracking-wide"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             AGB
           </Link>
