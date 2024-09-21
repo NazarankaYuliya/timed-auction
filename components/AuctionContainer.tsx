@@ -18,8 +18,8 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   const [endDate, setEndDate] = useState<Date>(item.auctionDates.endDate);
   const [startDate, setStartDate] = useState<Date>(item.auctionDates.startDate);
   const [timeRemaining, setTimeRemaining] = useState<string>("");
+  const [statusMessage, setStatusMessage] = useState<string>("");
   const [auctionStatus, setAuctionStatus] = useState<string>("");
-  const [isAuctionActive, setIsAuctionActive] = useState<boolean>(false);
 
   useEffect(() => {
     setCurrentBid(item.currentBid);
@@ -35,16 +35,16 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
 
       if (now < start) {
         const startStatus = formatDateAndTime(start);
-        setAuctionStatus(`Los öffnet am ${startStatus}`);
-        setIsAuctionActive(false);
+        setStatusMessage(`Los öffnet am ${startStatus}`);
+        setAuctionStatus("upcoming");
       } else if (now < end) {
-        setAuctionStatus("");
+        setStatusMessage("");
         setTimeRemaining(calculateTimeRemaining(end));
-        setIsAuctionActive(true);
+        setAuctionStatus("active");
       } else {
-        setAuctionStatus("Los geschlossen");
+        setStatusMessage("Los geschlossen");
         setTimeRemaining("");
-        setIsAuctionActive(false);
+        setAuctionStatus("finished");
       }
     };
 
@@ -55,28 +55,36 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
   }, [item, endDate, startDate]);
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-4">
       {status === "user" ? (
         <BidForm
           currentBid={currentBid}
           biddingStep={biddingStep}
           userId={userId}
           item={item}
-          isAuctionActive={isAuctionActive}
+          auctionStatus={auctionStatus}
           winner={winner}
         />
       ) : (
         <>
-          {isAuctionActive ? (
-            <div className="h-9 flex flex-col gap-2">
+          {auctionStatus === "upcoming" ? (
+            <></>
+          ) : (
+            <div
+              className={`flex flex-col gap-2  ${
+                auctionStatus === "finished" && !currentBid ? "invisible" : ""
+              }`}
+            >
               <div className="w-full flex justify-between gap-4  items-baseline">
-                <span className="text-grafit">Aktuelles Gebot:</span>
+                <span className="text-grafit">
+                  {auctionStatus === "finished"
+                    ? "Verkaufspreis:"
+                    : "Aktuelles Gebot:"}
+                </span>
                 {currentBid ? (
-                  <div className="">
-                    <span className=" font-semibold text-gold">
-                      € {currentBid.toFixed(2)}
-                    </span>
-                  </div>
+                  <span className=" font-semibold text-gold">
+                    € {currentBid.toFixed(2)}
+                  </span>
                 ) : (
                   <span className="text-gray-500 text-xs">
                     Sei der Erste, der bietet!
@@ -84,37 +92,25 @@ const AuctionContainer = ({ item, userId, status }: AuctionContainerProps) => {
                 )}
               </div>
 
-              <p className="w-full text-sm text-grafit font-oswald bg-beige flex gap-2 items-center px-2 py-1 mt-2">
+              <p
+                className={`w-full text-sm text-grafit font-oswald bg-beige flex gap-2 items-center px-2 py-1 mt-2 ${
+                  auctionStatus === "finished" ? "invisible" : ""
+                }`}
+              >
                 <span role="img" aria-label="info">
                   ⚠️
                 </span>{" "}
                 Melden Sie sich an, um ein Gebot abzugeben.
               </p>
             </div>
-          ) : (
-            <div className="h-9">
-              {currentBid ? (
-                <>
-                  <div className="w-full h-6 flex justify-between gap-4  items-baseline">
-                    <span className="text-grafit">Verkaufspreis:</span>
-                    <div className="">
-                      <span className=" font-semibold text-gold">
-                        € {currentBid.toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
           )}
         </>
       )}
+
       <div className="w-full mt-4">
-        {auctionStatus ? (
+        {statusMessage ? (
           <h2 className="text-sm text-gray-500 tracking-wide">
-            {currentBid ? <>Los verkauft</> : <>{auctionStatus}</>}
+            {currentBid ? <>Los verkauft</> : <>{statusMessage}</>}
           </h2>
         ) : (
           <div className="text-sm text-gray-500 tracking-wide">

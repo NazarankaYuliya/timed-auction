@@ -29,6 +29,24 @@ const getStepForPrice = (price: number): PriceRange => {
   throw new Error("Price is out of valid ranges");
 };
 
+export const validateBid = (
+  bid: number,
+  startPrice: number,
+  currentBid: number,
+) => {
+  if (bid < startPrice) {
+    return "Das Gebot darf nicht niedriger als der Startpreis sein";
+  }
+  if (bid < currentBid) {
+    return "Das Gebot muss höher als das aktuelle Gebot sein.";
+  }
+  const validBid = getValidBidOrSuggestion(bid);
+  if (typeof validBid === "number" && validBid !== bid) {
+    return `Ungültiges Gebot. Versuchen Sie: €${validBid}`;
+  }
+  return null;
+};
+
 export const getValidBidOrSuggestion = (price: number): number | string => {
   const range = getStepForPrice(price);
 
