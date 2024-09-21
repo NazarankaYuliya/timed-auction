@@ -40,6 +40,9 @@ const AllBids = () => {
 
   useEffect(() => {
     fetchItems();
+    return () => {
+      setItems([]);
+    };
   }, []);
   if (pageLoading) return <p>Loading...</p>;
   return (

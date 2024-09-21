@@ -21,6 +21,9 @@ const AllWinners = () => {
 
   useEffect(() => {
     fetchItems();
+    return () => {
+      setItems([]);
+    };
   }, []);
 
   if (loading) return <p>Loading...</p>;
