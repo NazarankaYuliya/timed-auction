@@ -21,7 +21,7 @@ export default async function UserItems({ session }: { session: any }) {
 
   return (
     <div className="">
-      <div className="sticky top-0 left-0 w-full z-10 bg-white pt-2 pb-4 flex flex-row flex-wrap items-center justify-between px-2 pt-1 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
+      <div className="sticky top-0 left-0 w-full z-10 bg-beige pt-2 pb-4 flex flex-row flex-wrap items-center justify-between px-2 pt-1 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
         <HeaderTitle />
 
         <div className="flex gap-6 items-center">
