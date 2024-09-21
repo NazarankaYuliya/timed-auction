@@ -18,7 +18,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
     <div className="relative w-full h-full">
       {itemImage.length > 0 ? (
         <Image
-          src={PIC}
+          src={itemImage[0]}
           alt="image of item"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
