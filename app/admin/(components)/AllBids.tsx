@@ -9,6 +9,7 @@ const AllBids = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchItems = async () => {
+    setItems([]);
     setPageLoading(true);
     try {
       const response = await fetch("/api/admin/get-items", { method: "GET" });
@@ -44,9 +45,12 @@ const AllBids = () => {
       setItems([]);
     };
   }, []);
-  if (pageLoading) return <p>Loading...</p>;
+
   return (
     <div className="container mx-auto p-4">
+      <button onClick={fetchItems} className="border p-2">
+        {pageLoading ? "Loading" : "Refresh bids"}
+      </button>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
