@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await connectToDB();
 
-    const items = await Item.find({}).lean();
+    const items = await Item.find({}).populate("bids.user").lean();
 
     return NextResponse.json(
       { message: "Items fetched", items },

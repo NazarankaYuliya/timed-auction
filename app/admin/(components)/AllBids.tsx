@@ -1,15 +1,15 @@
 "use client";
 
-import { IBid, IItem } from "@types";
+import { IItem } from "@types";
 import React, { useEffect, useState } from "react";
-import UserData from "./UserData";
-import RemoveBidButton from "./RemoveBidButton";
 
 const AllBids = () => {
   const [items, setItems] = useState<IItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchItems = async () => {
+    setPageLoading(true);
     try {
       const response = await fetch("/api/admin/get-items", { method: "GET" });
       const data = await response.json();
@@ -17,14 +17,31 @@ const AllBids = () => {
     } catch (error) {
       console.error("Error fetching bids:", error);
     } finally {
-      setLoading(false);
+      setPageLoading(false);
+    }
+  };
+
+  const handleDeleteBid = async (itemId: string, bidId: string) => {
+    setDeleteLoading(true);
+    try {
+      await fetch("/api/bid/remove-bid", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId, bidId }),
+      });
+    } catch (error) {
+      console.error("Error deleting bid:", error);
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
   useEffect(() => {
     fetchItems();
   }, []);
-  if (loading) return <p>Loading...</p>;
+  if (pageLoading) return <p>Loading...</p>;
   return (
     <div className="container mx-auto p-4">
       <div className="overflow-x-auto">
@@ -43,7 +60,7 @@ const AllBids = () => {
           <tbody>
             {items.map((item: IItem, index: number) => (
               <React.Fragment key={item._id}>
-                {item.bids?.map((bid: IBid, bidIndex: number) => (
+                {item.bids?.map((bid: any, bidIndex: number) => (
                   <tr key={`${item._id}-${bidIndex}`}>
                     <td className="py-2 px-4 border-b">{item.catalogNumber}</td>
                     <td className="py-2 px-4 border-b">€{item.startPrice}</td>
@@ -54,14 +71,17 @@ const AllBids = () => {
                         ? new Date(bid.createdAt).toLocaleString()
                         : "N/A"}
                     </td>
+                    <td className="py-2 px-4 border-b">{bid.user._id}</td>
                     <td className="py-2 px-4 border-b">
-                      {bid.user.toString()}
+                      {bid.user.firstName} {bid.user.lastName}
                     </td>
                     <td className="py-2 px-4 border-b">
-                      <UserData userId={bid.user} all={false} />
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      <RemoveBidButton itemId={item._id} bidId={bid._id} />
+                      <button
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                        onClick={() => handleDeleteBid(item._id, bid._id)}
+                      >
+                        {deleteLoading ? "Loading" : "Delete"}
+                      </button>
                     </td>
                   </tr>
                 ))}
