@@ -29,7 +29,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
             src={imgUrl}
             alt={`Image ${index + 1}`}
             loading="lazy"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain touch-auto touch-pinch-zoom"
           />
         </SwiperSlide>
       ))}
