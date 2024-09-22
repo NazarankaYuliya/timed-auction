@@ -99,7 +99,7 @@ const ItemDescription = ({
                 <strong>Zustand:</strong> {parsedData.condition}
               </li>
               <li>
-                <strong>Zubehör:</strong> {parsedData.accessories}
+                <strong>Weitere Details:</strong> {parsedData.accessories}
               </li>
             </ul>
             <button
