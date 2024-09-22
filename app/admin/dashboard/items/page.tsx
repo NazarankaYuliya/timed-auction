@@ -2,6 +2,8 @@ import Item from "@models/item";
 import { IItem } from "@types";
 import { connectToDB } from "@utils/database";
 
+export const dynamic = "force-dynamic";
+
 const Items = async () => {
   let items: IItem[] = [];
   try {
