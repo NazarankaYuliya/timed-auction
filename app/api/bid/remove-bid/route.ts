@@ -2,8 +2,10 @@ import mongoose from "mongoose";
 import Item from "@models/item";
 import { NextRequest, NextResponse } from "next/server";
 import { pusherServer } from "@utils/pusher";
+import { connectToDB } from "@utils/database";
 
 export async function POST(req: NextRequest) {
+  await connectToDB();
   const { itemId, bidId } = await req.json();
 
   try {
