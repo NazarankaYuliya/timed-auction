@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PlausibleProvider from "next-plausible";
+
 import { Inter } from "next/font/google";
 import "@styles/globals.css";
 
@@ -19,9 +19,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <PlausibleProvider domain="timed-auction.vercel.app">
-        <body className={inter.className}>{children}</body>
-      </PlausibleProvider>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
