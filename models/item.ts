@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import User from "@models/user";
 import { calculateStep } from "@utils/calculateStep";
 
 interface Bid {

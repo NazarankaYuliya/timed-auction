@@ -1,4 +1,3 @@
-"use client";
 import UploadItemsButton from "../(components)/uploadItems";
 import UploadImages from "../(components)/uploadImages";
 import SetAuctionDateComponent from "../(components)/setAuctionDate";

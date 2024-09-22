@@ -2,6 +2,8 @@ import { IUser } from "@types";
 import { connectToDB } from "@utils/database";
 import User from "@models/user";
 
+export const dynamic = "force-dynamic";
+
 const AllUsers = async () => {
   let users: IUser[] = [];
 
