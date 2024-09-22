@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import HeaderTitle from "@components/HeaderTitle";
 
 export default function UserLoginForm() {
   const [error, setError] = useState<string | null>(null);
@@ -78,109 +79,129 @@ export default function UserLoginForm() {
   };
 
   return (
-    <div className="mt-6 mx-auto w-full max-w-md p-4  font-display">
-      {error && (
-        <div className="flex items-center text-center justify-center mb-4 p-4 text-red-700 border-b border-red-700">
-          {error}
-        </div>
-      )}
+    <div>
+      <div className="w-full z-10 bg-beige flex flex-row items-center justify-between px-2 py-6 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
+        <HeaderTitle />
+        <nav className="flex flex-row flex-wrap gap-6 items-center">
+          <Link
+            href="/guest"
+            className="border-b border-grafit pb-2 hover:text-gold hover:border-gold transition-border duration-300 ease-in-out text-sm uppercase tracking-widest"
+          >
+            Home
+          </Link>
+        </nav>
+      </div>
 
-      {!isVerificationRequired ? (
-        <>
-          {/* <Link href="/" className="text-grafit hover:text-gold mb-4">
-            Startseite
-          </Link> */}
-          <h1 className="text-3xl text-center text-gold mb-6">Anmelden</h1>
+      <div className="mt-6 mx-auto w-full max-w-md p-4  font-display">
+        {error && (
+          <div className="flex items-center text-center justify-center mb-4 p-4 text-red-700 border-b border-red-700">
+            {error}
+          </div>
+        )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="relative">
-              <label
-                className="block text-grafit text-sm font-bold mb-1"
-                htmlFor="email"
-              >
-                E-Mail*
-              </label>
-              <input
-                required
-                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
-                name="email"
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+        {!isVerificationRequired ? (
+          <>
+            <h1 className="text-3xl text-center text-gold mb-6">Anmelden</h1>
 
-            <div className="relative">
-              <label
-                className="block text-grafit text-sm font-bold mb-1"
-                htmlFor="password"
-              >
-                Passwort*
-              </label>
-              <input
-                required
-                className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
-                name="password"
-                type="password"
-              />
-            </div>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="relative">
+                <label
+                  className="block text-grafit text-sm font-bold mb-1"
+                  htmlFor="email"
+                >
+                  E-Mail*
+                </label>
+                <input
+                  required
+                  className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
+                  name="email"
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-            <div className="text-center">
-              <button
-                className="border-b-2 border-grafit text-grafit
+              <div className="relative">
+                <label
+                  className="block text-grafit text-sm font-bold mb-1"
+                  htmlFor="password"
+                >
+                  Passwort*
+                </label>
+                <input
+                  required
+                  className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
+                  name="password"
+                  type="password"
+                />
+              </div>
+
+              <div className="text-center">
+                <button
+                  className="border-b-2 border-grafit text-grafit
                 hover:border-b-2 hover:border-gold
                 transition-border duration-300 ease-in-out
                 hover:text-gold  py-2 px-6 focus:outline-none focus:shadow-outline disabled:bg-gray-300 disabled:cursor-not-allowed"
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "Laden..." : "Senden"}
-              </button>
-            </div>
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? "Laden..." : "Senden"}
+                </button>
+              </div>
+              <div className="text-center mt-4">
+                <Link
+                  href="/forgot-password"
+                  className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+                >
+                  Passwort vergessen?
+                </Link>
+              </div>
+
+              <div className="text-center">
+                <p className="text-grafit text-sm mt-4">
+                  Sie haben noch kein Benutzerkonto eingerichtet?
+                </p>
+                <Link
+                  href="/register"
+                  className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+                >
+                  Klicken Sie hier
+                </Link>
+              </div>
+            </form>
+          </>
+        ) : (
+          <>
             <div className="text-center">
-              <p className="text-grafit text-sm mt-10">
-                Sie haben noch kein Benutzerkonto eingerichtet?
+              <h2 className="text-xl font-bold mb-6 text-gold">
+                Bitte überprüfen Sie Ihre E-Mails!
+              </h2>
+              <p className="text-grafit">
+                Ein Bestätigungslink wurde an die E-Mail gesendet:{" "}
+                <p className="font-bold">{email}</p>Bitte überprüfen Sie Ihr
+                Postfach und klicken Sie auf den Link, um Ihre Anmeldung
+                abzuschließen.
               </p>
-              <Link
-                href="/register"
-                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
-              >
-                Klicken Sie hier
-              </Link>
+              <p className="text-grafit mt-6">
+                Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren
+                Spam-Ordner oder{" "}
+                <button
+                  onClick={handleResendEmail}
+                  className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
+                >
+                  klicken Sie hier
+                </button>{" "}
+                um den Link erneut zu senden.
+              </p>
             </div>
-          </form>
-        </>
-      ) : (
-        <>
-          <div className="text-center">
-            <h2 className="text-xl font-bold mb-6 text-gold">
-              Bitte überprüfen Sie Ihre E-Mails!
-            </h2>
-            <p className="text-grafit">
-              Ein Bestätigungslink wurde an die E-Mail gesendet:{" "}
-              <p className="font-bold">{email}</p>Bitte überprüfen Sie Ihr
-              Postfach und klicken Sie auf den Link, um Ihre Anmeldung
-              abzuschließen.
-            </p>
-            <p className="text-grafit mt-6">
-              Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren Spam-Ordner
-              oder{" "}
-              <button
-                onClick={handleResendEmail}
-                className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
-              >
-                klicken Sie hier
-              </button>{" "}
-              um den Link erneut zu senden.
-            </p>
-          </div>
-          {isCodeResent && (
-            <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 ">
-              Die Bestätigungs-E-Mail wurde erneut gesendet. <br /> Bitte
-              überprüfen Sie Ihr Postfach.
-            </div>
-          )}
-        </>
-      )}
+            {isCodeResent && (
+              <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 ">
+                Die Bestätigungs-E-Mail wurde erneut gesendet. <br /> Bitte
+                überprüfen Sie Ihr Postfach.
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
