@@ -50,9 +50,6 @@ export async function POST(req: Request) {
     });
 
     const verificationToken = newUser.getVerificationToken();
-
-    console.log(verificationToken);
-
     await newUser.save();
 
     const message = verificationEmailTemplate(verificationToken);

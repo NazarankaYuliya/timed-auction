@@ -16,8 +16,11 @@ interface UserDocument extends Document {
   verificationCode: string | undefined;
   verifyToken: string | undefined;
   verifyTokenExpire: Date | undefined;
+  resetToken: string | undefined;
+  resetTokenExpire: Date | undefined;
   isVerified: Boolean;
   getVerificationToken: () => string;
+  getPasswordResetToken: () => string;
 }
 
 const UserSchema = new Schema<UserDocument>({
@@ -38,6 +41,8 @@ const UserSchema = new Schema<UserDocument>({
   privacyPolicy: String,
   verificationCode: String,
   verifyToken: String,
+  resetToken: String,
+  resetTokenExpire: Date,
   verifyTokenExpire: Date,
   isVerified: Boolean,
 });
@@ -53,6 +58,19 @@ UserSchema.methods.getVerificationToken = function (): string {
   this.verifyTokenExpire = new Date(Date.now() + 30 * 60 * 1000);
 
   return verificationToken;
+};
+
+UserSchema.methods.getPasswordResetToken = function (): string {
+  const passwordResetToken = crypto.randomBytes(3).toString("hex");
+
+  this.resetToken = crypto
+    .createHash("sha256")
+    .update(passwordResetToken)
+    .digest("hex");
+
+  this.resetTokenExpire = new Date(Date.now() + 30 * 60 * 1000);
+
+  return passwordResetToken;
 };
 
 const User: Model<UserDocument> =
