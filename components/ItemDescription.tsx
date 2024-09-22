@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 
 const ItemDescription = ({
   catalogNumber,
@@ -75,9 +76,11 @@ const ItemDescription = ({
         </button>
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20 size-full">
-          <div className="bg-white mx-2 my-1 p-4 shadow-lg max-w-lg w-full text-center relative flex flex-col gap-4">
+      <Dialog open={isModalOpen} onClose={closeModal} className="relative z-10">
+        <div className="fixed inset-0 bg-black bg-opacity-50" />
+
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <DialogPanel className="bg-white mx-2 my-1 p-10 shadow-lg max-w-lg w-full text-center relative flex flex-col gap-4">
             <h2 className="text-lg font-bold text-gold mb-2">
               {catalogNumber} - {parsedData.title}
             </h2>
@@ -108,9 +111,9 @@ const ItemDescription = ({
             >
               &times;
             </button>
-          </div>
+          </DialogPanel>
         </div>
-      )}
+      </Dialog>
     </div>
   );
 };
