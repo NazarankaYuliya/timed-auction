@@ -19,9 +19,11 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <PlausibleProvider domain="timed-auction.vercel.app">
-        <body className={inter.className}>{children}</body>
-      </PlausibleProvider>
+      <head>
+        <PlausibleProvider domain="timed-auction.vercel.app" />
+      </head>
+
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
