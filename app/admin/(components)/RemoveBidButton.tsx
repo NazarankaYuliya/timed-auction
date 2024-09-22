@@ -1,4 +1,7 @@
 "use client";
+
+import { useState } from "react";
+
 const RemoveBidButton = ({
   itemId,
   bidId,
@@ -6,7 +9,9 @@ const RemoveBidButton = ({
   itemId: string;
   bidId: string;
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const handleDeleteBid = async (itemId: string, bidId: string) => {
+    setLoading(true);
     try {
       await fetch("/api/bid/remove-bid", {
         method: "POST",
@@ -15,7 +20,7 @@ const RemoveBidButton = ({
         },
         body: JSON.stringify({ itemId, bidId }),
       });
-      window.location.reload();
+      setLoading(false);
     } catch (error) {
       console.error("Error deleting bid:", error);
     }
@@ -26,7 +31,7 @@ const RemoveBidButton = ({
       className="bg-red-500 text-white px-2 py-1 rounded"
       onClick={() => handleDeleteBid(itemId, bidId)}
     >
-      Delete
+      {loading ? "Loading" : "Delete"}
     </button>
   );
 };
