@@ -31,7 +31,9 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
             src={imgUrl}
             alt={`Image ${index + 1}`}
             fill
-            className="w-full h-full object-contain "
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={60}
+            className="w-full h-full object-contain"
           />
         </SwiperSlide>
       ))}

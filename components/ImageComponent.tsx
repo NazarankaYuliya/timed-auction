@@ -21,8 +21,9 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
           src={itemImage[0]}
           alt="image of item"
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover cursor-pointer"
+          sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
+          className="cursor-pointer object-cover"
+          quality={60}
           onClick={openImageFull}
         />
       ) : (
@@ -30,7 +31,8 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
           src={IMG}
           alt="image of item"
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
+          quality={65}
           className="object-cover"
         />
       )}
