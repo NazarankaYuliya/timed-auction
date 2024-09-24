@@ -23,16 +23,16 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           className="cursor-pointer object-cover"
-          quality={60}
+          quality={65}
           onClick={openImageFull}
         />
       ) : (
         <Image
           src={IMG}
-          alt="image of item"
+          alt="image placeholder"
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
-          quality={65}
+          quality={75}
           className="object-cover"
         />
       )}
