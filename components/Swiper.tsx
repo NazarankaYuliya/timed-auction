@@ -2,6 +2,7 @@
 
 import { Navigation, Pagination, A11y, Zoom } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 import IMG from "@public/assets/images/placeholder-image.jpg";
 
 import "swiper/css";
@@ -26,10 +27,10 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
     >
       {images.map((imgUrl: string, index: number) => (
         <SwiperSlide key={index}>
-          <img
+          <Image
             src={imgUrl}
             alt={`Image ${index + 1}`}
-            loading="lazy"
+            fill
             className="w-full h-full object-contain "
           />
         </SwiperSlide>
