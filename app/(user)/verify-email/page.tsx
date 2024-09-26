@@ -144,7 +144,7 @@ const VerifyEmail = () => {
             >
               klicken Sie hier
             </button>{" "}
-            um den Link erneut zu senden.
+            um den Code erneut zu senden.
           </p>
         </div>
         {isCodeResent && (

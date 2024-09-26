@@ -37,10 +37,8 @@ export default function UserLoginForm() {
       if (res.status === 403) {
         setIsVerificationRequired(true);
         setEmail(data.email as string);
-        setError(
-          "Bitte verifizieren Sie Ihre E-Mail, um den Login abzuschließen.",
-        );
-        handleResendEmail();
+        await handleResendEmail();
+        router.push(`/verify-email?email=${data.email}`);
       } else if (!res.ok) {
         setError("Ungültige Zugangsdaten");
       } else {
@@ -175,23 +173,6 @@ export default function UserLoginForm() {
               <h2 className="text-xl font-bold mb-6 text-gold">
                 Bitte überprüfen Sie Ihre E-Mails!
               </h2>
-              <p className="text-grafit">
-                Ein Bestätigungslink wurde an die E-Mail gesendet:{" "}
-                <p className="font-bold">{email}</p>Bitte überprüfen Sie Ihr
-                Postfach und klicken Sie auf den Link, um Ihre Anmeldung
-                abzuschließen.
-              </p>
-              <p className="text-grafit mt-6">
-                Wenn Sie die E-Mail nicht sehen, überprüfen Sie Ihren
-                Spam-Ordner oder{" "}
-                <button
-                  onClick={handleResendEmail}
-                  className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
-                >
-                  klicken Sie hier
-                </button>{" "}
-                um den Link erneut zu senden.
-              </p>
             </div>
             {isCodeResent && (
               <div className="flex items-center text-center justify-center mt-4 p-4 text-green-700 ">
