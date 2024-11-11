@@ -1,6 +1,7 @@
 import { connectToDB } from "@utils/database";
 import Item from "@models/item";
 import { IItem } from "@types";
+import DownloadButton from "./DownloadButton";
 
 export const dynamic = "force-dynamic";
 
@@ -48,11 +49,6 @@ const Winners = async () => {
 
   const soldPercentage =
     items.length > 0 ? ((soldItemsCount / items.length) * 100).toFixed(2) : 0;
-
-  const pieData = [
-    { name: "Sold Items", value: soldItemsCount },
-    { name: "Unsold Items", value: items.length - soldItemsCount },
-  ];
 
   return (
     <div className="container mx-auto p-6">
@@ -102,6 +98,8 @@ const Winners = async () => {
           </h2>
         </div>
       </div>
+
+      {winners.length > 0 && <DownloadButton winners={winners} />}
 
       <h2 className="text-xl font-bold mb-4">Winners List</h2>
       <div className="space-y-4">

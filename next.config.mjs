@@ -12,6 +12,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "petzold-filebrowser.bidsvio.online",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
