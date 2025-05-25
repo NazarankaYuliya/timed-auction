@@ -9,7 +9,7 @@ const URL = process.env.NINOX_LINK as string;
 async function getItems() {
   try {
     const filters = {
-      N1: "112",
+      N1: "128",
     };
     const response = await axios.get(URL, {
       headers: {
@@ -22,12 +22,14 @@ async function getItems() {
     });
 
     const data = response.data;
+    console.log(data);
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,
-      startPrice: getValidBidOrSuggestion(+item.M2),
-      isMarked: item.N2 === true,
+      startPrice: getValidBidOrSuggestion(+item.M2 ? +item.M2 : 0),
+      isMarked: item.N2 && item.N2 === true,
     }));
+    console.log(filteredData);
 
     return NextResponse.json(filteredData);
   } catch (error: any) {

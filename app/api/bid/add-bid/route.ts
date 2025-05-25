@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { pusherServer } from "@utils/pusher";
 import { getValidBidOrSuggestion } from "@utils/verifyLimit";
 import { connectToDB } from "@utils/database";
+import User from "@models/user";
+import { outbidEmailTemplate } from "@utils/outbidEmailTemplate";
+import { sendEmail } from "@utils/sendEmail";
 
 export async function POST(req: NextRequest) {
   await connectToDB();
@@ -54,7 +57,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const previousWinner = item.winner?.toString();
+
     await item.addBid(new mongoose.Types.ObjectId(userId), bidAmount);
+
+    const currentWinner = item.winner?.toString();
+
+    if (previousWinner && previousWinner !== currentWinner) {
+      const previousWinnerUser = await User.findById(previousWinner);
+      if (previousWinnerUser?.email) {
+        const emailHtml = outbidEmailTemplate({
+          username:
+            `${previousWinnerUser?.firstName} ${previousWinnerUser?.lastName}` ||
+            "",
+          itemNumber: item.catalogNumber,
+          newBid: item.currentBid,
+          link: `https://timed-auction.vercel.app/guest/#item-${item.catalogNumber}`,
+        });
+
+        await sendEmail(
+          previousWinnerUser.email,
+          "Ihre Gebot wurde überboten",
+          emailHtml,
+        );
+      } else {
+        console.log("Email not found for previous winner");
+      }
+    }
 
     await pusherServer.trigger("auction-channel", `bid-updated`, {
       itemId: itemId,

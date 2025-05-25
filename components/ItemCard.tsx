@@ -19,6 +19,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
 }: ItemCardProps) => {
   return (
     <div
+      id={`item-${item.catalogNumber}`}
       key={item._id}
       className="w-80 h-auto flex flex-col shadow-lg font-display p-4 bg-white"
     >
@@ -26,12 +27,12 @@ const ItemCard: React.FC<ItemCardProps> = ({
         <ImageComponent itemImage={item.image} />
       </div>
 
-      <div className="w-full flex flex-col gap-1 mt-2">
+      <div className="w-full flex-1 flex flex-col gap-1 mt-2">
         <ItemDescription
           catalogNumber={item.catalogNumber}
           description={item.description}
         />
-        <div className="w-full flex justify-between gap-6  mt-5">
+        <div className="w-full flex justify-between gap-6 mt-auto">
           <span className="text-grafit"> Aufruf:</span>
           <span className=" font-semibold text-grafit">
             € {item.startPrice.toFixed(2)}
