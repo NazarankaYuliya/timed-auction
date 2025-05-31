@@ -20,7 +20,11 @@ export default async function RootLayout({
   return (
     <html lang="de">
       <head>
-        <PlausibleProvider domain="timed-auction.vercel.app" />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="738e00f5-fd51-428e-9b3e-19dd895acbe3"
+        ></script>
       </head>
 
       <body className={inter.className}>{children}</body>

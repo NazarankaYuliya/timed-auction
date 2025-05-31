@@ -131,7 +131,7 @@ const Winners = async () => {
           return (
             <div
               key={winner.winnerId}
-              className="border rounded-lg p-4 shadow-lg flex gap-4 justify-between hover:bg-gray-100 transition duration-300"
+              className="border rounded-lg p-4 shadow-lg flex flex-col sm:flex-row gap-4 justify-between hover:bg-gray-100 transition duration-300"
             >
               <div className="flex-shrink-0">
                 <span className="font-bold text-xl">{index + 1}</span>
@@ -143,7 +143,7 @@ const Winners = async () => {
                 <p className="text-gray-600">{winner.winnerData.email}</p>
                 <p className="text-gray-600">{winner.winnerData.phone}</p>
               </div>
-              <div className="w-full">
+              <div className="w-full text-xs sm:text-base">
                 <div className="grid grid-cols-4 text-gray-500 mb-4">
                   <span>#</span>
                   <span>Catalog Nr.</span>
