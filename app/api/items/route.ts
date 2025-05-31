@@ -28,8 +28,8 @@ async function getItems() {
       description: item.D,
       startPrice: getValidBidOrSuggestion(+item.M2 ? +item.M2 : 0),
       isMarked: item.N2 && item.N2 === true,
+      image: item.O4,
     }));
-    console.log(filteredData);
 
     return NextResponse.json(filteredData);
   } catch (error: any) {
@@ -50,11 +50,11 @@ export async function POST() {
     const items = await rawItems.json();
 
     for (const item of items) {
-      const { catalogNumber, description, startPrice, isMarked } = item;
+      const { catalogNumber, description, startPrice, isMarked, image } = item;
 
       await Item.findOneAndUpdate(
         { catalogNumber },
-        { description, startPrice, isMarked },
+        { description, startPrice, isMarked, image },
         { upsert: true, new: true, setDefaultsOnInsert: true },
       );
     }

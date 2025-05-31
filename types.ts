@@ -1,17 +1,19 @@
+import { Types } from "mongoose";
+
 export interface IBid {
-  _id: string;
-  user: string;
+  _id: string | Types.ObjectId;
+  user: string | Types.ObjectId;
   amount: number;
   createdAt?: Date;
   isWinning: boolean;
 }
 
 export interface IItem {
-  _id: string;
+  _id: string | Types.ObjectId;
   catalogNumber: number;
   description: string;
   startPrice: number;
-  image: string[];
+  image: string;
   currentBid: number;
   biddingStep: number;
   auctionDates: {
@@ -19,12 +21,12 @@ export interface IItem {
     endDate: Date;
   };
   isMarked: boolean;
-  winner: string;
+  winner: string | Types.ObjectId;
   bids: IBid[];
 }
 
 export interface IUser {
-  _id: string;
+  _id: string | Types.ObjectId;
   firstName: string;
   lastName: string;
   email: string;

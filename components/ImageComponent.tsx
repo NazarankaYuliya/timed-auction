@@ -7,24 +7,26 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import SwiperComponent from "./Swiper";
 
 interface ImageComponentProps {
-  itemImage: string[];
+  itemImage: string;
 }
 
 const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
+  const linksArray = itemImage ? itemImage.split(",") : [];
   const [isImageFull, setIsImageFull] = useState(false);
   const openImageFull = () => setIsImageFull(true);
 
   return (
     <div className="relative w-full h-full">
-      {itemImage.length > 0 ? (
+      {linksArray.length > 0 ? (
         <Image
-          src={itemImage[0]}
+          src={linksArray[0]}
           alt="image of item"
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           className="cursor-pointer object-cover"
-          quality={65}
+          quality={50}
           onClick={openImageFull}
+          unoptimized
         />
       ) : (
         <Image
@@ -34,6 +36,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           quality={75}
           className="object-cover"
+          unoptimized
         />
       )}
 

@@ -13,8 +13,22 @@ export default async function GuestItems() {
 
   try {
     await connectToDB();
-
-    items = await Item.find({}).lean();
+    const rawItems = await Item.find({}).lean<IItem[]>();
+    items = rawItems.map((item) => ({
+      ...item,
+      _id: item._id.toString(),
+      bids:
+        item.bids?.map((bid) => ({
+          ...bid,
+          _id: bid._id.toString(),
+          user: bid.user.toString(),
+        })) ?? [],
+      winner: item.winner?.toString() ?? "",
+      auctionDates: {
+        startDate: new Date(item.auctionDates.startDate),
+        endDate: new Date(item.auctionDates.endDate),
+      },
+    }));
   } catch (error) {
     console.log(error);
   }
@@ -57,19 +71,7 @@ export default async function GuestItems() {
         </nav>
       </div>
 
-      <ItemsWrapper
-        items={items.map((item) => ({
-          ...item,
-          _id: item._id.toString(),
-          bids: item.bids?.map((bid) => ({
-            ...bid,
-            _id: bid._id.toString(),
-            user: bid.user.toString(),
-          })),
-          winner: item.winner?.toString(),
-        }))}
-        status="guest"
-      />
+      <ItemsWrapper items={items} status="guest" />
     </div>
   );
 }

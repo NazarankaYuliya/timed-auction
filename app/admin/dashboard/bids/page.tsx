@@ -1,6 +1,7 @@
 import React from "react";
 import RemoveBidButton from "@app/admin/(components)/RemoveBidButton";
-import { IItem } from "@types";
+import { IItem, IUser } from "@types";
+import User from "@models/user";
 import { connectToDB } from "@utils/database";
 import Item from "@models/item";
 
@@ -8,10 +9,33 @@ export const dynamic = "force-dynamic";
 
 const Bids = async () => {
   let items: IItem[] = [];
+  let users: IUser[] = [];
+
   try {
     await connectToDB();
 
-    items = await Item.find({}).populate("bids.user").lean();
+    const usersRow = await User.find({}).lean();
+    users = usersRow.map((item: any) => ({
+      ...item,
+      _id: item._id.toString(),
+    }));
+
+    const rawItems = await Item.find({}).populate("bids.user").lean<IItem[]>();
+    items = rawItems.map((item) => ({
+      ...item,
+      _id: item._id.toString(),
+      bids:
+        item.bids?.map((bid) => ({
+          ...bid,
+          _id: bid._id.toString(),
+          user: bid.user.toString(),
+        })) ?? [],
+      winner: item.winner?.toString() ?? "",
+      auctionDates: {
+        startDate: new Date(item.auctionDates.startDate),
+        endDate: new Date(item.auctionDates.endDate),
+      },
+    }));
   } catch (error) {
     console.error(error);
   }
@@ -32,7 +56,7 @@ const Bids = async () => {
           </thead>
           <tbody>
             {items.map((item: IItem, index: number) => (
-              <React.Fragment key={item._id}>
+              <React.Fragment key={String(item._id)}>
                 {item.bids?.map((bid: any, bidIndex: number) => (
                   <tr key={`${item._id}-${bidIndex}`}>
                     <td className="py-2 px-4 border-b">{item.catalogNumber}</td>

@@ -8,7 +8,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "twjz8b3iqxzhwarf.public.blob.vercel-storage.com",
+        hostname: "supabase.87.106.90.112.sslip.io",
         port: "",
         pathname: "/**",
       },

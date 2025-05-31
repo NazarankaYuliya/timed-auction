@@ -13,8 +13,30 @@ export default async function UserItems({ session }: { session: any }) {
 
   try {
     await connectToDB();
-    items = await Item.find({}).lean();
-    user = (await User.findById(session.id).lean()) as IUser;
+    const rawItems = await Item.find({}).lean<IItem[]>();
+    items = rawItems.map((item) => ({
+      ...item,
+      _id: item._id.toString(),
+      bids:
+        item.bids?.map((bid) => ({
+          ...bid,
+          _id: bid._id.toString(),
+          user: bid.user.toString(),
+        })) ?? [],
+      winner: item.winner?.toString() ?? "",
+      auctionDates: {
+        startDate: new Date(item.auctionDates.startDate),
+        endDate: new Date(item.auctionDates.endDate),
+      },
+    }));
+
+    const rawUser = await User.findById(session.id).lean<IUser>();
+    if (rawUser) {
+      user = {
+        ...rawUser,
+        _id: rawUser._id.toString(),
+      };
+    }
   } catch (error) {
     console.log(error);
   }
@@ -43,20 +65,7 @@ export default async function UserItems({ session }: { session: any }) {
         </div>
       </div>
 
-      <ItemsWrapper
-        items={items.map((item) => ({
-          ...item,
-          _id: item._id.toString(),
-          bids: item.bids?.map((bid) => ({
-            ...bid,
-            _id: bid._id.toString(),
-            user: bid.user.toString(),
-          })),
-          winner: item.winner?.toString(),
-        }))}
-        userId={user._id.toString()}
-        status="user"
-      />
+      <ItemsWrapper items={items} userId={user._id.toString()} status="user" />
     </div>
   );
 }

@@ -1,15 +1,22 @@
 import Item from "@models/item";
-import { IItem } from "@types";
+import User from "@models/user";
+import { IItem, IUser } from "@types";
 import { connectToDB } from "@utils/database";
 
 export const dynamic = "force-dynamic";
 
 const Items = async () => {
   let items: IItem[] = [];
+  let users: IUser[] = [];
   try {
     await connectToDB();
+    const usersRow = await User.find({}).lean();
+    users = usersRow.map((item: any) => ({
+      ...item,
+      _id: item._id.toString(),
+    }));
 
-    items = await Item.find({}).populate("bids.user").lean();
+    items = await Item.find({}).populate("bids.user").lean<IItem[]>();
   } catch (error) {
     console.error(error);
   }
@@ -31,7 +38,10 @@ const Items = async () => {
           </thead>
           <tbody>
             {items.map((item: IItem, index: number) => (
-              <tr key={item._id} className={`${item.isMarked && `bg-beige`}`}>
+              <tr
+                key={String(item._id)}
+                className={`${item.isMarked && `bg-beige`}`}
+              >
                 <td className="py-2 px-4 border-b ">{index + 1}</td>
                 <td className="py-2 px-4 border-b ">{item.catalogNumber}</td>
                 <td className="py-2 px-4 border-b">{item.description}</td>

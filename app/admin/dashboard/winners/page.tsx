@@ -1,16 +1,29 @@
 import { connectToDB } from "@utils/database";
 import Item from "@models/item";
-import { IItem } from "@types";
+import User from "@models/user";
+import { IItem, IUser } from "@types";
 import DownloadButton from "./DownloadButton";
 
 export const dynamic = "force-dynamic";
 
 const Winners = async () => {
   let items: IItem[] = [];
+  let users: IUser[] = [];
   let winners: any[] = [];
   try {
     await connectToDB();
-    items = await Item.find().populate("bids.user").lean();
+
+    const usersRow = await User.find({}).lean();
+    users = usersRow.map((item: any) => ({
+      ...item,
+      _id: item._id.toString(),
+    }));
+
+    const itemsRow = await Item.find().populate("bids.user").lean();
+    items = itemsRow.map((item: any) => ({
+      ...item,
+      _id: item._id.toString(),
+    }));
   } catch (error) {
     console.error(error);
   }
@@ -139,7 +152,7 @@ const Winners = async () => {
                 </div>
                 {winner.items.map((item: IItem, index: number) => (
                   <div
-                    key={item._id}
+                    key={String(item._id)}
                     className={`grid grid-cols-4 border-t py-1 ${
                       item.isMarked ? "bg-beige" : ""
                     }`}

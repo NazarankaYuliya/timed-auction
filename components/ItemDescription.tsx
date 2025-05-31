@@ -13,47 +13,30 @@ const ItemDescription = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const parseDescription = (description: string) => {
-    const parts = description.split(",");
-
-    const parsedData = {
-      title: parts[0]?.trim(),
-      manufacturer: parts
-        .find((part) => part.includes("Hersteller"))
-        ?.split(":")[1]
-        ?.trim(),
-      type: parts
-        .find((part) => part.includes("Typ"))
-        ?.split(":")[1]
-        ?.trim(),
-      year: parts
-        .find((part) => part.toLowerCase().includes("Baujahr"))
-        ?.split(":")[1]
-        ?.trim(),
-      sn: parts
-        .find((part) => part.toLowerCase().includes("sn"))
-        ?.split(":")[1]
-        ?.trim(),
-      condition: parts
-        .find((part) => part.includes("Zustand"))
-        ?.split(":")[1]
-        ?.trim(),
-      accessories: getZubehoer(description),
+    const getValue = (label: string) => {
+      const match = description.match(new RegExp(`${label}:\\s*([^,\\n]+)`));
+      return match?.[1]?.trim() || null;
     };
 
-    return parsedData;
-  };
+    const getCondition = () => {
+      const match = description.match(/Zustand:\s*(.*?)(?=Details:|$)/i);
+      return match?.[1]?.trim() || null;
+    };
 
-  const getZubehoer = (description: string) => {
-    const lowerDescription = description.toLowerCase();
-    const zubehoerIndex = lowerDescription.indexOf("Details");
+    const getAccessories = () => {
+      const detailsMatch = description.match(/Details:(.+)/i);
+      return detailsMatch?.[1]?.trim() || null;
+    };
 
-    if (zubehoerIndex !== -1) {
-      const zubehoerPart = description.slice(zubehoerIndex);
-      const zubehoerValue = zubehoerPart.split(":")[1]?.trim();
-      return zubehoerValue;
-    }
-
-    return null;
+    return {
+      title: description.split(",")[0].trim(),
+      manufacturer: getValue("Hersteller"),
+      type: getValue("Typ"),
+      year: getValue("Baujahr"),
+      sn: getValue("SN"),
+      condition: getCondition(),
+      accessories: getAccessories(),
+    };
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -96,7 +79,7 @@ const ItemDescription = ({
                   {catalogNumber} - {parsedData.title}
                 </h2>
 
-                <ul className="text-sm text-grafit flex flex-col gap-2">
+                <ul className="text-sm text-grafit flex flex-col gap-2 text-left">
                   <li>
                     <strong>Hersteller:</strong> {parsedData.manufacturer}
                   </li>

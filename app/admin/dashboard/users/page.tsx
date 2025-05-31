@@ -10,7 +10,11 @@ const AllUsers = async () => {
   try {
     await connectToDB();
 
-    users = await User.find({}).lean();
+    const usersRow = await User.find({}).lean();
+    users = usersRow.map((item: any) => ({
+      ...item,
+      _id: item._id.toString(),
+    }));
   } catch (error) {
     console.log(error);
   }
@@ -34,7 +38,7 @@ const AllUsers = async () => {
           </thead>
           <tbody>
             {users.map((user: IUser, index: number) => (
-              <tr key={user._id}>
+              <tr key={String(user._id)}>
                 <td className="py-2 px-4 border-b">{index + 1}</td>
                 <td className="py-2 px-4 border-b">{user.firstName}</td>
                 <td className="py-2 px-4 border-b">{user.lastName}</td>

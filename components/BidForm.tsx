@@ -55,7 +55,7 @@ const BidForm = ({
 
     try {
       const response = await placeBidApi(
-        itemId,
+        String(itemId),
         userId as string,
         parsedBidAmount,
       );

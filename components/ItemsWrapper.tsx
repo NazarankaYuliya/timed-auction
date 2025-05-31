@@ -50,7 +50,12 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   return (
     <div className="container flex flex-wrap justify-center gap-8 mx-auto mt-10 p-6  relative">
       {auctionItems.map((item: IItem) => (
-        <ItemCard key={item._id} item={item} userId={userId} status={status} />
+        <ItemCard
+          key={String(item._id)}
+          item={item}
+          userId={userId}
+          status={status}
+        />
       ))}
     </div>
   );

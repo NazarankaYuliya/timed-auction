@@ -20,7 +20,7 @@ interface ItemDocument extends Document {
   startPrice: number;
   currentBid: number;
   biddingStep: number;
-  image: string[];
+  image: string;
   bids: Bid[];
   auctionDates: AuctionDates;
   isMarked: boolean;
@@ -43,7 +43,7 @@ const ItemSchema = new Schema<ItemDocument>(
     startPrice: { type: Number, required: true },
     currentBid: { type: Number, default: 0 },
     biddingStep: { type: Number },
-    image: { type: [String], default: [] },
+    image: { type: String, default: "" },
     bids: { type: [BidSchema], default: [] },
     auctionDates: {
       startDate: { type: Date, required: true },

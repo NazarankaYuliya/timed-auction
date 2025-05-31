@@ -1,6 +1,9 @@
-module.exports = {
-  purge: [],
-  darkMode: false,
+/** @type {import('tailwindcss').Config} */
+const config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}", // Обновите пути, на основе структуры вашего проекта
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -22,8 +25,7 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {},
-  },
   plugins: [],
 };
+
+export default config;

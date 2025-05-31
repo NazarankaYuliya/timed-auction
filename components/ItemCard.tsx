@@ -20,7 +20,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
   return (
     <div
       id={`item-${item.catalogNumber}`}
-      key={item._id}
+      key={String(item._id)}
       className="w-80 h-auto flex flex-col shadow-lg font-display p-4 bg-white"
     >
       <div className="flex items-center justify-center w-full h-72 relative cursor-pointer">

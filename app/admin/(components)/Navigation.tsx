@@ -8,7 +8,7 @@ const Navigation = () => {
   const isActive = (path: string) => routerPath === path;
   return (
     <div className="bg-beige font-display p-8">
-      <nav className="flex justify-between container mx-auto">
+      <nav className="flex flex-col sm:flex-row gap-4 justify-between container mx-auto">
         <Link
           href="/admin/dashboard"
           className={`text-2xl text-grafit ${

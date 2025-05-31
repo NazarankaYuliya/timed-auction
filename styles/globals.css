@@ -2,9 +2,23 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Playfair Display", serif;
+  --font-oswald: "Oswald", sans-serif;
+
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.5rem;
+
+  --color-gold: #ceb27a;
+  --color-grafit: #454d4f;
+  --color-cgreen: #27886c;
+  --color-light-rose: #fbf6f3;
+  --color-beige: #fbf6f3;
+}
 
 * {
   box-sizing: border-box;

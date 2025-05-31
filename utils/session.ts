@@ -23,7 +23,8 @@ export async function createSession(id: string, role: string) {
   const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const session = await encrypt({ id, expires });
 
-  cookies().set(role, session, {
+  const cookieStore = await cookies();
+  cookieStore.set(role, session, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
@@ -33,5 +34,6 @@ export async function createSession(id: string, role: string) {
 }
 
 export async function deleteSession(role: string) {
-  cookies().delete(role);
+  const cookieStore = await cookies();
+  cookieStore.delete(role);
 }

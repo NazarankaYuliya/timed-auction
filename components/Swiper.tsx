@@ -10,11 +10,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 interface SwiperComponentProps {
-  images: string[];
+  images: string;
 }
 
 export default function SwiperComponent({ images }: SwiperComponentProps) {
-  return images.length > 0 ? (
+  const linksArray = images.split(",");
+  return linksArray.length > 0 ? (
     <Swiper
       modules={[Navigation, Pagination, A11y, Zoom]}
       spaceBetween={1}
@@ -25,7 +26,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
       zoom={true}
       className="w-full h-full"
     >
-      {images.map((imgUrl: string, index: number) => (
+      {linksArray.map((imgUrl: string, index: number) => (
         <SwiperSlide key={index}>
           <Image
             src={imgUrl}
@@ -34,6 +35,7 @@ export default function SwiperComponent({ images }: SwiperComponentProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             quality={65}
             className="w-full h-full object-contain"
+            unoptimized
           />
         </SwiperSlide>
       ))}
