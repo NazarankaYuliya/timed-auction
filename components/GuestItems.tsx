@@ -7,6 +7,7 @@ import LogiIcon from "@public/assets/images/login-icon.png";
 import RegisterIcon from "@public/assets/images/register-icon.png";
 import HeaderTitle from "./HeaderTitle";
 import ItemsWrapper from "./ItemsWrapper";
+import ScrollToItem from "./ScrollToItem";
 
 export default async function GuestItems() {
   let items: IItem[] = [];
@@ -35,6 +36,7 @@ export default async function GuestItems() {
 
   return (
     <div className="bg-white">
+      <ScrollToItem />
       <div className="sticky top-0 left-0 w-full z-10 bg-beige flex flex-row items-center justify-between px-2 py-6 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
         <HeaderTitle />
         <nav className="flex flex-row flex-wrap gap-6 items-center">

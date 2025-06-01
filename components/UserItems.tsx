@@ -6,6 +6,7 @@ import { IItem, IUser } from "@types";
 import ItemsWrapper from "./ItemsWrapper";
 import HeaderTitle from "./HeaderTitle";
 import Link from "next/link";
+import ScrollToItem from "./ScrollToItem";
 
 export default async function UserItems({ session }: { session: any }) {
   let items: IItem[] = [];
@@ -43,6 +44,7 @@ export default async function UserItems({ session }: { session: any }) {
 
   return (
     <div className="">
+      <ScrollToItem />
       <div className="sticky top-0 left-0 w-full z-10 bg-beige pt-2 pb-4 flex flex-row flex-wrap items-center justify-between px-2 pt-1 sm:px-10 sm:pt-5 gap-6 font-oswald text-grafit">
         <HeaderTitle />
 

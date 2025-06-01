@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
             "",
           itemNumber: item.catalogNumber,
           newBid: item.currentBid,
-          link: `https://timed-auction.vercel.app/guest/#item-${item.catalogNumber}`,
+          link: `https://timed-auction.vercel.app/guest?item=${item.catalogNumber}`,
         });
 
         await sendEmail(
