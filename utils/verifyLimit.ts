@@ -37,7 +37,7 @@ export const validateBid = (
   if (bid < startPrice) {
     return "Das Gebot darf nicht niedriger als der Startpreis sein";
   }
-  if (bid < currentBid) {
+  if (bid <= currentBid) {
     return "Das Gebot muss höher als das aktuelle Gebot sein.";
   }
   const validBid = getValidBidOrSuggestion(bid);

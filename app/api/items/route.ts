@@ -22,7 +22,6 @@ async function getItems() {
     });
 
     const data = response.data;
-    console.log(data);
     const filteredData = data.map((item: any) => ({
       catalogNumber: item.C,
       description: item.D,

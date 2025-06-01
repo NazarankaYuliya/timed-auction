@@ -65,6 +65,8 @@ ItemSchema.methods.addBid = async function (
   userId: mongoose.Types.ObjectId,
   limit: number,
 ) {
+  const prevWinner = this.winner?.toString();
+
   const now = new Date();
 
   const timeLeft = this.auctionDates.endDate.getTime() - now.getTime();
@@ -87,6 +89,10 @@ ItemSchema.methods.addBid = async function (
       amount: limit,
       createdAt: now,
     });
+  }
+
+  if (prevWinner && prevWinner === userId.toString()) {
+    return await this.save();
   }
 
   await this.recalculateCurrentBid();
@@ -117,8 +123,9 @@ ItemSchema.methods.recalculateCurrentBid = async function () {
       const secondHighestBid = sortedBids[1];
 
       this.biddingStep = calculateStep(secondHighestBid);
-
+      //---------
       this.currentBid = secondHighestBid + this.biddingStep;
+      //--------
 
       if (this.currentBid > highestBid) {
         this.currentBid = highestBid;

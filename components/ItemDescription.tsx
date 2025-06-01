@@ -13,29 +13,38 @@ const ItemDescription = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const parseDescription = (description: string) => {
+    const fields = ["Hersteller", "Typ", "Baujahr", "SN", "Zustand", "Details"];
+
+    const clean = (value: string | null): string | null => {
+      if (!value) return null;
+      return value.replace(/[,\s]+$/, "").trim();
+    };
     const getValue = (label: string) => {
-      const match = description.match(new RegExp(`${label}:\\s*([^,\\n]+)`));
-      return match?.[1]?.trim() || null;
+      const pattern = new RegExp(
+        `${label}:\\s*([\\s\\S]*?)(?=\\b(${fields.join("|")}):|$)`,
+        "i",
+      );
+      const match = description.match(pattern);
+      return clean(match?.[1] || null);
     };
 
-    const getCondition = () => {
-      const match = description.match(/Zustand:\s*(.*?)(?=Details:|$)/i);
-      return match?.[1]?.trim() || null;
-    };
-
-    const getAccessories = () => {
-      const detailsMatch = description.match(/Details:(.+)/i);
-      return detailsMatch?.[1]?.trim() || null;
+    const getTitle = () => {
+      const pattern = new RegExp(
+        `^([\\s\\S]*?)(?=\\b(${fields.join("|")}):)`,
+        "i",
+      );
+      const match = description.match(pattern);
+      return clean(match?.[1] || description.trim());
     };
 
     return {
-      title: description.split(",")[0].trim(),
+      title: getTitle(),
       manufacturer: getValue("Hersteller"),
       type: getValue("Typ"),
       year: getValue("Baujahr"),
       sn: getValue("SN"),
-      condition: getCondition(),
-      accessories: getAccessories(),
+      condition: getValue("Zustand"),
+      details: getValue("Details"),
     };
   };
 
@@ -80,24 +89,20 @@ const ItemDescription = ({
                 </h2>
 
                 <ul className="text-sm text-grafit flex flex-col gap-2 text-left">
-                  <li>
-                    <strong>Hersteller:</strong> {parsedData.manufacturer}
-                  </li>
-                  <li>
-                    <strong>Typ:</strong> {parsedData.type}
-                  </li>
-                  <li>
-                    <strong>Baujahr:</strong> {parsedData.year}
-                  </li>
-                  <li>
-                    <strong>Seriennummer (SN):</strong> {parsedData.sn}
-                  </li>
-                  <li>
-                    <strong>Zustand:</strong> {parsedData.condition}
-                  </li>
-                  <li>
-                    <strong>Weitere Details:</strong> {parsedData.accessories}
-                  </li>
+                  {[
+                    { label: "Hersteller", value: parsedData.manufacturer },
+                    { label: "Typ", value: parsedData.type },
+                    { label: "Baujahr", value: parsedData.year },
+                    { label: "Seriennummer (SN)", value: parsedData.sn },
+                    { label: "Zustand", value: parsedData.condition },
+                    { label: "Weitere Details", value: parsedData.details },
+                  ]
+                    .filter((item) => item.value)
+                    .map((item, idx) => (
+                      <li key={idx}>
+                        <strong>{item.label}:</strong> {item.value}
+                      </li>
+                    ))}
                 </ul>
                 <button
                   onClick={closeModal}
