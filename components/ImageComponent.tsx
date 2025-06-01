@@ -5,6 +5,7 @@ import IMG from "@public/assets/images/placeholder-image.jpg";
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import SwiperComponent from "./Swiper";
+import { extractPathFromUrl, supabase } from "@utils/supabase";
 
 interface ImageComponentProps {
   itemImage: string;
@@ -15,16 +16,28 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
   const [isImageFull, setIsImageFull] = useState(false);
   const openImageFull = () => setIsImageFull(true);
 
+  const originalUrl = linksArray[0];
+
+  const imagePath = originalUrl?.startsWith("http")
+    ? extractPathFromUrl(originalUrl)
+    : originalUrl;
+
+  const transformedUrl = imagePath
+    ? supabase.storage.from("GR").getPublicUrl(imagePath, {
+        transform: { width: 300 },
+      }).data.publicUrl
+    : IMG;
+
   return (
     <div className="relative w-full h-full">
       {linksArray.length > 0 ? (
         <Image
-          src={linksArray[0]}
+          src={transformedUrl}
           alt="image of item"
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           className="cursor-pointer object-cover"
-          quality={50}
+          quality={70}
           onClick={openImageFull}
           unoptimized
         />
