@@ -28,7 +28,6 @@ const Bids = async () => {
         item.bids?.map((bid) => ({
           ...bid,
           _id: bid._id.toString(),
-          user: bid.user.toString(),
         })) ?? [],
       winner: item.winner?.toString() ?? "",
       auctionDates: {
