@@ -9,6 +9,16 @@ interface Bid {
   isWinning?: boolean;
 }
 
+interface Description {
+  header: string;
+  producer: string;
+  type: string;
+  year: string;
+  sn: string;
+  condition: string;
+  details: string;
+}
+
 interface AuctionDates {
   startDate: Date;
   endDate: Date;
@@ -16,7 +26,7 @@ interface AuctionDates {
 
 interface ItemDocument extends Document {
   catalogNumber: number;
-  description: string;
+  description: Description;
   startPrice: number;
   currentBid: number;
   biddingStep: number;
@@ -36,10 +46,23 @@ const BidSchema = new Schema<Bid>({
   isWinning: { type: Boolean, default: false },
 });
 
+const DescriptionSchema = new Schema<Description>(
+  {
+    header: { type: String, default: "" },
+    producer: { type: String, default: "" },
+    type: { type: String, default: "" },
+    year: { type: String, default: "" },
+    sn: { type: String, default: "" },
+    condition: { type: String, default: "" },
+    details: { type: String, default: "" },
+  },
+  { _id: false },
+);
+
 const ItemSchema = new Schema<ItemDocument>(
   {
     catalogNumber: { type: Number, required: true },
-    description: { type: String, required: true },
+    description: { type: DescriptionSchema, required: true },
     startPrice: { type: Number, required: true },
     currentBid: { type: Number, default: 0 },
     biddingStep: { type: Number },

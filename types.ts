@@ -8,10 +8,20 @@ export interface IBid {
   isWinning: boolean;
 }
 
+export interface IDescription {
+  header: string;
+  producer: string;
+  type: string;
+  year: string;
+  sn: string;
+  condition: string;
+  details: string;
+}
+
 export interface IItem {
   _id: string | Types.ObjectId;
   catalogNumber: number;
-  description: string;
+  description: IDescription;
   startPrice: number;
   image: string;
   currentBid: number;
