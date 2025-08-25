@@ -1,5 +1,7 @@
 import { verifySession } from "@/utils/dal";
 import UserItems from "@components/UserItems";
+import { AuctionFilterProvider } from "@context/AuctionFilterContext";
+import { PaginationProvider } from "@context/PaginationContext";
 import { redirect } from "next/navigation";
 
 export default async function AuctionPage({
@@ -15,5 +17,11 @@ export default async function AuctionPage({
     redirect(redirectUrl);
   }
 
-  return <UserItems session={session} />;
+  return (
+    <AuctionFilterProvider>
+      <PaginationProvider>
+        <UserItems session={session} />
+      </PaginationProvider>
+    </AuctionFilterProvider>
+  );
 }
