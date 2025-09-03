@@ -25,7 +25,17 @@ const ItemDescription = ({ catalogNumber, description }: Props) => {
     );
   }
 
-  const { header, producer, type, year, sn, condition, details } = description;
+  const {
+    header,
+    producer,
+    type,
+    year,
+    sn,
+    condition,
+    details,
+    category,
+    categoryType,
+  } = description;
 
   const fields = [
     { label: "Hersteller", value: producer },
@@ -43,7 +53,7 @@ const ItemDescription = ({ catalogNumber, description }: Props) => {
       <div className="w-full flex gap-2 items-start">
         <div className="w-3/4">
           <p className="text-grafit text-base tracking-wide font-oswald py-1 line-clamp-2">
-            {header || "—"}
+            {header} ({category})
           </p>
         </div>
         {fields.length > 0 && (

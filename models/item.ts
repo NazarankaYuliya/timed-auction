@@ -17,6 +17,8 @@ interface Description {
   sn: string;
   condition: string;
   details: string;
+  category: string;
+  categoryType: string;
 }
 
 interface AuctionDates {
@@ -55,6 +57,8 @@ const DescriptionSchema = new Schema<Description>(
     sn: { type: String, default: "" },
     condition: { type: String, default: "" },
     details: { type: String, default: "" },
+    category: { type: String, default: "" },
+    categoryType: { type: String, default: "" },
   },
   { _id: false },
 );

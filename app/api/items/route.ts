@@ -33,6 +33,8 @@ async function getItems() {
         sn: item.K5,
         condition: item.L5,
         details: item.M5,
+        category: item.S5,
+        categoryType: item.U5,
       },
       startPrice: getValidBidOrSuggestion(+item.M2 ? +item.M2 : 0),
       isMarked: item.N2 && item.N2 === true,

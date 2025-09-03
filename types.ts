@@ -16,6 +16,8 @@ export interface IDescription {
   sn: string;
   condition: string;
   details: string;
+  category: string;
+  categoryType: string;
 }
 
 export interface IItem {

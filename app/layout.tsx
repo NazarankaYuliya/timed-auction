@@ -6,7 +6,7 @@ import "@styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "1653.Auktion - Petzold KG",
+  title: "1656.Auktion - Petzold KG",
   icons: {
     icon: "/assets/images/hammer.png",
   },
