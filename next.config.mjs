@@ -20,6 +20,24 @@ const nextConfig = {
       },
     ],
   },
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self' https://www.petzold-auktionen.de;",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "ALLOW-FROM https://www.petzold-auktionen.de",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
