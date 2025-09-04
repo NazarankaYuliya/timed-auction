@@ -1,5 +1,5 @@
 "use client";
-import { usePagination } from "@context/PaginationContext";
+import { useAuction } from "@context/AuctionContext";
 import { useMemo } from "react";
 
 interface PaginationProps {
@@ -7,7 +7,7 @@ interface PaginationProps {
 }
 
 export default function Pagination({ totalItems }: PaginationProps) {
-  const { page, setPage, pageSize, setPageSize } = usePagination();
+  const { page, setPage, pageSize } = useAuction();
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
 
   const pagesToShow = useMemo(() => {
@@ -28,26 +28,6 @@ export default function Pagination({ totalItems }: PaginationProps) {
 
   return (
     <div className="mt-10 w-full flex flex-col items-center gap-4">
-      {/* Выбор размера страницы */}
-      <div className="flex gap-2 items-center text-sm">
-        <span>Pro Seite:</span>
-        {[24, 48, 96].map((size) => (
-          <button
-            key={size}
-            className={`px-3 py-1 border rounded ${
-              size === pageSize ? "bg-grafit text-white" : ""
-            }`}
-            onClick={() => {
-              setPageSize(size);
-              setPage(1); // сброс на первую страницу
-            }}
-          >
-            {size}
-          </button>
-        ))}
-      </div>
-
-      {/* Пагинация */}
       {totalPages > 1 && (
         <nav
           className="flex items-center justify-center gap-2 sm:gap-3"

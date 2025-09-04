@@ -1,16 +1,19 @@
 // components/AuctionFilter.tsx
 "use client";
-import { useAuctionFilter } from "@context/AuctionFilterContext";
+
+import { useAuction } from "@context/AuctionContext";
 
 export default function AuctionFilter() {
-  const { filter, setFilter } = useAuctionFilter();
+  const { filter, setFilter } = useAuction();
 
   return (
-    <div className="flex gap-2 mb-6 justify-center">
+    <div className="flex flex-col gap-2 mb-8 justify-center">
       <button
         onClick={() => setFilter("all")}
-        className={`px-3 py-1 border rounded ${
-          filter === "all" ? "bg-grafit text-white" : ""
+        className={`px-3 py-1 ${
+          filter === "all"
+            ? "bg-gold text-white"
+            : "bg-gray-200 hover:bg-gray-300 cursor-pointer"
         }`}
       >
         Alle Lose
@@ -18,8 +21,10 @@ export default function AuctionFilter() {
 
       <button
         onClick={() => setFilter("myBids")}
-        className={`px-3 py-1 border rounded ${
-          filter === "myBids" ? "bg-grafit text-white" : ""
+        className={`px-3 py-1 ${
+          filter === "myBids"
+            ? "bg-gold text-white"
+            : "bg-gray-200 hover:bg-gray-300 cursor-pointer"
         }`}
       >
         Meine Gebote

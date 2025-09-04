@@ -4,9 +4,11 @@ import { IItem } from "@types";
 import { subscribeToAuction } from "@utils/pusherUtils";
 import ItemCard from "./ItemCard";
 import Pagination from "./Pagination";
-import { usePagination } from "@context/PaginationContext";
-import { useAuctionFilter } from "@context/AuctionFilterContext";
 import AuctionFilter from "./AuctionFilter";
+import { useAuction } from "@context/AuctionContext";
+import CategoryFilter from "./CategoryFilter";
+import PageSizeSelect from "./PageSizeSelect";
+import Filters from "./Filters";
 
 interface ItemsWrapperProps {
   items: IItem[];
@@ -16,10 +18,9 @@ interface ItemsWrapperProps {
 
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
-  const { page, pageSize } = usePagination();
-  const { filter } = useAuctionFilter();
+  const { filter, category, page, pageSize } = useAuction();
 
-  // live updates
+  // live updates через Pusher
   useEffect(() => {
     const updateItem = (
       itemId: string,
@@ -46,19 +47,27 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
     return () => unsubscribe();
   }, []);
 
+  // если пропсы items обновились → обновить стейт
   useEffect(() => {
     setAuctionItems(items);
   }, [items]);
 
+  // фильтрация по "myBids" и категории
   const filteredItems = useMemo(() => {
-    if (!userId) return auctionItems;
+    let result = auctionItems;
 
-    if (filter === "myBids") {
-      return auctionItems.filter((item) => item.winner === userId.toString());
+    if (filter === "myBids" && userId) {
+      result = result.filter((item) => item.winner === userId.toString());
     }
 
-    return auctionItems;
-  }, [auctionItems, filter, userId]);
+    if (category !== "all") {
+      result = result.filter(
+        (item) => item.description.categoryType === category,
+      );
+    }
+
+    return result;
+  }, [auctionItems, filter, category, userId]);
 
   const pagedItems = useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -66,22 +75,26 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   }, [filteredItems, page, pageSize]);
 
   return (
-    <div className="container mx-auto mt-10 p-6">
-      {/* фильтр только для залогиненых */}
-      {userId && <AuctionFilter />}
+    <div className="container mx-auto mt-10 p-6 flex flex-col lg:flex-row gap-8">
+      <Filters userId={userId} />
+      <div className="lg:w-3/4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 relative">
+          {pagedItems.length > 0 ? (
+            pagedItems.map((item) => (
+              <ItemCard
+                key={String(item._id)}
+                item={item}
+                userId={userId}
+                status={status}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500">Keine Artikel gefunden.</p>
+          )}
+        </div>
 
-      <div className="flex flex-wrap justify-center gap-8 relative">
-        {pagedItems.map((item) => (
-          <ItemCard
-            key={String(item._id)}
-            item={item}
-            userId={userId}
-            status={status}
-          />
-        ))}
+        <Pagination totalItems={filteredItems.length} />
       </div>
-
-      <Pagination totalItems={filteredItems.length} />
     </div>
   );
 };

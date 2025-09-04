@@ -1,8 +1,7 @@
 import { verifySession } from "@utils/dal";
 import { redirect } from "next/navigation";
 import GuestItems from "@components/GuestItems";
-import { PaginationProvider } from "@context/PaginationContext";
-import { AuctionFilterProvider } from "@context/AuctionFilterContext";
+import { AuctionProvider } from "@context/AuctionContext";
 
 export default async function Guest({
   searchParams,
@@ -18,10 +17,8 @@ export default async function Guest({
   }
 
   return (
-    <AuctionFilterProvider>
-      <PaginationProvider>
-        <GuestItems />
-      </PaginationProvider>
-    </AuctionFilterProvider>
+    <AuctionProvider>
+      <GuestItems />
+    </AuctionProvider>
   );
 }
