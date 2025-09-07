@@ -38,7 +38,6 @@ export const AuctionProvider = ({ children }: { children: ReactNode }) => {
 
   const [lotNumber, setLotNumber] = useState(searchParams.get("lot") || "");
 
-  // синхронизация с URL
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (lotNumber) {

@@ -5,13 +5,13 @@ export default function LotSearch() {
   const { lotNumber, setLotNumber } = useAuction();
 
   return (
-    <div className="mb-8 w-full relative">
+    <div className="mb-4 w-full relative">
       <input
         type="text"
         value={lotNumber}
         onChange={(e) => setLotNumber(e.target.value)}
-        placeholder="Losnummer suchen…"
-        className="w-full bg-gray-200 px-3 py-1 pr-8 "
+        placeholder="Suchen…"
+        className="w-full bg-gray-200 px-3 py-1 pr-8 focus:outline-gold"
       />
 
       {lotNumber && (

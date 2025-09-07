@@ -15,9 +15,8 @@ interface ItemsWrapperProps {
 
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
-  const { filter, category, page, pageSize, lotNumber } = useAuction(); // 👈 достаём lotNumber
+  const { filter, category, page, pageSize, lotNumber } = useAuction();
 
-  // live updates через Pusher
   useEffect(() => {
     const updateItem = (
       itemId: string,
@@ -44,12 +43,10 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
     return () => unsubscribe();
   }, []);
 
-  // если пропсы items обновились → обновить стейт
   useEffect(() => {
     setAuctionItems(items);
   }, [items]);
 
-  // фильтрация
   const filteredItems = useMemo(() => {
     let result = auctionItems;
 
@@ -63,10 +60,13 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
       );
     }
 
-    // 🔍 фильтр по номеру лота
     if (lotNumber) {
-      result = result.filter((item) =>
-        item.catalogNumber?.toString().includes(lotNumber.trim()),
+      const search = lotNumber.trim().toLowerCase();
+
+      result = result.filter(
+        (item) =>
+          item.catalogNumber?.toString().toLowerCase().includes(search) ||
+          item.description?.header?.toLowerCase().includes(search),
       );
     }
 
@@ -80,7 +80,8 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
 
   return (
     <div className="container mx-auto mt-10 p-6 flex flex-col lg:flex-row gap-8">
-      <Filters userId={userId} /> {/* ← сюда можно вставить LotSearch */}
+      <Filters userId={userId} />
+
       <div className="lg:w-3/4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 relative">
           {pagedItems.length > 0 ? (

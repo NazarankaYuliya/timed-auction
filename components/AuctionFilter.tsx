@@ -7,7 +7,7 @@ export default function AuctionFilter() {
   const { filter, setFilter } = useAuction();
 
   return (
-    <div className="flex flex-col gap-2 mb-8 justify-center">
+    <div className="flex flex-col gap-1 mb-4 justify-center">
       <button
         onClick={() => setFilter("all")}
         className={`px-3 py-1 ${

@@ -7,9 +7,9 @@ const PageSizeButtons = () => {
   const options = [24, 48, 96];
 
   return (
-    <div className="flex flex-col gap-2 w-full mb-8">
+    <div className="flex flex-col gap-1 w-full mb-4">
       <span className="font-bold text-grafit">Pro Seite</span>
-      <div className="flex flex-col gap-2">
+      <div className="flex gap-2">
         {options.map((size) => (
           <button
             key={size}
@@ -17,7 +17,7 @@ const PageSizeButtons = () => {
               setPageSize(size);
               setPage(1);
             }}
-            className={`px-3 py-1 text-sm font-medium transition ${
+            className={`w-full px-3 py-1 text-sm font-medium transition ${
               pageSize === size
                 ? "bg-gold text-white"
                 : "bg-gray-200 hover:bg-gray-300 cursor-pointer"

@@ -6,7 +6,7 @@ export default function CategoryFilter() {
   const { category, setCategory } = useAuction();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <p className="font-bold text-grafit">Kategorie</p>
       <button
         onClick={() => setCategory("all")}
