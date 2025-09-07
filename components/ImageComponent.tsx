@@ -22,24 +22,32 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
     ? extractPathFromUrl(originalUrl)
     : originalUrl;
 
-  const transformedUrl = imagePath
+  const { data: { publicUrl: resizedUrl } = { publicUrl: "" } } = imagePath
     ? supabase.storage.from("GR").getPublicUrl(imagePath, {
         transform: { width: 300 },
-      }).data.publicUrl
-    : IMG;
+      })
+    : { data: { publicUrl: "" } };
+
+  const { data: { publicUrl: originalSupabaseUrl } = { publicUrl: "" } } =
+    imagePath
+      ? supabase.storage.from("GR").getPublicUrl(imagePath)
+      : { data: { publicUrl: "" } };
+
+  const [src, setSrc] = useState(resizedUrl || originalSupabaseUrl || IMG);
 
   return (
     <div className="relative w-full h-full">
       {linksArray.length > 0 ? (
         <Image
-          src={transformedUrl}
+          src={src}
           alt="image of item"
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           className="cursor-pointer object-cover"
-          quality={70}
+          quality={80}
           onClick={openImageFull}
           unoptimized
+          onError={() => setSrc(originalSupabaseUrl || IMG)}
         />
       ) : (
         <Image
