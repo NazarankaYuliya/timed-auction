@@ -11,7 +11,7 @@ export default function LotSearch() {
         value={lotNumber}
         onChange={(e) => setLotNumber(e.target.value)}
         placeholder="Losnummer suchen…"
-        className="w-full bg-gray-200 px-3 py-1 pr-8 rounded"
+        className="w-full bg-gray-200 px-3 py-1 pr-8 "
       />
 
       {lotNumber && (
