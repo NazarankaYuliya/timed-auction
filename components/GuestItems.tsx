@@ -14,7 +14,9 @@ export default async function GuestItems() {
 
   try {
     await connectToDB();
-    const rawItems = await Item.find({}).lean<IItem[]>();
+    const rawItems = await Item.find({})
+      .sort({ catalogNumber: 1 })
+      .lean<IItem[]>();
     items = rawItems.map((item) => ({
       ...item,
       _id: item._id.toString(),

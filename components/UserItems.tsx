@@ -14,7 +14,9 @@ export default async function UserItems({ session }: { session: any }) {
 
   try {
     await connectToDB();
-    const rawItems = await Item.find({}).lean<IItem[]>();
+    const rawItems = await Item.find({})
+      .sort({ catalogNumber: 1 })
+      .lean<IItem[]>();
     items = rawItems.map((item) => ({
       ...item,
       _id: item._id.toString(),
