@@ -82,7 +82,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
     <div className="container mx-auto mt-10 p-6 flex flex-col lg:flex-row gap-8">
       <Filters userId={userId} />
 
-      <div className="lg:w-3/4">
+      <div className="lg:w-3/4 mt-8">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 relative">
           {pagedItems.length > 0 ? (
             pagedItems.map((item) => (
