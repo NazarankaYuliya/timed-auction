@@ -4,10 +4,7 @@ import { IItem } from "@types";
 import { subscribeToAuction } from "@utils/pusherUtils";
 import ItemCard from "./ItemCard";
 import Pagination from "./Pagination";
-import AuctionFilter from "./AuctionFilter";
 import { useAuction } from "@context/AuctionContext";
-import CategoryFilter from "./CategoryFilter";
-import PageSizeSelect from "./PageSizeSelect";
 import Filters from "./Filters";
 
 interface ItemsWrapperProps {
@@ -18,7 +15,7 @@ interface ItemsWrapperProps {
 
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
-  const { filter, category, page, pageSize } = useAuction();
+  const { filter, category, page, pageSize, lotNumber } = useAuction(); // 👈 достаём lotNumber
 
   // live updates через Pusher
   useEffect(() => {
@@ -52,7 +49,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
     setAuctionItems(items);
   }, [items]);
 
-  // фильтрация по "myBids" и категории
+  // фильтрация
   const filteredItems = useMemo(() => {
     let result = auctionItems;
 
@@ -66,8 +63,15 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
       );
     }
 
+    // 🔍 фильтр по номеру лота
+    if (lotNumber) {
+      result = result.filter((item) =>
+        item.catalogNumber?.toString().includes(lotNumber.trim()),
+      );
+    }
+
     return result;
-  }, [auctionItems, filter, category, userId]);
+  }, [auctionItems, filter, category, lotNumber, userId]);
 
   const pagedItems = useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -76,7 +80,7 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
 
   return (
     <div className="container mx-auto mt-10 p-6 flex flex-col lg:flex-row gap-8">
-      <Filters userId={userId} />
+      <Filters userId={userId} /> {/* ← сюда можно вставить LotSearch */}
       <div className="lg:w-3/4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 relative">
           {pagedItems.length > 0 ? (

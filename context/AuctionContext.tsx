@@ -6,6 +6,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { categories, CategoryCode } from "@/data/categories";
 
 type FilterType = "all" | "myBids";
@@ -19,6 +20,9 @@ interface AuctionContextType {
   setPage: (p: number) => void;
   pageSize: number;
   setPageSize: (s: number) => void;
+
+  lotNumber: string;
+  setLotNumber: (n: string) => void;
 }
 
 const AuctionContext = createContext<AuctionContextType | undefined>(undefined);
@@ -29,9 +33,22 @@ export const AuctionProvider = ({ children }: { children: ReactNode }) => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(24);
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [lotNumber, setLotNumber] = useState(searchParams.get("lot") || "");
+
+  // синхронизация с URL
   useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (lotNumber) {
+      params.set("lot", lotNumber);
+    } else {
+      params.delete("lot");
+    }
+    router.replace(`?${params.toString()}`);
     setPage(1);
-  }, [filter, category]);
+  }, [lotNumber]);
 
   return (
     <AuctionContext.Provider
@@ -44,6 +61,8 @@ export const AuctionProvider = ({ children }: { children: ReactNode }) => {
         setPage,
         pageSize,
         setPageSize,
+        lotNumber,
+        setLotNumber,
       }}
     >
       {children}

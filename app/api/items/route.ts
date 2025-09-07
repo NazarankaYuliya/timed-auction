@@ -10,6 +10,7 @@ async function getItems() {
   try {
     const filters = {
       N1: "130",
+      Y5: false || null,
     };
     const response = await axios.get(URL, {
       headers: {

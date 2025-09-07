@@ -9,10 +9,10 @@ export default async function AuctionPage({
   searchParams: Promise<{ [item: string]: string | string[] | undefined }>;
 }) {
   const session = await verifySession("user");
-  const item = (await searchParams).item;
+  const lot = (await searchParams).lot;
 
   if (!session) {
-    const redirectUrl = item ? `/guest?item=${item}` : "/guest";
+    const redirectUrl = lot ? `/guest?lot=${lot}` : "/guest";
     redirect(redirectUrl);
   }
 

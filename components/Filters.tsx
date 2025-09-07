@@ -3,6 +3,7 @@ import { useState } from "react";
 import AuctionFilter from "./AuctionFilter";
 import CategoryFilter from "./CategoryFilter";
 import PageSizeSelect from "./PageSizeSelect";
+import LotSearch from "./LotSearch";
 
 interface FiltersProps {
   userId?: string;
@@ -22,6 +23,7 @@ const Filters = ({ userId }: FiltersProps) => {
       </button>
 
       <div className={`${open ? "block" : "hidden"} lg:block`}>
+        <LotSearch />
         {userId && <AuctionFilter />}
         <PageSizeSelect />
         <CategoryFilter />
