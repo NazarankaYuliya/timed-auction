@@ -58,7 +58,7 @@ export default async function UserItems({ session }: { session: any }) {
             <p className="text-xs text-gray-500">{user.email}</p>
           </div>
           <Link
-            href="https://supabase.87.106.90.112.sslip.io/storage/v1/object/public/GR/25010/Versteigerungsbedingungen_KJF25_2.pdf"
+            href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2025_2/Versteigerungsbedingungen_KJF25_2.pdf"
             className="border-2 rounded-lg border-grafit px-2 py-1 hover:text-gold hover:border-gold transition duration-300 text-xs uppercase tracking-wide"
             target="_blank"
             rel="noopener noreferrer"

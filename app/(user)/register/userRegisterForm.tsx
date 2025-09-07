@@ -214,7 +214,7 @@ export default function UserRegisterForm() {
             <label htmlFor="agb" className="ml-3 text-grafit text-sm">
               Ich habe die{" "}
               <Link
-                href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2024/Versteigerungsbedingungen_KJF24.pdf"
+                href="https://www.petzold-auktionen.de/fileadmin/user_upload/termine/KJF2025_2/Versteigerungsbedingungen_KJF25_2.pdf"
                 className="text-gold text-sm border-b border-transparent hover:border-gold transition-border duration-300 ease-in-out"
                 target="_blank"
                 rel="noopener noreferrer"
