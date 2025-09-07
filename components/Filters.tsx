@@ -13,7 +13,7 @@ const Filters = ({ userId }: FiltersProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <aside className="lg:w-1/4 lg:max-w-[250px] mt-4 flex flex-col gap-1 lg:sticky lg:top-24 lg:self-start">
+    <aside className="lg:w-1/4 lg:max-w-[250px] mt-4 flex flex-col gap-1 lg:sticky lg:top-28 lg:self-start">
       <button
         className="flex items-center justify-between font-bold text-grafit lg:cursor-default"
         onClick={() => setOpen((prev) => !prev)}
