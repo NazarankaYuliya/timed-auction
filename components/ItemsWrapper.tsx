@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { IItem } from "@types";
 import { subscribeToAuction } from "@utils/pusherUtils";
 import ItemCard from "./ItemCard";
 import Pagination from "./Pagination";
 import { useAuction } from "@context/AuctionContext";
 import Filters from "./Filters";
+import { useRouter } from "next/navigation";
 
 interface ItemsWrapperProps {
   items: IItem[];
@@ -16,36 +17,56 @@ interface ItemsWrapperProps {
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
   const { filter, category, page, pageSize, lotNumber } = useAuction();
+  const router = useRouter();
+
+  const unsubscribeRef = useRef<(() => void) | null>(null);
+
+  const updateItem = (
+    itemId: string,
+    currentBid: number,
+    biddingStep: number,
+    endDate: Date,
+    winner: string,
+  ) => {
+    setAuctionItems((prev) =>
+      prev.map((item) =>
+        item._id === itemId
+          ? {
+              ...item,
+              currentBid,
+              auctionDates: { ...item.auctionDates, endDate },
+              biddingStep,
+              winner,
+            }
+          : item,
+      ),
+    );
+  };
 
   useEffect(() => {
-    const updateItem = (
-      itemId: string,
-      currentBid: number,
-      biddingStep: number,
-      endDate: Date,
-      winner: string,
-    ) => {
-      setAuctionItems((prev) =>
-        prev.map((item) =>
-          item._id === itemId
-            ? {
-                ...item,
-                currentBid,
-                auctionDates: { ...item.auctionDates, endDate },
-                biddingStep,
-                winner,
-              }
-            : item,
-        ),
-      );
-    };
     const unsubscribe = subscribeToAuction(updateItem);
+    unsubscribeRef.current = unsubscribe;
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
     setAuctionItems(items);
   }, [items]);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      router.refresh();
+
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+      const newUnsub = subscribeToAuction(updateItem);
+      unsubscribeRef.current = newUnsub;
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [router]);
 
   const filteredItems = useMemo(() => {
     let result = auctionItems;
