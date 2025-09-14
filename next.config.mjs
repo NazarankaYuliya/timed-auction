@@ -8,7 +8,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "awesome-hodgkin.87-106-90-112.plesk.page",
+        hostname: "https://www.auktionshaus-rehm.de/",
         port: "",
         pathname: "/**",
       },
