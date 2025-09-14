@@ -5,7 +5,6 @@ import IMG from "@public/assets/images/placeholder-image.jpg";
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import SwiperComponent from "./Swiper";
-import { extractPathFromUrl, supabase } from "@utils/supabase";
 
 interface ImageComponentProps {
   itemImage: string;
@@ -18,28 +17,13 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
 
   const originalUrl = linksArray[0];
 
-  const imagePath = originalUrl?.startsWith("http")
-    ? extractPathFromUrl(originalUrl)
-    : originalUrl;
-
-  const { data: { publicUrl: resizedUrl } = { publicUrl: "" } } = imagePath
-    ? supabase.storage.from("GR").getPublicUrl(imagePath, {
-        transform: { width: 300 },
-      })
-    : { data: { publicUrl: "" } };
-
-  const { data: { publicUrl: originalSupabaseUrl } = { publicUrl: "" } } =
-    imagePath
-      ? supabase.storage.from("GR").getPublicUrl(imagePath)
-      : { data: { publicUrl: "" } };
-
-  const [src, setSrc] = useState(resizedUrl || originalSupabaseUrl || IMG);
+  const [src, setSrc] = useState(originalUrl || IMG);
 
   return (
     <div className="relative w-full h-full">
       {linksArray.length > 0 ? (
         <Image
-          src={src}
+          src={originalUrl}
           alt="image of item"
           fill
           sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
@@ -47,7 +31,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
           quality={80}
           onClick={openImageFull}
           unoptimized
-          onError={() => setSrc(originalSupabaseUrl || IMG)}
+          onError={() => setSrc(IMG)}
         />
       ) : (
         <Image
@@ -69,7 +53,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ itemImage }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity items-center justify-center p-4" />
 
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto">
-          <DialogPanel className="relative bg-white w-full h-full md:w-5/6 md:h-5/6 p-4 shadow-lg overflow-auto touch-auto touch-pinch-zoom ">
+          <DialogPanel className="relative bg-white w-full h-full md:w-5/6 md:h-5/6 p-4 shadow-lg overflow-auto touch-auto touch-pinch-zoom">
             <button
               onClick={() => setIsImageFull(false)}
               className="text-3xl absolute z-40 right-5 top-0 text-grafit hover:text-gold cursor-pointer"

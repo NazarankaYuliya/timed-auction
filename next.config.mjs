@@ -8,7 +8,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "supabase.87.106.90.112.sslip.io",
+        hostname: "awesome-hodgkin.87-106-90-112.plesk.page",
         port: "",
         pathname: "/**",
       },
