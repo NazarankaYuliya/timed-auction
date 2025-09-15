@@ -28,6 +28,7 @@ const AllUsers = async () => {
               <th className="text-left py-2 px-4 border-b">#</th>
               <th className="text-left py-2 px-4 border-b">First Name</th>
               <th className="text-left py-2 px-4 border-b">Last Name</th>
+              <th className="text-left py-2 px-4 border-b">Company</th>
               <th className="text-left py-2 px-4 border-b">Email</th>
               <th className="text-left py-2 px-4 border-b">Phone</th>
               <th className="text-left py-2 px-4 border-b">City</th>
@@ -42,6 +43,7 @@ const AllUsers = async () => {
                 <td className="py-2 px-4 border-b">{index + 1}</td>
                 <td className="py-2 px-4 border-b">{user.firstName}</td>
                 <td className="py-2 px-4 border-b">{user.lastName}</td>
+                <td className="py-2 px-4 border-b">{user.company}</td>
                 <td className="py-2 px-4 border-b">{user.email}</td>
                 <td className="py-2 px-4 border-b">{user.phone}</td>
                 <td className="py-2 px-4 border-b">{user.city}</td>

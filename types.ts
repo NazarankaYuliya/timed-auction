@@ -41,6 +41,7 @@ export interface IUser {
   _id: string | Types.ObjectId;
   firstName: string;
   lastName: string;
+  company: string;
   email: string;
   password: string;
   street: string;
