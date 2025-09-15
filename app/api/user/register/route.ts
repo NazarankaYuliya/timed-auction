@@ -9,6 +9,7 @@ export async function POST(req: Request) {
   const {
     firstName,
     lastName,
+    company,
     email,
     password,
     street,
@@ -37,6 +38,7 @@ export async function POST(req: Request) {
     const newUser = await User.create({
       firstName,
       lastName,
+      company,
       email,
       password: hashedPassword,
       street,

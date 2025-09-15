@@ -96,6 +96,20 @@ export default function UserRegisterForm() {
               type="text"
             />
           </div>
+          <div className="mb-4">
+            <label
+              className="block text-grafit text-sm font-bold mb-1"
+              htmlFor="company"
+            >
+              Firma
+            </label>
+            <input
+              required
+              className="w-full border-0 border-b border-grafit focus:border-gold outline-none text-grafit p-2"
+              name="company"
+              type="text"
+            />
+          </div>
 
           <div className="mb-4">
             <label

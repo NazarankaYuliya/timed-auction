@@ -4,6 +4,7 @@ import crypto from "crypto";
 interface UserDocument extends Document {
   firstName: string;
   lastName: string;
+  company: string;
   email: string;
   password: string;
   street: string;
@@ -26,6 +27,7 @@ interface UserDocument extends Document {
 const UserSchema = new Schema<UserDocument>({
   firstName: String,
   lastName: String,
+  company: String,
   email: {
     type: String,
     required: true,
