@@ -1,24 +1,30 @@
-import Item from "@models/item";
-import User from "@models/user";
-import { IItem, IUser } from "@types";
-import { connectToDB } from "@utils/database";
+import { IItem } from "@types";
 
 export const dynamic = "force-dynamic";
 
 const Items = async () => {
   let items: IItem[] = [];
-  let users: IUser[] = [];
-  try {
-    await connectToDB();
-    const usersRow = await User.find({}).lean();
-    users = usersRow.map((item: any) => ({
-      ...item,
-      _id: item._id.toString(),
-    }));
 
-    items = await Item.find({}).populate("bids.user").lean<IItem[]>();
+  try {
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+
+    const res = await fetch(`${baseUrl}/api/secured/items`, {
+      headers: {
+        "x-api-key": process.env.PRIVATE_API_KEY || "",
+      },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(`Failed to fetch items: ${res.status} ${txt}`);
+    }
+
+    items = await res.json();
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching items:", error);
   }
 
   return (
@@ -33,22 +39,24 @@ const Items = async () => {
               <th className="text-left py-2 px-4 border-b">Start Price</th>
               <th className="text-left py-2 px-4 border-b">Current Bid</th>
               <th className="text-left py-2 px-4 border-b">Bids</th>
+              <th className="text-left py-2 px-4 border-b">Winner</th>
             </tr>
           </thead>
           <tbody>
-            {items.map((item: IItem, index: number) => (
+            {items.map((item: any, index: number) => (
               <tr
-                key={String(item._id)}
-                className={`${item.isMarked && `bg-beige`}`}
+                key={String(item._id || index)}
+                className={item.isMarked ? "bg-beige" : ""}
               >
-                <td className="py-2 px-4 border-b ">{index + 1}</td>
-                <td className="py-2 px-4 border-b ">{item.catalogNumber}</td>
-                <td className="py-2 px-4 border-b">
-                  {item.description.header}
-                </td>
+                <td className="py-2 px-4 border-b">{index + 1}</td>
+                <td className="py-2 px-4 border-b">{item.catalogNumber}</td>
+                <td className="py-2 px-4 border-b">{item.description}</td>
                 <td className="py-2 px-4 border-b">€{item.startPrice}</td>
                 <td className="py-2 px-4 border-b">€{item.currentBid}</td>
-                <td className="py-2 px-4 border-b">{item.bids?.length}</td>
+                <td className="py-2 px-4 border-b">{item.bids}</td>
+                <td className="py-2 px-4 border-b">
+                  {item.winnerBidderNumber}
+                </td>
               </tr>
             ))}
           </tbody>

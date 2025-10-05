@@ -4,6 +4,7 @@ import AuctionFilter from "./AuctionFilter";
 import CategoryFilter from "./CategoryFilter";
 import PageSizeSelect from "./PageSizeSelect";
 import LotSearch from "./LotSearch";
+import AuctionStatusFilter from "./AuctionStatusFilter";
 
 interface FiltersProps {
   userId?: string;
@@ -25,6 +26,7 @@ const Filters = ({ userId }: FiltersProps) => {
       <div className={`${open ? "block" : "hidden"} lg:block`}>
         <LotSearch />
         {userId && <AuctionFilter />}
+        {/* <AuctionStatusFilter /> */}
         <PageSizeSelect />
         <CategoryFilter />
       </div>

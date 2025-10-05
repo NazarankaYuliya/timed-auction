@@ -1,81 +1,61 @@
-import { connectToDB } from "@utils/database";
-import Item from "@models/item";
-import User from "@models/user";
-import { IItem, IUser } from "@types";
 import DownloadButton from "./DownloadButton";
 
 export const dynamic = "force-dynamic";
 
 const Winners = async () => {
-  let items: IItem[] = [];
-  let users: IUser[] = [];
   let winners: any[] = [];
+  let items: any[] = [];
+
   try {
-    await connectToDB();
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
 
-    const usersRow = await User.find({}).lean();
-    users = usersRow.map((item: any) => ({
-      ...item,
-      _id: item._id.toString(),
-    }));
+    const headers = { "x-api-key": process.env.PRIVATE_API_KEY || "" };
 
-    const itemsRow = await Item.find().populate("bids.user").lean();
-    items = itemsRow.map((item: any) => ({
-      ...item,
-      _id: item._id.toString(),
-    }));
+    const winnersRes = await fetch(`${baseUrl}/api/secured/winners`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!winnersRes.ok) throw new Error("Failed to fetch winners");
+    winners = await winnersRes.json();
+
+    const itemsRes = await fetch(`${baseUrl}/api/secured/items`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!itemsRes.ok) throw new Error("Failed to fetch items");
+    items = await itemsRes.json();
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching data:", error);
   }
 
-  const groupedItems = items.reduce((acc: any, item: any) => {
-    if (item.winner) {
-      const winnerId = item.winner.toString();
-      if (!acc[winnerId]) {
-        acc[winnerId] = {
-          winnerId,
-          items: [],
-          winnerData: item.bids.find(
-            (bid: any) => bid.user._id.toString() === winnerId,
-          )?.user,
-        };
-      }
-      acc[winnerId].items.push(item);
-    }
-    return acc;
-  }, {});
+  const totalItems = items.length;
+  const soldItems = items.filter((item) => item.winnerBidderNumber).length;
+  const soldPercentage = totalItems
+    ? ((soldItems / totalItems) * 100).toFixed(2)
+    : 0;
+  const totalSoldValue = items
+    .filter((i) => i.currentBid)
+    .reduce((sum, i) => sum + i.currentBid, 0);
 
-  winners = Object.values(groupedItems);
-
-  const { totalBids, soldItemsCount, totalSoldValue } = items.reduce(
-    (acc, item) => {
-      acc.totalBids +=
-        item.bids && Array.isArray(item.bids) ? item.bids.length : 0;
-      if (item.winner) {
-        acc.soldItemsCount += 1;
-        acc.totalSoldValue += item.currentBid;
-      }
-      return acc;
-    },
-    { totalBids: 0, soldItemsCount: 0, totalSoldValue: 0 },
-  );
-
-  const soldPercentage =
-    items.length > 0 ? ((soldItemsCount / items.length) * 100).toFixed(2) : 0;
+  const totalBids = items
+    .filter((i) => i.bids)
+    .reduce((sum, i) => sum + i.bids, 0);
 
   return (
     <div className="container mx-auto p-6">
       <div className="flex flex-wrap justify-center gap-4 mb-6">
         <div className="flex flex-col gap-4">
           <div className="border rounded-lg p-4 shadow-lg flex flex-col justify-center items-center w-60">
-            <p className="text-3xl font-bold">{items.length}</p>
+            <p className="text-3xl font-bold">{totalItems}</p>
             <h2 className="text-base text-gray-500 font-semibold uppercase">
               Total Items
             </h2>
           </div>
 
           <div className="border rounded-lg p-4 shadow-lg flex flex-col justify-center items-center w-60">
-            <p className="text-3xl font-bold">{soldItemsCount}</p>
+            <p className="text-3xl font-bold">{soldItems}</p>
             <h2 className="text-base text-gray-500 font-semibold uppercase">
               Sold Items
             </h2>
@@ -88,8 +68,8 @@ const Winners = async () => {
             Sold Percentage
           </h2>
         </div>
+
         <div className="flex flex-col gap-4">
-          {" "}
           <div className="border rounded-lg p-4 shadow-lg flex flex-col justify-center items-center w-60">
             <p className="text-3xl font-bold">{totalBids}</p>
             <h2 className="text-base text-gray-500 font-semibold uppercase">
@@ -112,29 +92,29 @@ const Winners = async () => {
         </div>
       </div>
 
-      {winners.length > 0 && <DownloadButton winners={winners} />}
+      {/* {winners.length > 0 && <DownloadButton winners={winners} />} */}
 
       <h2 className="text-xl font-bold mb-4">Winners List</h2>
       <div className="space-y-4">
-        {winners.map((winner: any, index: number) => {
+        {winners.map((winner: any) => {
           const totalForWinner = winner.items.reduce(
-            (acc: number, item: IItem) => acc + item.currentBid,
+            (acc: number, item: any) => acc + item.currentBid,
             0,
           );
           const totalWithCoefficients = winner.items.reduce(
-            (acc: number, item: IItem) =>
-              acc +
-              item.currentBid * (item.isMarked ? 1.15 * 1.19 : 1 + 0.15 * 1.19),
+            (acc: number, item: any) => acc + item.soldPrice,
             0,
           );
 
           return (
             <div
-              key={winner.winnerId}
+              key={winner.winnerData._id}
               className="border rounded-lg p-4 shadow-lg flex flex-col sm:flex-row gap-4 justify-between hover:bg-gray-100 transition duration-300"
             >
               <div className="flex-shrink-0">
-                <span className="font-bold text-xl">{index + 1}</span>
+                <span className="font-bold text-xl">
+                  {winner.winnerData.bidderNumber}
+                </span>
               </div>
               <div className="w-full">
                 <p className="font-semibold">
@@ -150,9 +130,9 @@ const Winners = async () => {
                   <span>Price</span>
                   <span>Price with VAT</span>
                 </div>
-                {winner.items.map((item: IItem, index: number) => (
+                {winner.items.map((item: any, index: number) => (
                   <div
-                    key={String(item._id)}
+                    key={String(item.catalogNumber)}
                     className={`grid grid-cols-4 border-t py-1 ${
                       item.isMarked ? "bg-beige" : ""
                     }`}
@@ -160,13 +140,7 @@ const Winners = async () => {
                     <span>{index + 1}.</span>
                     <span>{item.catalogNumber}</span>
                     <span>€ {item.currentBid.toFixed(2)}</span>
-                    <span>
-                      €{" "}
-                      {(
-                        item.currentBid *
-                        (item.isMarked ? 1.15 * 1.19 : 1 + 0.15 * 1.19)
-                      ).toFixed(2)}
-                    </span>
+                    <span>€ {item.soldPrice.toFixed(2)}</span>
                   </div>
                 ))}
                 <div className="grid grid-cols-4 border-t pt-4 font-bold">

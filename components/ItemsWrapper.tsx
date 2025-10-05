@@ -4,7 +4,7 @@ import { IItem } from "@types";
 import { subscribeToAuction } from "@utils/pusherUtils";
 import ItemCard from "./ItemCard";
 import Pagination from "./Pagination";
-import { useAuction } from "@context/AuctionContext";
+import { useAuction } from "@/context/AuctionContext";
 import Filters from "./Filters";
 import { useRouter } from "next/navigation";
 
@@ -16,7 +16,8 @@ interface ItemsWrapperProps {
 
 const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const [auctionItems, setAuctionItems] = useState<IItem[]>(items);
-  const { filter, category, page, pageSize, lotNumber } = useAuction();
+  const { filter, category, page, pageSize, lotNumber, statusFilter } =
+    useAuction();
   const router = useRouter();
 
   const unsubscribeRef = useRef<(() => void) | null>(null);
@@ -34,36 +35,34 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
           ? {
               ...item,
               currentBid,
-              auctionDates: { ...item.auctionDates, endDate },
               biddingStep,
               winner,
+              auctionDates: { ...item.auctionDates, endDate },
             }
           : item,
       ),
     );
   };
 
+  // Подписка на пушер
   useEffect(() => {
     const unsubscribe = subscribeToAuction(updateItem);
     unsubscribeRef.current = unsubscribe;
     return () => unsubscribe();
   }, []);
 
+  // Обновление при смене props
   useEffect(() => {
     setAuctionItems(items);
   }, [items]);
 
+  // Обновление при фокусе окна
   useEffect(() => {
     const handleFocus = () => {
       router.refresh();
-
-      if (unsubscribeRef.current) {
-        unsubscribeRef.current();
-      }
-      const newUnsub = subscribeToAuction(updateItem);
-      unsubscribeRef.current = newUnsub;
+      if (unsubscribeRef.current) unsubscribeRef.current();
+      unsubscribeRef.current = subscribeToAuction(updateItem);
     };
-
     window.addEventListener("focus", handleFocus);
     return () => window.removeEventListener("focus", handleFocus);
   }, [router]);
@@ -71,19 +70,21 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
   const filteredItems = useMemo(() => {
     let result = auctionItems;
 
+    // Фильтр по моим ставкам
     if (filter === "myBids" && userId) {
       result = result.filter((item) => item.winner === userId.toString());
     }
 
+    // Фильтр по категории
     if (category !== "all") {
       result = result.filter(
         (item) => item.description.categoryType === category,
       );
     }
 
+    // Фильтр по лоту
     if (lotNumber) {
       const search = lotNumber.trim().toLowerCase();
-
       result = result.filter(
         (item) =>
           item.catalogNumber?.toString().toLowerCase().includes(search) ||
@@ -91,8 +92,21 @@ const ItemsWrapper = ({ items, userId, status }: ItemsWrapperProps) => {
       );
     }
 
+    // Фильтр по статусу аукциона
+    if (statusFilter !== "all") {
+      const now = new Date();
+      result = result.filter((item) => {
+        const start = new Date(item.auctionDates.startDate);
+        const end = new Date(item.auctionDates.endDate);
+        if (statusFilter === "upcoming") return now < start;
+        if (statusFilter === "active") return now >= start && now < end;
+        if (statusFilter === "finished") return now >= end;
+        return true;
+      });
+    }
+
     return result;
-  }, [auctionItems, filter, category, lotNumber, userId]);
+  }, [auctionItems, filter, category, lotNumber, statusFilter, userId]);
 
   const pagedItems = useMemo(() => {
     const start = (page - 1) * pageSize;

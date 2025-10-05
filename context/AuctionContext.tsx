@@ -10,6 +10,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { categories, CategoryCode } from "@/data/categories";
 
 type FilterType = "all" | "myBids";
+type AuctionStatusFilter = "all" | "upcoming" | "active" | "finished";
 
 interface AuctionContextType {
   filter: FilterType;
@@ -23,6 +24,9 @@ interface AuctionContextType {
 
   lotNumber: string;
   setLotNumber: (n: string) => void;
+
+  statusFilter: AuctionStatusFilter;
+  setStatusFilter: (status: AuctionStatusFilter) => void;
 }
 
 const AuctionContext = createContext<AuctionContextType | undefined>(undefined);
@@ -32,6 +36,7 @@ export const AuctionProvider = ({ children }: { children: ReactNode }) => {
   const [category, setCategory] = useState<CategoryCode | "all">("all");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(24);
+  const [statusFilter, setStatusFilter] = useState<AuctionStatusFilter>("all");
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -62,6 +67,8 @@ export const AuctionProvider = ({ children }: { children: ReactNode }) => {
         setPageSize,
         lotNumber,
         setLotNumber,
+        statusFilter,
+        setStatusFilter,
       }}
     >
       {children}
