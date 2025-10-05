@@ -1,3 +1,5 @@
+import User from "@models/user";
+import Item from "@models/item";
 import { IItem } from "@types";
 
 export const dynamic = "force-dynamic";

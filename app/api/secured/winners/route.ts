@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
+import mongoose from "mongoose";
+
 import Item from "@models/item";
+import User from "@models/user";
+
+if (!mongoose.models.User) mongoose.model("User", User.schema);
+if (!mongoose.models.Item) mongoose.model("Item", Item.schema);
 
 export const dynamic = "force-dynamic";
 

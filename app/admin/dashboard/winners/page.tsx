@@ -1,4 +1,5 @@
-import DownloadButton from "./DownloadButton";
+import User from "@models/user";
+import Item from "@models/item";
 
 export const dynamic = "force-dynamic";
 
@@ -7,7 +8,7 @@ const Winners = async () => {
   let items: any[] = [];
 
   try {
-    const baseUrl = process.env.BASE_URL
+    const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 

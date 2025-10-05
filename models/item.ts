@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 import { calculateStep } from "@utils/calculateStep";
+import User from "./user";
 
 interface Bid {
   _id: mongoose.Types.ObjectId;
