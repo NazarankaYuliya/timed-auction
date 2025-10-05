@@ -7,7 +7,7 @@ const Winners = async () => {
   let items: any[] = [];
 
   try {
-    const baseUrl = process.env.VERCEL_URL
+    const baseUrl = process.env.BASE_URL
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 
