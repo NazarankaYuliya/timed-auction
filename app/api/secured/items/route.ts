@@ -11,7 +11,7 @@ if (!mongoose.models.Item) mongoose.model("Item", Item.schema);
 export const dynamic = "force-dynamic";
 
 const generateBidderNumber = (index: number) => {
-  return "B" + String(index + 1).padStart(4, "0");
+  return String(index + 1);
 };
 
 export async function GET(req: Request) {
