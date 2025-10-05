@@ -8,9 +8,7 @@ const Items = async () => {
   let items: IItem[] = [];
 
   try {
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+    const baseUrl = process.env.BASE_URL;
 
     const res = await fetch(`${baseUrl}/api/secured/items`, {
       headers: {
