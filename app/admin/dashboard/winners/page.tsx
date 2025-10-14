@@ -1,5 +1,6 @@
 import User from "@models/user";
 import Item from "@models/item";
+import DownloadButton from "./DownloadButton";
 
 export const dynamic = "force-dynamic";
 
@@ -92,6 +93,7 @@ const Winners = async () => {
       </div>
 
       {/* {winners.length > 0 && <DownloadButton winners={winners} />} */}
+      <DownloadButton winners={winners} />
 
       <h2 className="text-xl font-bold mb-4">Winners List</h2>
       <div className="space-y-4">
@@ -121,6 +123,7 @@ const Winners = async () => {
                 </p>
                 <p className="text-gray-600">{winner.winnerData.email}</p>
                 <p className="text-gray-600">{winner.winnerData.phone}</p>
+                <p className="text-gray-600">{winner.winnerData.country}</p>
               </div>
               <div className="w-full text-xs sm:text-base">
                 <div className="grid grid-cols-4 text-gray-500 mb-4">
